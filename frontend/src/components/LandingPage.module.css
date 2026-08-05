@@ -1,0 +1,362 @@
+/* LandingPage.module.css */
+
+.landing {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 6rem 2rem 4rem;
+  position: relative;
+}
+
+.heroGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(123,47,255,0.12) 0%, transparent 70%);
+  pointer-events: none;
+  animation: aurora-pulse 6s ease-in-out infinite;
+}
+
+.heroContent {
+  animation: fade-up 0.8s var(--ease-out) both;
+}
+
+.heroBadgeRow {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.heroTitle {
+  margin-bottom: 1.25rem;
+}
+
+.heroSubtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 2rem;
+}
+
+.heroCta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.heroNote {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+/* ── Palm Illustration ── */
+.palmIllustration {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 420px;
+  animation: fade-in 1.2s var(--ease-out) both;
+}
+
+.palmOrb {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123,47,255,0.25) 0%, rgba(201,162,39,0.08) 60%, transparent 80%);
+  animation: aura-breathe 5s ease-in-out infinite;
+}
+
+.palmIcon {
+  font-size: 9rem;
+  position: relative;
+  z-index: 2;
+  animation: float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(201, 162, 39, 0.3));
+}
+
+.palmRings {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.palmRing {
+  position: absolute;
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: 50%;
+  animation: spin-slow 20s linear infinite;
+}
+
+.palmRing:nth-child(1) { width: 200px; height: 200px; }
+.palmRing:nth-child(2) { width: 280px; height: 280px; border-color: rgba(123,47,255,0.15); animation-direction: reverse; }
+.palmRing:nth-child(3) { width: 360px; height: 360px; border-color: rgba(224,64,251,0.1); }
+
+/* ── Stats Strip ── */
+.statsStrip {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  padding: 2rem 0;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background: linear-gradient(90deg, transparent, rgba(123,47,255,0.05), transparent);
+}
+
+.stat {
+  flex: 1;
+  max-width: 200px;
+  text-align: center;
+  padding: 1rem;
+  border-right: 1px solid var(--color-border);
+}
+
+.stat:last-child { border-right: none; }
+
+.statValue {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.statLabel {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 0.3rem;
+}
+
+/* ── Section shared ── */
+.sectionHeading {
+  text-align: center;
+  margin-bottom: 0.75rem;
+}
+
+.sectionSub {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+/* ── Features ── */
+.features {
+  padding: 5rem 2rem;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.featureCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: transform 0.3s var(--ease-out);
+}
+
+.featureCard:hover {
+  transform: translateY(-6px);
+}
+
+.featureIcon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.featureTitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+.featureDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Pipeline ── */
+.pipeline {
+  padding: 4rem 2rem;
+}
+
+.pipelineSteps {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.pipelineStep {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 0 0 auto;
+}
+
+.pipelineNumber {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--gold);
+  background: var(--gold-dim);
+  border: 1px solid var(--gold-dim);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pipelineContent {
+  max-width: 140px;
+}
+
+.pipelineLabel {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.15rem;
+}
+
+.pipelineDetail {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.pipelineArrow {
+  color: var(--color-border-hover);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Testimonials ── */
+.testimonials {
+  padding: 4rem 2rem;
+}
+
+.testimonialsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.testimonialCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.testimonialStars {
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+}
+
+.testimonialQuote {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  font-style: italic;
+}
+
+.testimonialName {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+  font-style: normal;
+}
+
+/* ── Final CTA ── */
+.finalCta {
+  text-align: center;
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.finalCtaGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 400px;
+  background: radial-gradient(ellipse, rgba(201,162,39,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.finalCtaSub {
+  margin: 1rem auto 2.5rem;
+  max-width: 380px;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.footerLogo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--gold);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.footerText {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: 7rem;
+  }
+  .heroSubtitle { max-width: 100%; }
+  .heroCta { justify-content: center; }
+  .palmIllustration { height: 280px; }
+  .palmIcon { font-size: 6rem; }
+  .statsStrip { flex-wrap: wrap; gap: 0; }
+  .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--color-border); }
+  .pipelineSteps { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
+  .pipelineArrow { transform: rotate(90deg); }
+}
