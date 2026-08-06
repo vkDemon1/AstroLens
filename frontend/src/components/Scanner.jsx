@@ -9,16 +9,25 @@ const GUIDE_STEPS = [
   'Ensure good lighting — avoid harsh shadows on the palm.',
 ];
 
+const SCAN_STEPS = [
+  { label: 'Capturing frame',         icon: '📷' },
+  { label: 'Detecting hand landmarks', icon: '✋' },
+  { label: 'Analysing palm lines',     icon: '🔍' },
+  { label: 'Generating your reading',  icon: '✨' },
+];
+
 export default function Scanner({ onResult, onBack }) {
   const videoRef    = useRef(null);
   const canvasRef   = useRef(null);
   const streamRef   = useRef(null);
 
-  const [phase, setPhase]         = useState('init');   // init | preview | scanning | error
-  const [guideStep, setGuideStep] = useState(0);
-  const [handHint, setHandHint]   = useState('');
-  const [errorMsg, setErrorMsg]   = useState('');
-  const [countdown, setCountdown] = useState(null);
+  const [phase, setPhase]           = useState('init');   // init | preview | scanning | error
+  const [guideStep, setGuideStep]   = useState(0);
+  const [handHint, setHandHint]     = useState('');
+  const [errorMsg, setErrorMsg]     = useState('');
+  const [countdown, setCountdown]   = useState(null);
+  const [scanStep, setScanStep]     = useState(-1);   // which SCAN_STEPS is active
+  const [scanPct, setScanPct]       = useState(0);    // 0–100 progress
 
   // Cycle through guide steps
   useEffect(() => {
@@ -71,6 +80,8 @@ export default function Scanner({ onResult, onBack }) {
 
     setPhase('scanning');
     setHandHint('');
+    setScanStep(0);
+    setScanPct(0);
 
     // Countdown animation
     for (let i = 3; i >= 1; i--) {
@@ -79,40 +90,59 @@ export default function Scanner({ onResult, onBack }) {
     }
     setCountdown(null);
 
-    // Draw video frame to canvas and export as base64 JPEG
+    // Step 0 → 1: Capture frame
+    setScanStep(0);
+    setScanPct(10);
     const video  = videoRef.current;
     const canvas = canvasRef.current;
     canvas.width  = video.videoWidth  || 1280;
     canvas.height = video.videoHeight || 720;
     const ctx = canvas.getContext('2d');
-
-    // Mirror the frame (webcam is usually mirrored; un-mirror for CV)
     ctx.save();
     ctx.translate(canvas.width, 0);
     ctx.scale(-1, 1);
     ctx.drawImage(video, 0, 0);
     ctx.restore();
-
     const base64 = canvas.toDataURL('image/jpeg', 0.92);
 
+    // Step 1: Detecting hand
+    setScanStep(1);
+    setScanPct(35);
+    await new Promise(r => setTimeout(r, 400));
+
     try {
-      const result = await scanPalm(base64);
+      // Step 2: Analysing lines (fire the request)
+      setScanStep(2);
+      setScanPct(60);
+
+      const resultPromise = scanPalm(base64);
+
+      // Tick to step 3 while waiting for the API
+      await new Promise(r => setTimeout(r, 700));
+      setScanStep(3);
+      setScanPct(85);
+
+      const result = await resultPromise;
+      setScanPct(100);
+      await new Promise(r => setTimeout(r, 300));
 
       if (!result.hand_detected) {
         setHandHint('No hand detected — please position your open palm directly in front of the camera.');
         setPhase('preview');
+        setScanStep(-1);
+        setScanPct(0);
         return;
       }
 
-      // Stop camera before navigating away
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(t => t.stop());
       }
-
       onResult(result);
     } catch (err) {
       setErrorMsg(`Scan failed: ${err.message}`);
       setPhase('preview');
+      setScanStep(-1);
+      setScanPct(0);
     }
   }, [onResult]);
 
@@ -229,8 +259,34 @@ export default function Scanner({ onResult, onBack }) {
 
           {phase === 'scanning' && (
             <div className={styles.scanningStatus}>
-              <div className={styles.scanningSpinner} />
-              <span className="shimmer-text">Analysing your cosmic blueprint...</span>
+              {/* Overall progress bar */}
+              <div className={styles.progressBarWrap}>
+                <div
+                  className={styles.progressBarFill}
+                  style={{ width: `${scanPct}%` }}
+                />
+              </div>
+              <div className={styles.progressPct}>{scanPct}%</div>
+
+              {/* Step list */}
+              <div className={styles.stepList}>
+                {SCAN_STEPS.map((s, i) => {
+                  const isDone   = i < scanStep;
+                  const isActive = i === scanStep;
+                  return (
+                    <div
+                      key={i}
+                      className={`${styles.stepItem} ${isDone ? styles.stepDone : ''} ${isActive ? styles.stepActive : ''}`}
+                    >
+                      <div className={styles.stepDot}>
+                        {isDone ? '\u2713' : isActive ? <span className={styles.stepPulse} /> : null}
+                      </div>
+                      <span className={styles.stepIcon}>{s.icon}</span>
+                      <span className={styles.stepLabel}>{s.label}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           )}
 

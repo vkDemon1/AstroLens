@@ -7,15 +7,16 @@
 
 /* ── Hero ── */
 .hero {
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 2rem;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 6rem 2rem 4rem;
+  padding: 7rem 2rem 8rem;
   position: relative;
+  z-index: 1;
 }
 
 .heroGlow {
@@ -120,6 +121,8 @@
   border-top: 1px solid var(--color-border);
   border-bottom: 1px solid var(--color-border);
   background: linear-gradient(90deg, transparent, rgba(123,47,255,0.05), transparent);
+  position: relative;
+  z-index: 2;
 }
 
 .stat {
@@ -208,12 +211,13 @@
 }
 
 .pipelineSteps {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: repeat(9, auto);
+  align-items: start;
   justify-content: center;
   gap: 0.5rem;
   margin-top: 2.5rem;
+  flex-wrap: nowrap;
 }
 
 .pipelineStep {
@@ -357,6 +361,7 @@
   .palmIcon { font-size: 6rem; }
   .statsStrip { flex-wrap: wrap; gap: 0; }
   .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--color-border); }
-  .pipelineSteps { flex-direction: column; align-items: flex-start; padding-left: 1rem; }
+  .hero { padding-top: 7rem; padding-bottom: 5rem; }
+  .pipelineSteps { grid-template-columns: 1fr; justify-items: flex-start; padding-left: 1rem; }
   .pipelineArrow { transform: rotate(90deg); }
 }
