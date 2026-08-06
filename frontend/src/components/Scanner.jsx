@@ -10,24 +10,24 @@ const GUIDE_STEPS = [
 ];
 
 const SCAN_STEPS = [
-  { label: 'Capturing frame',         icon: '📷' },
+  { label: 'Capturing frame', icon: '📷' },
   { label: 'Detecting hand landmarks', icon: '✋' },
-  { label: 'Analysing palm lines',     icon: '🔍' },
-  { label: 'Generating your reading',  icon: '✨' },
+  { label: 'Analysing palm lines', icon: '🔍' },
+  { label: 'Generating your reading', icon: '✨' },
 ];
 
 export default function Scanner({ onResult, onBack }) {
-  const videoRef    = useRef(null);
-  const canvasRef   = useRef(null);
-  const streamRef   = useRef(null);
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const streamRef = useRef(null);
 
-  const [phase, setPhase]           = useState('init');   // init | preview | scanning | error
-  const [guideStep, setGuideStep]   = useState(0);
-  const [handHint, setHandHint]     = useState('');
-  const [errorMsg, setErrorMsg]     = useState('');
-  const [countdown, setCountdown]   = useState(null);
-  const [scanStep, setScanStep]     = useState(-1);   // which SCAN_STEPS is active
-  const [scanPct, setScanPct]       = useState(0);    // 0–100 progress
+  const [phase, setPhase] = useState('init');
+  const [guideStep, setGuideStep] = useState(0);
+  const [handHint, setHandHint] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [countdown, setCountdown] = useState(null);
+  const [scanStep, setScanStep] = useState(-1);   // which SCAN_STEPS is active
+  const [scanPct, setScanPct] = useState(0);    // 0–100 progress
 
   // Cycle through guide steps
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function Scanner({ onResult, onBack }) {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: {
           facingMode: 'user',
-          width:  { ideal: 1280 },
+          width: { ideal: 1280 },
           height: { ideal: 720 },
         },
         audio: false,
@@ -93,9 +93,9 @@ export default function Scanner({ onResult, onBack }) {
     // Step 0 → 1: Capture frame
     setScanStep(0);
     setScanPct(10);
-    const video  = videoRef.current;
+    const video = videoRef.current;
     const canvas = canvasRef.current;
-    canvas.width  = video.videoWidth  || 1280;
+    canvas.width = video.videoWidth || 1280;
     canvas.height = video.videoHeight || 720;
     const ctx = canvas.getContext('2d');
     ctx.save();
@@ -271,7 +271,7 @@ export default function Scanner({ onResult, onBack }) {
               {/* Step list */}
               <div className={styles.stepList}>
                 {SCAN_STEPS.map((s, i) => {
-                  const isDone   = i < scanStep;
+                  const isDone = i < scanStep;
                   const isActive = i === scanStep;
                   return (
                     <div
