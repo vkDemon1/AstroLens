@@ -176,9 +176,9 @@
   transition: width 1.2s var(--ease-out);
 }
 
-.barFill--low  { background: linear-gradient(90deg, #6b5f75, #9b8fa0); }
-.barFill--mid  { background: linear-gradient(90deg, var(--purple), var(--purple-light)); }
-.barFill--high { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+.barFill--low  { background: linear-gradient(90deg, #a080c0, #c8a8e8); }
+.barFill--mid  { background: linear-gradient(90deg, #7b2fff, #b87fff); }
+.barFill--high { background: linear-gradient(90deg, #c9a227, #f0d060); }
 
 .barLabel {
   font-size: 0.72rem;
