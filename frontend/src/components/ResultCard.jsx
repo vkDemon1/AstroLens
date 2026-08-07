@@ -38,6 +38,13 @@ function AuraRing({ score, color }) {
 
   return (
     <div className={styles.auraRingWrapper}>
+      <div style={{
+        position: 'absolute',
+        inset: -12,
+        borderRadius: '50%',
+        background: `radial-gradient(circle, ${color}44 0%, ${color}10 60%, transparent 75%)`,
+        pointerEvents: 'none',
+      }} />
       <svg width="130" height="130" className={styles.auraRingSvg}>
         <circle
           cx="65" cy="65" r={radius}

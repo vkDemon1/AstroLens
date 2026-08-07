@@ -45,7 +45,12 @@
 
 .auraGlow {
   position: absolute;
-  inset: -20px;
+  top: 75px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
   animation: aura-breathe 6s ease-in-out infinite;
   pointer-events: none;
 }
@@ -60,6 +65,7 @@
 .auraRingSvg {
   position: absolute;
   inset: 0;
+  overflow: visible;
   animation: fade-in 0.8s var(--ease-out);
 }
 
