@@ -197,30 +197,33 @@ const ShareCard = forwardRef(function ShareCard({ result }, ref) {
 
         <div style={{ flex: 1 }} />
 
-        {/* ── Footer: 3D Metallic Element Pill Badge ── */}
+        {/* ── Footer ── */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '5px 16px',
-            borderRadius: '99px',
-            background: 'linear-gradient(180deg, #d6e2ee 0%, #90a3b8 48%, #5b6c7e 100%)',
-            border: '1.5px solid #c9b47e',
-            boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.8), inset 0 -1px 3px rgba(0,0,0,0.5), 0 4px 14px rgba(0,0,0,0.7)',
-          }}>
-            <span style={{ fontSize: '1.05rem', lineHeight: 1 }}>
-              {lucky_element === 'Water' ? '💧' : lucky_element === 'Fire' ? '🔥' : lucky_element === 'Air' ? '💨' : lucky_element === 'Earth' ? '🌿' : '✦'}
-            </span>
+          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center' }}>
+            {/* Box layer — change `top` here to move ONLY the box up/down */}
+            <div style={{
+              position: 'absolute',
+              top: '7px',        /* 👈 increase to move box DOWN, decrease to move UP */
+              left: 0,
+              right: 0,
+              bottom: '-7px',    /* keep same magnitude as `top` to maintain height */
+              borderRadius: '99px',
+              background: 'rgba(255, 215, 0, 0.07)',
+              border: '1px solid rgba(255, 215, 0, 0.3)',
+              boxShadow: '0 4px 12px rgba(0, 0, 0, 0.5)',
+            }} />
+            {/* Text layer — stays in place */}
             <span style={{
-              fontFamily: "'Georgia', 'Times New Roman', serif",
-              fontSize: '0.86rem',
+              position: 'relative',
+              padding: '4px 14px',
+              fontFamily: 'Arial, sans-serif',
+              fontSize: '0.74rem',
+              color: '#ffd700',
               fontWeight: 700,
-              color: '#1c252e',
-              textShadow: '0 1px 0 rgba(255,255,255,0.4)',
-              letterSpacing: '0.02em',
+              letterSpacing: '0.08em',
+              textShadow: '0 1px 4px rgba(0,0,0,0.9)',
             }}>
-              {lucky_element} Element
+              ✦ {lucky_element} Element
             </span>
           </div>
           <span style={{
