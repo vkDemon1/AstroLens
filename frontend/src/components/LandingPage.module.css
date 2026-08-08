@@ -93,47 +93,146 @@
 }
 
 
-/* ── Stats Strip ── */
-.statsStrip {
-  display: flex;
-  justify-content: center;
-  gap: 0;
-  padding: 2rem 0;
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  background: linear-gradient(90deg, transparent, rgba(123, 47, 255, 0.05), transparent);
+/* ── Ornate Cosmic Stats Panels (Refactored) ── */
+.statsSection {
   position: relative;
   z-index: 2;
+  padding: 3rem 1.5rem;
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
-.stat {
-  flex: 1;
-  max-width: 200px;
+.statsPanelsContainer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .statsPanelsContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .statsPanelsContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
+.connectingThread {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.statPanel {
+  position: relative;
+  z-index: 2;
+  aspect-ratio: 300 / 170;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: rgba(11, 7, 32, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.55),
+    inset 0 0 25px rgba(253, 230, 138, 0.06);
+  transition: all 0.35s var(--ease-out);
+}
+
+.statPanel:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow:
+    0 18px 45px rgba(226, 232, 240, 0.25),
+    0 0 35px rgba(56, 189, 248, 0.3),
+    inset 0 0 35px rgba(255, 255, 255, 0.15);
+}
+
+.panelFrameSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  filter: drop-shadow(0 2px 8px rgba(226, 232, 240, 0.45));
+}
+
+.statPanelBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.statPanelContent {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 1rem;
-  border-right: 1px solid var(--color-border);
+  padding: 1.25rem 1rem;
 }
 
-.stat:last-child {
-  border-right: none;
-}
-
-.statValue {
-  display: block;
+.statValueGold {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-weight: 700;
-  color: var(--gold);
   line-height: 1;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 35%, #D97706 75%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.65)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
 }
 
-.statLabel {
-  display: block;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  letter-spacing: 0.08em;
+.statLabelGold {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 50%, #D97706 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.55));
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  margin-top: 0.3rem;
+  margin-top: 0.45rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+.statLabelGoldSolo {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 40%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 10px rgba(253, 230, 138, 0.6));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 3.4rem;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* ── Section shared ── */
@@ -303,65 +402,213 @@
 }
 
 
-/* ── Pipeline ── */
-.pipeline {
-  padding: 4rem 2rem;
+/* ── Alchemical Alembic 5-Step Process Diagram (Image 22 Style) ── */
+.alembicSection {
+  position: relative;
+  z-index: 2;
+  padding: 4rem 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-.pipelineSteps {
-  display: grid;
-  grid-template-columns: repeat(9, auto);
-  align-items: start;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 2.5rem;
-  flex-wrap: nowrap;
+.alembicCanvas {
+  position: relative;
+  width: 100%;
+  padding: 3rem 1.5rem 4rem;
+  border-radius: 24px;
+  background: 
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(56, 189, 248, 0.15) 0%, transparent 65%),
+    radial-gradient(circle at 15% 70%, rgba(192, 132, 252, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.18) 0%, transparent 50%),
+    linear-gradient(145deg, #090519 0%, #0D0724 50%, #050212 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  box-shadow: 
+    0 25px 70px rgba(0, 0, 0, 0.85),
+    inset 0 0 50px rgba(253, 230, 138, 0.05);
+  overflow: hidden;
 }
 
-.pipelineStep {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 0 0 auto;
+.alembicHeaderWrap {
+  text-align: center;
+  margin-bottom: 3.5rem;
+  position: relative;
+  z-index: 5;
 }
 
-.pipelineNumber {
+.alembicTitle {
   font-family: var(--font-display);
-  font-size: 0.7rem;
+  font-size: 2.25rem;
   font-weight: 700;
-  color: var(--gold);
-  background: var(--gold-dim);
-  border: 1px solid var(--gold-dim);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 35%, #D97706 75%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: 
+    drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) 
+    drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
+}
+
+.alembicStardustTrailSvg {
+  position: absolute;
+  top: 140px;
+  left: 0;
+  width: 100%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* 5-Grid Flow Layout matching Image 22 */
+.alembicGrid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  z-index: 5;
+}
+
+.alembicCardWrap {
+  position: relative;
+  flex: 1 1 0;
+  max-width: 245px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.alembicCardWrap:hover {
+  transform: translateY(-6px) scale(1.03);
+}
+
+/* Left-Attached Numbered Sigil Circle */
+.alembicSigilCircle {
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 8;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  background: radial-gradient(circle at 35% 35%, #FFFBEB 0%, #FDE68A 40%, #D97706 80%, #78350F 100%);
+  border: 2px solid #FFFBEB;
+  box-shadow: 
+    0 0 16px rgba(253, 230, 138, 0.7),
+    0 4px 12px rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-.pipelineContent {
-  max-width: 140px;
+.alembicSigilCircle span {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1E1B4B;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-.pipelineLabel {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 0.15rem;
+/* Glass Alembic Panel Container */
+.alembicGlassPanel {
+  position: relative;
+  width: 100%;
+  min-height: 155px;
+  background: rgba(13, 8, 38, 0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 14px;
+  padding: 1.1rem 1.1rem 1.1rem 2.2rem;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.7),
+    0 0 20px rgba(253, 230, 138, 0.12);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.pipelineDetail {
-  font-size: 0.72rem;
-  color: var(--text-muted);
-  line-height: 1.4;
+.alembicFrameSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
 }
 
-.pipelineArrow {
-  color: var(--color-border-hover);
-  font-size: 1.2rem;
-  flex-shrink: 0;
+.alembicCardIconWrap {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 6;
+  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.6));
+}
+
+.alembicCardContent {
+  position: relative;
+  z-index: 6;
+  margin-top: 0.2rem;
+}
+
+.alembicCardTitle {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FDE68A;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+  padding-right: 2.2rem;
+  text-shadow: 0 0 8px rgba(253, 230, 138, 0.5);
+}
+
+.alembicDividerBar {
+  width: 32px;
+  height: 1.5px;
+  background: linear-gradient(90deg, #FDE68A 0%, transparent 100%);
+  margin-bottom: 0.4rem;
+}
+
+.alembicCardSubtext {
+  font-size: 0.76rem;
+  color: #F8FAFC;
+  line-height: 1.45;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
+}
+
+/* Staggered Vertical Stepping Matching Image 22 */
+.alembicCardStep1 { transform: translateY(0px); }
+.alembicCardStep2 { transform: translateY(12px); }
+.alembicCardStep3 { transform: translateY(-8px); }
+.alembicCardStep4 { transform: translateY(16px); }
+.alembicCardStep5 { transform: translateY(-4px); }
+
+@media (max-width: 1100px) {
+  .alembicGrid {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.75rem 1rem;
+  }
+  .alembicCardWrap {
+    flex: 0 0 calc(33.33% - 1rem);
+    max-width: 280px;
+    transform: none !important;
+  }
+  .alembicStardustTrailSvg {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .alembicCardWrap {
+    flex: 0 0 100%;
+    max-width: 320px;
+  }
 }
 
 /* ── Testimonials ── */
