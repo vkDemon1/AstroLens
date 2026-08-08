@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import StarField   from './components/StarField';
+import CosmosCanvas from './components/CosmosCanvas';
 import LandingPage from './components/LandingPage';
 import Scanner     from './components/Scanner';
 import ResultCard  from './components/ResultCard';
@@ -88,15 +88,8 @@ export default function App() {
 
   return (
     <div className="app">
-      {/* Global animated star field */}
-      <StarField />
-
-      {/* Aurora background blobs */}
-      <div className="aurora-bg" aria-hidden="true">
-        <div className="aurora-blob aurora-blob--1" />
-        <div className="aurora-blob aurora-blob--2" />
-        <div className="aurora-blob aurora-blob--3" />
-      </div>
+      {/* Animated cosmos canvas — constellations + meteor shower */}
+      <CosmosCanvas />
 
       {/* Navigation */}
       <nav className="nav" role="navigation" aria-label="Main navigation">
