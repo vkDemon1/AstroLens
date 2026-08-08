@@ -21,10 +21,40 @@ const DEMO_FALLBACK = {
 };
 
 const FEATURES = [
-  { icon: '✋', title: 'Palm Line Analysis', desc: 'AI maps your Life, Head & Heart lines in real time using MediaPipe computer vision.' },
-  { icon: '🔮', title: 'Aura Score', desc: 'A composite cosmic score derived from line depth, continuity, and intersection density.' },
-  { icon: '✨', title: 'Gemini AI Reading', desc: 'Your palm data feeds a Gemini-powered reading — personalised, mystical, and deeply accurate.' },
-  { icon: '📤', title: 'Shareable Card', desc: 'Download your Aura card as an image. One tap to share to Instagram, WhatsApp, or anywhere.' },
+  {
+    id: 'palm',
+    title: 'PALM LINE ANALYSIS',
+    desc: 'AI maps your Life, Head & Heart lines in real time using MediaPipe computer vision.',
+    icon: (
+      <img src="/hand.png" alt="Palm Line Analysis" className={styles.handTileImg} />
+    ),
+  },
+
+  {
+    id: 'aura',
+    title: 'AURA SCORE',
+    desc: 'A composite cosmic score derived from line depth, continuity, and intersection density.',
+    icon: (
+      <img src="/GLOB.png" alt="Aura Score" className={styles.handTileImg} />
+    ),
+  },
+  {
+    id: 'gemini',
+    title: 'GEMINI AI READING',
+    desc: 'Your palm data feeds a Gemini-powered reading — personalised, mystical, and deeply accurate.',
+    isHighlighted: true,
+    icon: (
+      <img src="/Gemini.png" alt="Gemini AI Reading" className={styles.handTileImg} />
+    ),
+  },
+  {
+    id: 'share',
+    title: 'SHAREABLE CARD',
+    desc: 'Download your Aura card as an image. One tap to share to Instagram, WhatsApp, or anywhere.',
+    icon: (
+      <img src="/Share.png" alt="Shareable Card" className={styles.handTileImg} />
+    ),
+  },
 ];
 
 const TESTIMONIALS = [
@@ -129,17 +159,34 @@ export default function LandingPage({ onNavigate }) {
 
       {/* ── Features Grid ── */}
       <section className={`container ${styles.features}`}>
-        <h2 className={`section-title ${styles.sectionHeading}`}>How AstroLens Works</h2>
+        <h2 className={`section-title ${styles.sectionHeading}`}>HOW ASTROLENS WORKS</h2>
         <p className={`muted-text ${styles.sectionSub}`}>
-          A three-step pipeline that turns your palm into a cosmic blueprint.
+          A four-step pipeline that turns your palm into a cosmic blueprint.
         </p>
 
         <div className={styles.featuresGrid}>
-          {FEATURES.map(f => (
-            <div key={f.title} className={`glass-card ${styles.featureCard}`}>
-              <div className={styles.featureIcon}>{f.icon}</div>
-              <h3 className={styles.featureTitle}>{f.title}</h3>
-              <p className={styles.featureDesc}>{f.desc}</p>
+          {FEATURES.map((f, index) => (
+            <div key={f.title} className={styles.cardContainer}>
+              <div
+                className={`glass-card ${styles.featureCard} ${f.isHighlighted ? styles.highlightedCard : ''}`}
+              >
+                <div className={styles.featureIcon}>{f.icon}</div>
+                <h3 className={styles.featureTitle}>{f.title}</h3>
+                <p className={styles.featureDesc}>{f.desc}</p>
+              </div>
+              {index < FEATURES.length - 1 && (
+                <div className={styles.chevronArrow} aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 18L15 12L9 6" stroke="url(#arrowGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <defs>
+                      <linearGradient id="arrowGrad" x1="9" y1="6" x2="15" y2="18" gradientUnits="userSpaceOnUse">
+                        <stop stopColor="#E8C84A" />
+                        <stop offset="1" stopColor="#2EC4B6" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+              )}
             </div>
           ))}
         </div>
