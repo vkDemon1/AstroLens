@@ -15,8 +15,8 @@ const DEMO_FALLBACK = {
   energy_insight: 'Your energy peaks under pressure; seek challenges that match your fire.',
   lucky_element: 'Fire',
   cta_teaser: 'Your chart holds a rare planetary alignment this quarter — a live astrologer can reveal your exact timing window.',
-  life:  { score: 0.82, label: 'deeply etched and dominant' },
-  head:  { score: 0.71, label: 'clearly pronounced' },
+  life: { score: 0.82, label: 'deeply etched and dominant' },
+  head: { score: 0.71, label: 'clearly pronounced' },
   heart: { score: 0.65, label: 'clearly pronounced' },
 };
 
@@ -60,7 +60,6 @@ export default function LandingPage({ onNavigate }) {
       <section
         className={styles.hero}
         ref={heroRef}
-        style={{ transform: `translateY(${scrollY * 0.3}px)` }}
       >
         <div className={styles.heroGlow} aria-hidden="true" />
 
@@ -103,15 +102,13 @@ export default function LandingPage({ onNavigate }) {
           </p>
         </div>
 
-        {/* Floating palm illustration */}
+        {/* Floating cosmic palm illustration */}
         <div className={styles.palmIllustration} aria-hidden="true">
-          <div className={styles.palmOrb} />
-          <div className={styles.palmIcon}>✋</div>
-          <div className={styles.palmRings}>
-            {[1, 2, 3].map(i => (
-              <div key={i} className={styles.palmRing} style={{ animationDelay: `${i * 0.6}s` }} />
-            ))}
-          </div>
+          <img
+            src="/cosmic_hand.png"
+            alt="Cosmic hand"
+            className={styles.cosmicHandImg}
+          />
         </div>
       </section>
 

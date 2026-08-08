@@ -72,59 +72,26 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 420px;
+  height: 460px;
   animation: fade-in 1.2s var(--ease-out) both;
 }
 
-.palmOrb {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(123, 47, 255, 0.25) 0%, rgba(201, 162, 39, 0.08) 60%, transparent 80%);
-  animation: aura-breathe 5s ease-in-out infinite;
-}
-
-.palmIcon {
-  font-size: 9rem;
+.cosmicHandImg {
+  width: 480px;
+  height: 480px;
+  object-fit: contain;
+  animation: float 5s ease-in-out infinite;
+  mix-blend-mode: screen;
+  transform: scale(1.35);
+  /* Radial mask: centre is fully opaque, fades to 0 opacity at 68% radius to completely remove outer square border */
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 70%, transparent 95%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 43%, transparent 60%);
+  filter:
+    brightness(1.15) drop-shadow(0 0 50px rgba(201, 162, 39, 0.5)) drop-shadow(0 0 100px rgba(123, 47, 255, 0.35));
   position: relative;
   z-index: 2;
-  animation: float 4s ease-in-out infinite;
-  filter: drop-shadow(0 0 30px rgba(201, 162, 39, 0.3));
 }
 
-.palmRings {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.palmRing {
-  position: absolute;
-  border: 1px solid rgba(201, 162, 39, 0.2);
-  border-radius: 50%;
-  animation: spin-slow 20s linear infinite;
-}
-
-.palmRing:nth-child(1) {
-  width: 200px;
-  height: 200px;
-}
-
-.palmRing:nth-child(2) {
-  width: 280px;
-  height: 280px;
-  border-color: rgba(123, 47, 255, 0.15);
-  animation-direction: reverse;
-}
-
-.palmRing:nth-child(3) {
-  width: 360px;
-  height: 360px;
-  border-color: rgba(224, 64, 251, 0.1);
-}
 
 /* ── Stats Strip ── */
 .statsStrip {
