@@ -759,6 +759,14 @@ export default function LandingPage({ onNavigate }) {
         <div className={styles.testimonialsGrid}>
           {TESTIMONIALS.map(t => (
             <div key={t.name} className={`glass-card ${styles.testimonialCard}`}>
+              {/* Isolated Starburst Layer (Prevents Container Pulsing) */}
+              <div className={styles.testimonialStarsOverlay} aria-hidden="true">
+                <span className={`${styles.star} ${styles.star1}`} />
+                <span className={`${styles.star} ${styles.star2}`} />
+                <span className={`${styles.star} ${styles.star3}`} />
+                <span className={`${styles.star} ${styles.star4}`} />
+                <span className={`${styles.star} ${styles.star5}`} />
+              </div>
               <div className={styles.testimonialStars}>★★★★★</div>
               <p className={styles.testimonialQuote}>"{t.quote}"</p>
               <div className={styles.testimonialName}>— {t.name}</div>
