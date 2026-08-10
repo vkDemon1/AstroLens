@@ -403,7 +403,7 @@
   right: -50px;
 
   z-index: 1;
-  background-image: url('/Aurora.png');
+  background-image: url('/Aurora1.png');
   background-size: 150%;
   background-position: center;
   background-repeat: no-repeat;
@@ -705,7 +705,7 @@
   margin-top: 3rem;
 }
 
-/* 1. The Outer Layer (The Slanted 3D Bevel Frame) */
+/* 1. The Outer Layer (The Slanted 3D Bevel Frame - Bright Glassy Highlight Gradient) */
 .testimonialCard {
   position: relative;
   display: flex;
@@ -727,17 +727,20 @@
     0 25px
   );
 
-  /* High-contrast gradient simulating light hitting the outer bevels */
-  background: linear-gradient(135deg, #b886ff 0%, #5a22a8 15%, #0f0321 80%, #05010a 100%);
+  /* Bright top-left glassy highlight fading to deep violet glass */
+  background: linear-gradient(135deg, rgba(240, 220, 255, 1) 0%, rgba(120, 40, 200, 0.9) 15%, rgba(15, 5, 35, 0.95) 75%, rgba(140, 70, 230, 0.8) 100%);
 
-  /* Strong drop shadow filter */
-  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(138, 43, 226, 0.4));
+  /* Violet crystal rim reflections */
+  box-shadow: inset 0 0 0 1px rgba(200, 150, 255, 0.3), inset 2px 2px 15px rgba(220, 180, 255, 0.3), inset -4px -4px 15px rgba(0, 0, 0, 0.9);
+
+  /* Radiating outer magical purple glow */
+  filter: drop-shadow(0 0 25px rgba(138, 43, 226, 0.45)) drop-shadow(0 15px 15px rgba(0, 0, 0, 0.6));
 
   transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
   isolation: isolate;
 }
 
-/* 2. The Inner Layer (The Flat Front Face - 10px Inset Creates 3D Bevel Thickness!) */
+/* 2. The Inner Layer (Swirling Nebula Galaxy & Bright Stars) */
 .testimonialCard::before {
   content: '';
   position: absolute;
@@ -747,7 +750,6 @@
   right: 10px;
   z-index: 1;
 
-  /* Exact same polygon clip path for inner face */
   clip-path: polygon(
     25px 0,
     calc(100% - 25px) 0,
@@ -759,22 +761,29 @@
     0 25px
   );
 
-  /* Deep cosmic interior background */
-  background: radial-gradient(circle at 50% 0%, #3a1c71 0%, #120422 60%, #080112 100%);
+  /* Glowing diagonal nebula & stardust background */
+  background-color: #0b0216;
+  background-image:
+    radial-gradient(circle at 15% 25%, #ffffff 1.5px, transparent 2px),
+    radial-gradient(circle at 75% 15%, #ffffff 1px, transparent 1.5px),
+    radial-gradient(circle at 85% 65%, #ffd700 2px, transparent 3px),
+    radial-gradient(circle at 25% 80%, #ffffff 1px, transparent 2px),
+    linear-gradient(45deg, transparent 10%, rgba(138, 43, 226, 0.6) 40%, rgba(255, 105, 180, 0.3) 60%, transparent 80%),
+    radial-gradient(ellipse at center, rgba(75, 0, 130, 0.9) 0%, transparent 75%);
 
-  /* Inset shadow so front face looks slightly sunken into the bevel */
-  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+  /* Heavy 3D hollow inset shadow */
+  box-shadow: inset 0 0 25px 10px rgba(0, 0, 0, 0.9);
 }
 
-/* 3. The Glass Glare (Top Diagonal Light Reflection Over Whole Stone) */
+/* 3. Glass Surface Glare (Soft Overlay Reflection) */
 .testimonialCard::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
+  mix-blend-mode: overlay;
 
-  /* Exact same polygon clip path */
   clip-path: polygon(
     25px 0,
     calc(100% - 25px) 0,
@@ -786,12 +795,13 @@
     0 25px
   );
 
-  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.15) 22%, rgba(255, 255, 255, 0.3) 25%, transparent 28%);
+  /* Soft, blended glass glare reflection */
+  background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.25) 28%, transparent 32%);
 }
 
 .testimonialCard:hover {
   transform: translateY(-8px) scale(1.02);
-  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(168, 85, 247, 0.65));
+  filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.7)) drop-shadow(0 18px 25px rgba(0, 0, 0, 0.9));
 }
 
 /* 4. Text & Content Layering (Sits on top of inner face) */
@@ -810,7 +820,7 @@
   line-height: 1.68;
   font-style: italic;
   font-weight: 400;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.92);
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9), 0 4px 12px rgba(0, 0, 0, 0.6);
   position: relative;
   z-index: 5;
 }
