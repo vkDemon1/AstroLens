@@ -705,6 +705,15 @@
   margin-top: 3rem;
 }
 
+@keyframes twinkle {
+  0% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* 1. The Outer Layer (The Slanted 3D Bevel Frame - Bright Glassy Highlight Gradient) */
 .testimonialCard {
   position: relative;
@@ -736,11 +745,12 @@
   /* Radiating outer magical purple glow */
   filter: drop-shadow(0 0 25px rgba(138, 43, 226, 0.45)) drop-shadow(0 15px 15px rgba(0, 0, 0, 0.6));
 
-  transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
+  /* Floating springy hover transition */
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   isolation: isolate;
 }
 
-/* 2. The Inner Layer (Swirling Nebula Galaxy & Bright Stars) */
+/* 2. The Inner Layer (Swirling Nebula Galaxy & Twinkling SVG 4-Point Starbursts) */
 .testimonialCard::before {
   content: '';
   position: absolute;
@@ -761,21 +771,27 @@
     0 25px
   );
 
-  /* Glowing diagonal nebula & stardust background */
+  /* Glowing diagonal nebula & 4-point SVG starburst background */
   background-color: #0b0216;
   background-image:
-    radial-gradient(circle at 15% 25%, #ffffff 1.5px, transparent 2px),
-    radial-gradient(circle at 75% 15%, #ffffff 1px, transparent 1.5px),
-    radial-gradient(circle at 85% 65%, #ffd700 2px, transparent 3px),
-    radial-gradient(circle at 25% 80%, #ffffff 1px, transparent 2px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.9'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffd700' opacity='0.95'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.75'/%3E%3C/svg%3E"),
     linear-gradient(45deg, transparent 10%, rgba(138, 43, 226, 0.6) 40%, rgba(255, 105, 180, 0.3) 60%, transparent 80%),
     radial-gradient(ellipse at center, rgba(75, 0, 130, 0.9) 0%, transparent 75%);
+  background-position: 18% 22%, 82% 68%, 78% 18%, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-size: 14px 14px, 18px 18px, 10px 10px, 100% 100%, 100% 100%;
+  background-attachment: local;
 
   /* Heavy 3D hollow inset shadow */
   box-shadow: inset 0 0 25px 10px rgba(0, 0, 0, 0.9);
+
+  /* Twinkle Animation */
+  animation: twinkle 3s infinite alternate ease-in-out;
 }
 
-/* 3. Glass Surface Glare (Soft Overlay Reflection) */
+/* 3. Glass Surface Glare (Sweeping Light Glare Reflection) */
 .testimonialCard::after {
   content: '';
   position: absolute;
@@ -795,13 +811,21 @@
     0 25px
   );
 
-  /* Soft, blended glass glare reflection */
+  /* Sweeping glass glare reflection setup */
   background: linear-gradient(105deg, transparent 20%, rgba(255, 255, 255, 0.05) 25%, rgba(255, 255, 255, 0.25) 28%, transparent 32%);
+  background-size: 200% 200%;
+  background-position: -150% -150%;
 }
 
+/* Hover State - Springy lift, bright glow & forward sweeping glare only */
 .testimonialCard:hover {
-  transform: translateY(-8px) scale(1.02);
-  filter: drop-shadow(0 0 35px rgba(168, 85, 247, 0.7)) drop-shadow(0 18px 25px rgba(0, 0, 0, 0.9));
+  transform: translateY(-10px) scale(1.03);
+  filter: drop-shadow(0 0 40px rgba(160, 100, 255, 0.8)) drop-shadow(0 20px 20px rgba(0, 0, 0, 0.8));
+}
+
+.testimonialCard:hover::after {
+  background-position: 150% 150%;
+  transition: background-position 0.6s ease-out;
 }
 
 /* 4. Text & Content Layering (Sits on top of inner face) */
