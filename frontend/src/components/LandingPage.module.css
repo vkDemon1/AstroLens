@@ -691,7 +691,7 @@
   }
 }
 
-/* ── Testimonials (Hard-Edged Polish Glass Crystal Redesign) ── */
+/* ── Testimonials (Volumetric 3D Gemstone Crystal 2-Layer Method) ── */
 .testimonials {
   padding: 5rem 2rem 6rem;
   position: relative;
@@ -705,16 +705,17 @@
   margin-top: 3rem;
 }
 
+/* 1. The Outer Layer (The Slanted 3D Bevel Frame) */
 .testimonialCard {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1.35rem;
-  padding: 2.8rem 2.4rem 2.6rem;
+  padding: 3rem 2.2rem;
   border-radius: 0 !important;
 
-  /* 1. Polygon Clip-Path Cut Corners */
+  /* Polygon Clip-Path Cut Corners */
   clip-path: polygon(
     25px 0,
     calc(100% - 25px) 0,
@@ -726,46 +727,27 @@
     0 25px
   );
 
-  /* 2. Inner Glow & Dark Cosmic Background */
-  background: radial-gradient(circle at 50% 0%, #3a1c71 0%, #150529 60%, #0a0214 100%);
+  /* High-contrast gradient simulating light hitting the outer bevels */
+  background: linear-gradient(135deg, #b886ff 0%, #5a22a8 15%, #0f0321 80%, #05010a 100%);
 
-  /* 3. Sharp, Hard-Edged Bevel Inset Shadows (Zero Blur highlights) */
-  box-shadow:
-    inset 2px 2px 0px rgba(255, 255, 255, 0.5),
-    inset -3px -3px 0px rgba(0, 0, 0, 0.8),
-    inset 8px 8px 20px rgba(255, 255, 255, 0.15),
-    inset -8px -8px 20px rgba(0, 0, 0, 0.6);
-
-  /* 4. Outer Glow Drop Shadow */
-  filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.4));
+  /* Strong drop shadow filter */
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 15px rgba(138, 43, 226, 0.4));
 
   transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
   isolation: isolate;
 }
 
-/* Stardust sparkle layer inside crystal */
+/* 2. The Inner Layer (The Flat Front Face - 10px Inset Creates 3D Bevel Thickness!) */
 .testimonialCard::before {
   content: '';
   position: absolute;
-  inset: 0;
-  pointer-events: none;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
   z-index: 1;
-  background-image:
-    radial-gradient(1.5px 1.5px at 18% 22%, #ffffff 100%, transparent),
-    radial-gradient(1px 1px at 80% 15%, rgba(255, 255, 255, 0.95) 100%, transparent),
-    radial-gradient(2px 2px at 88% 68%, rgba(253, 230, 138, 0.9) 100%, transparent),
-    radial-gradient(1px 1px at 32% 82%, rgba(255, 255, 255, 0.75) 100%, transparent);
-  background-size: 190px 190px;
-  opacity: 0.6;
-}
 
-/* 5. Glass Reflection Glare Highlight Overlay */
-.testimonialCard::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
+  /* Exact same polygon clip path for inner face */
   clip-path: polygon(
     25px 0,
     calc(100% - 25px) 0,
@@ -776,14 +758,43 @@
     0 calc(100% - 25px),
     0 25px
   );
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 100%);
+
+  /* Deep cosmic interior background */
+  background: radial-gradient(circle at 50% 0%, #3a1c71 0%, #120422 60%, #080112 100%);
+
+  /* Inset shadow so front face looks slightly sunken into the bevel */
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.9);
+}
+
+/* 3. The Glass Glare (Top Diagonal Light Reflection Over Whole Stone) */
+.testimonialCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+
+  /* Exact same polygon clip path */
+  clip-path: polygon(
+    25px 0,
+    calc(100% - 25px) 0,
+    100% 25px,
+    100% calc(100% - 25px),
+    calc(100% - 25px) 100%,
+    25px 100%,
+    0 calc(100% - 25px),
+    0 25px
+  );
+
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.15) 22%, rgba(255, 255, 255, 0.3) 25%, transparent 28%);
 }
 
 .testimonialCard:hover {
   transform: translateY(-8px) scale(1.02);
-  filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.7)) drop-shadow(0 15px 35px rgba(10, 3, 26, 0.9));
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 25px rgba(168, 85, 247, 0.65));
 }
 
+/* 4. Text & Content Layering (Sits on top of inner face) */
 .testimonialStars {
   color: #FDE68A;
   font-size: 1.25rem;
