@@ -654,8 +654,16 @@ export default function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* ── Alchemical Alembic 5-Step Process Diagram (Image 22 Style) ── */}
+      {/* ── Alchemical Alembic 5-Step Process Diagram ── */}
       <section className={styles.alembicSection}>
+        {/* ── Soft Photographic Aurora Glow Layer ── */}
+        <div className={styles.auroraContainer}>
+          <div className={`${styles.auroraGlow} ${styles.auroraGlowTealLeft}`} />
+          <div className={`${styles.auroraGlow} ${styles.auroraGlowEmeraldMid}`} />
+          <div className={`${styles.auroraGlow} ${styles.auroraGlowPurpleRight}`} />
+          <div className={`${styles.auroraGlow} ${styles.auroraGlowVioletMid}`} />
+        </div>
+
         <div className={styles.alembicCanvas}>
           {/* Main Title Header Banner */}
           <div className={styles.alembicHeaderWrap}>

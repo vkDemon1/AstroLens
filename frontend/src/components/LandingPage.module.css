@@ -83,17 +83,14 @@
   animation: float 5s ease-in-out infinite;
   mix-blend-mode: screen;
   transform: scale(1.35);
-  /* Radial mask: centre is fully opaque, fades to 0 opacity at 68% radius to completely remove outer square border */
   -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 70%, transparent 95%);
   mask-image: radial-gradient(circle at 50% 50%, #000 43%, transparent 60%);
-  filter:
-    brightness(1.15) drop-shadow(0 0 50px rgba(201, 162, 39, 0.5)) drop-shadow(0 0 100px rgba(123, 47, 255, 0.35));
+  filter: brightness(1.15) drop-shadow(0 0 50px rgba(201, 162, 39, 0.5)) drop-shadow(0 0 100px rgba(123, 47, 255, 0.35));
   position: relative;
   z-index: 2;
 }
 
-
-/* ── Ornate Cosmic Stats Panels (Refactored) ── */
+/* ── Ornate Cosmic Stats Panels ── */
 .statsSection {
   position: relative;
   z-index: 2;
@@ -143,18 +140,13 @@
   background: rgba(11, 7, 32, 0.65);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.55),
-    inset 0 0 25px rgba(253, 230, 138, 0.06);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), inset 0 0 25px rgba(253, 230, 138, 0.06);
   transition: all 0.35s var(--ease-out);
 }
 
 .statPanel:hover {
   transform: translateY(-6px) scale(1.02);
-  box-shadow:
-    0 18px 45px rgba(226, 232, 240, 0.25),
-    0 0 35px rgba(56, 189, 248, 0.3),
-    inset 0 0 35px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 18px 45px rgba(226, 232, 240, 0.25), 0 0 35px rgba(56, 189, 248, 0.3), inset 0 0 35px rgba(255, 255, 255, 0.15);
 }
 
 .panelFrameSvg {
@@ -202,7 +194,6 @@
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.65)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
   letter-spacing: 0.02em;
-  -webkit-font-smoothing: antialiased;
 }
 
 .statLabelGold {
@@ -217,7 +208,6 @@
   letter-spacing: 0.09em;
   text-transform: uppercase;
   margin-top: 0.45rem;
-  -webkit-font-smoothing: antialiased;
 }
 
 .statLabelGoldSolo {
@@ -232,7 +222,6 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 3.4rem;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* ── Section shared ── */
@@ -302,14 +291,10 @@
   box-shadow: 0 12px 40px rgba(201, 162, 39, 0.3), 0 0 25px rgba(123, 47, 255, 0.25);
 }
 
-/* Card 3 ('GEMINI AI READING') glows with a brilliant neon-cyan border and background light */
 .highlightedCard {
   background: linear-gradient(145deg, rgba(8, 47, 73, 0.8), rgba(15, 23, 42, 0.85));
   border: 2.5px solid #38BDF8 !important;
-  box-shadow:
-    0 0 35px rgba(56, 189, 248, 0.6),
-    0 0 75px rgba(14, 165, 233, 0.35),
-    inset 0 0 18px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), 0 0 75px rgba(14, 165, 233, 0.35), inset 0 0 18px rgba(56, 189, 248, 0.15);
   animation: cyan-pulse 3s ease-in-out infinite alternate;
 }
 
@@ -324,10 +309,7 @@
 .highlightedCard:hover {
   transform: translateY(-10px) scale(1.02);
   border-color: #7DD3FC !important;
-  box-shadow:
-    0 0 50px rgba(56, 189, 248, 0.8),
-    0 0 95px rgba(14, 165, 233, 0.55),
-    inset 0 0 22px rgba(56, 189, 248, 0.2);
+  box-shadow: 0 0 50px rgba(56, 189, 248, 0.8), 0 0 95px rgba(14, 165, 233, 0.55), inset 0 0 22px rgba(56, 189, 248, 0.2);
 }
 
 @keyframes cyan-pulse {
@@ -387,86 +369,115 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-top: 0.25rem;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 .featureDesc {
   font-size: 0.875rem;
   color: var(--text-secondary);
   line-height: 1.65;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
 
-/* ── Alchemical Alembic 5-Step Process Diagram (Image 22 Style) ── */
+/* ── Technology / 5-Step Cosmic Process Section (SEAMLESS BLEND FIX) ── */
 .alembicSection {
   position: relative;
   z-index: 2;
-  padding: 4rem 1rem;
-  max-width: 1400px;
+  width: 100%;
+  max-width: 1600px;
   margin: 0 auto;
+  padding: 5rem 1.5rem 6rem;
+
+  /* 1. Make the section totally transparent so your global website background flows through */
+  background-color: transparent;
 }
 
+/* We put the Aurora image in its own layer behind the glass box */
+.alembicSection::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  bottom: -100px;
+
+  /* Expand the edges slightly so the rotation doesn't reveal hard corners */
+  left: -50px;
+  right: -50px;
+
+  z-index: 1;
+  background-image: url('/Aurora.png');
+  background-size: 150%;
+  background-position: center;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: brightness(1.3) contrast(1.2);
+
+  /* 👇 THIS TILTS THE LEFT SIDE UP 👇 */
+  /* Increase degrees (e.g., 6deg) to tilt it higher, or decrease to lower it */
+  transform: rotate(2deg);
+
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+}
+
+/* Hide any old static CSS elements */
+.auroraContainer {
+  display: none !important;
+}
+
+
+/* ── Ultra-Sheer Glass Container ── */
 .alembicCanvas {
   position: relative;
+  z-index: 3;
   width: 100%;
-  padding: 3rem 1.5rem 4rem;
-  border-radius: 24px;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(56, 189, 248, 0.15) 0%, transparent 65%),
-    radial-gradient(circle at 15% 70%, rgba(192, 132, 252, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.18) 0%, transparent 50%),
-    linear-gradient(145deg, #090519 0%, #0D0724 50%, #050212 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(253, 230, 138, 0.25);
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.85),
-    inset 0 0 50px rgba(253, 230, 138, 0.05);
-  overflow: hidden;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 3.5rem 2rem 4rem;
+  /* Generous padding to clear the moving cards */
+  border-radius: 20px;
+
+  /* Make it slightly more transparent so the aurora pops */
+  background: rgba(255, 255, 255, 0.02);
+
+  /* REMOVED THE BLUR SO THE AURORA STAYS CRISP */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  /* Crisp outer rim */
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .alembicHeaderWrap {
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: 4rem;
   position: relative;
   z-index: 5;
 }
 
 .alembicTitle {
   font-family: var(--font-display);
-  font-size: 2.25rem;
+  font-size: clamp(1.35rem, 2.6vw, 2.1rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 35%, #D97706 75%, #F59E0B 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter:
-    drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
+  filter: drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
 }
 
 .alembicStardustTrailSvg {
-  position: absolute;
-  top: 140px;
-  left: 0;
-  width: 100%;
-  height: auto;
-  z-index: 2;
-  pointer-events: none;
+  display: none;
 }
 
-/* 5-Grid Flow Layout matching Image 22 */
+/* 5-Card Grid */
 .alembicGrid {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   position: relative;
   z-index: 5;
 }
@@ -474,15 +485,61 @@
 .alembicCardWrap {
   position: relative;
   flex: 1 1 0;
-  max-width: 245px;
+  max-width: 250px;
+  min-width: 0;
   display: flex;
   align-items: center;
   transition: transform 0.35s var(--ease-out);
 }
 
-.alembicCardWrap:hover {
-  transform: translateY(-6px) scale(1.03);
+/* ── EXACT STAGGERED "WAVE" LAYOUT ── */
+.alembicCardStep1 {
+  transform: translateY(20px) !important;
 }
+
+/* Down */
+.alembicCardStep2 {
+  transform: translateY(-20px) !important;
+}
+
+/* Up */
+.alembicCardStep3 {
+  transform: translateY(20px) !important;
+}
+
+/* Down */
+.alembicCardStep4 {
+  transform: translateY(-20px) !important;
+}
+
+/* Up */
+.alembicCardStep5 {
+  transform: translateY(20px) !important;
+}
+
+/* Down */
+
+/* Hover transforms explicitly calculate from the base stagger positions */
+.alembicCardStep1:hover {
+  transform: translateY(12px) scale(1.03) !important;
+}
+
+.alembicCardStep2:hover {
+  transform: translateY(-28px) scale(1.03) !important;
+}
+
+.alembicCardStep3:hover {
+  transform: translateY(12px) scale(1.03) !important;
+}
+
+.alembicCardStep4:hover {
+  transform: translateY(-28px) scale(1.03) !important;
+}
+
+.alembicCardStep5:hover {
+  transform: translateY(12px) scale(1.03) !important;
+}
+
 
 /* Left-Attached Numbered Sigil Circle */
 .alembicSigilCircle {
@@ -496,9 +553,7 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #FFFBEB 0%, #FDE68A 40%, #D97706 80%, #78350F 100%);
   border: 2px solid #FFFBEB;
-  box-shadow:
-    0 0 16px rgba(253, 230, 138, 0.7),
-    0 4px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 16px rgba(253, 230, 138, 0.7), 0 4px 12px rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -512,19 +567,18 @@
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
 }
 
-/* Glass Alembic Panel Container */
+/* Individual Module Cards */
 .alembicGlassPanel {
   position: relative;
   width: 100%;
-  min-height: 155px;
-  background: rgba(13, 8, 38, 0.82);
+  min-height: 165px;
+  background: rgba(13, 10, 36, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
-  padding: 1.1rem 1.1rem 1.1rem 2.2rem;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.7),
-    0 0 20px rgba(253, 230, 138, 0.12);
+  padding: 1.1rem 1.1rem 1.2rem 2.3rem;
+  border: 1.5px solid rgba(253, 230, 138, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(253, 230, 138, 0.12);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -580,49 +634,60 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
 }
 
-/* Staggered Vertical Stepping Matching Image 22 */
-.alembicCardStep1 {
-  transform: translateY(0px);
-}
-
-.alembicCardStep2 {
-  transform: translateY(12px);
-}
-
-.alembicCardStep3 {
-  transform: translateY(-8px);
-}
-
-.alembicCardStep4 {
-  transform: translateY(16px);
-}
-
-.alembicCardStep5 {
-  transform: translateY(-4px);
-}
-
 @media (max-width: 1100px) {
   .alembicGrid {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 1.75rem 1rem;
+    gap: 1.75rem 1.2rem;
   }
 
   .alembicCardWrap {
     flex: 0 0 calc(33.33% - 1rem);
     max-width: 280px;
     transform: none !important;
+    /* Stack cleanly on smaller screens */
   }
 
-  .alembicStardustTrailSvg {
-    display: none;
+  .alembicCardStep1:hover,
+  .alembicCardStep2:hover,
+  .alembicCardStep3:hover,
+  .alembicCardStep4:hover,
+  .alembicCardStep5:hover {
+    transform: translateY(-8px) scale(1.03) !important;
   }
 }
 
 @media (max-width: 768px) {
+  .alembicSection {
+    padding: 2rem 0.75rem 3rem;
+    background: transparent;
+  }
+
+  .alembicSection::before {
+    display: none;
+  }
+
+  /* Turns off Aurora on mobile for cleanliness */
+  .alembicCanvas {
+    padding: 1.75rem 0.9rem 2rem;
+    border-radius: 14px;
+  }
+
+  .alembicHeaderWrap {
+    margin-bottom: 1.75rem;
+  }
+
+  .alembicTitle {
+    letter-spacing: 0.1em;
+  }
+
   .alembicCardWrap {
     flex: 0 0 100%;
     max-width: 320px;
+  }
+
+  .alembicGlassPanel {
+    min-height: 145px;
   }
 }
 
@@ -728,10 +793,6 @@
     height: 280px;
   }
 
-  .palmIcon {
-    font-size: 6rem;
-  }
-
   .statsStrip {
     flex-wrap: wrap;
     gap: 0;
@@ -746,15 +807,5 @@
   .hero {
     padding-top: 7rem;
     padding-bottom: 5rem;
-  }
-
-  .pipelineSteps {
-    grid-template-columns: 1fr;
-    justify-items: flex-start;
-    padding-left: 1rem;
-  }
-
-  .pipelineArrow {
-    transform: rotate(90deg);
   }
 }
