@@ -691,42 +691,128 @@
   }
 }
 
-/* ── Testimonials ── */
+/* ── Testimonials (Hard-Edged Polish Glass Crystal Redesign) ── */
 .testimonials {
-  padding: 4rem 2rem;
+  padding: 5rem 2rem 6rem;
+  position: relative;
+  z-index: 3;
 }
 
 .testimonialsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+  margin-top: 3rem;
 }
 
 .testimonialCard {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  justify-content: space-between;
+  gap: 1.35rem;
+  padding: 2.8rem 2.4rem 2.6rem;
+  border-radius: 0 !important;
+
+  /* 1. Polygon Clip-Path Cut Corners */
+  clip-path: polygon(
+    25px 0,
+    calc(100% - 25px) 0,
+    100% 25px,
+    100% calc(100% - 25px),
+    calc(100% - 25px) 100%,
+    25px 100%,
+    0 calc(100% - 25px),
+    0 25px
+  );
+
+  /* 2. Inner Glow & Dark Cosmic Background */
+  background: radial-gradient(circle at 50% 0%, #3a1c71 0%, #150529 60%, #0a0214 100%);
+
+  /* 3. Sharp, Hard-Edged Bevel Inset Shadows (Zero Blur highlights) */
+  box-shadow:
+    inset 2px 2px 0px rgba(255, 255, 255, 0.5),
+    inset -3px -3px 0px rgba(0, 0, 0, 0.8),
+    inset 8px 8px 20px rgba(255, 255, 255, 0.15),
+    inset -8px -8px 20px rgba(0, 0, 0, 0.6);
+
+  /* 4. Outer Glow Drop Shadow */
+  filter: drop-shadow(0 0 15px rgba(138, 43, 226, 0.4));
+
+  transition: transform 0.4s var(--ease-out), filter 0.4s var(--ease-out);
+  isolation: isolate;
+}
+
+/* Stardust sparkle layer inside crystal */
+.testimonialCard::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 18% 22%, #ffffff 100%, transparent),
+    radial-gradient(1px 1px at 80% 15%, rgba(255, 255, 255, 0.95) 100%, transparent),
+    radial-gradient(2px 2px at 88% 68%, rgba(253, 230, 138, 0.9) 100%, transparent),
+    radial-gradient(1px 1px at 32% 82%, rgba(255, 255, 255, 0.75) 100%, transparent);
+  background-size: 190px 190px;
+  opacity: 0.6;
+}
+
+/* 5. Glass Reflection Glare Highlight Overlay */
+.testimonialCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  clip-path: polygon(
+    25px 0,
+    calc(100% - 25px) 0,
+    100% 25px,
+    100% calc(100% - 25px),
+    calc(100% - 25px) 100%,
+    25px 100%,
+    0 calc(100% - 25px),
+    0 25px
+  );
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 40%, rgba(255, 255, 255, 0) 100%);
+}
+
+.testimonialCard:hover {
+  transform: translateY(-8px) scale(1.02);
+  filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.7)) drop-shadow(0 15px 35px rgba(10, 3, 26, 0.9));
 }
 
 .testimonialStars {
-  color: var(--gold);
-  font-size: 0.9rem;
-  letter-spacing: 0.1em;
+  color: #FDE68A;
+  font-size: 1.25rem;
+  letter-spacing: 0.22em;
+  filter: drop-shadow(0 2px 8px rgba(253, 230, 138, 0.8));
+  position: relative;
+  z-index: 5;
 }
 
 .testimonialQuote {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.65;
+  font-size: 1.12rem;
+  color: #FFFFFF;
+  line-height: 1.68;
   font-style: italic;
+  font-weight: 400;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.92);
+  position: relative;
+  z-index: 5;
 }
 
 .testimonialName {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: var(--gold);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #FDE68A;
   font-style: normal;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
+  position: relative;
+  z-index: 5;
 }
 
 /* ── Final CTA ── */
