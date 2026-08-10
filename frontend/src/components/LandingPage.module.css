@@ -416,7 +416,7 @@
   width: 100%;
   padding: 3rem 1.5rem 4rem;
   border-radius: 24px;
-  background: 
+  background:
     radial-gradient(ellipse 80% 60% at 50% 40%, rgba(56, 189, 248, 0.15) 0%, transparent 65%),
     radial-gradient(circle at 15% 70%, rgba(192, 132, 252, 0.2) 0%, transparent 50%),
     radial-gradient(circle at 85% 30%, rgba(251, 191, 36, 0.18) 0%, transparent 50%),
@@ -424,7 +424,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(253, 230, 138, 0.25);
-  box-shadow: 
+  box-shadow:
     0 25px 70px rgba(0, 0, 0, 0.85),
     inset 0 0 50px rgba(253, 230, 138, 0.05);
   overflow: hidden;
@@ -447,9 +447,8 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: 
-    drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) 
-    drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
+  filter:
+    drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
 }
 
 .alembicStardustTrailSvg {
@@ -497,7 +496,7 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #FFFBEB 0%, #FDE68A 40%, #D97706 80%, #78350F 100%);
   border: 2px solid #FFFBEB;
-  box-shadow: 
+  box-shadow:
     0 0 16px rgba(253, 230, 138, 0.7),
     0 4px 12px rgba(0, 0, 0, 0.8);
   display: flex;
@@ -523,7 +522,7 @@
   -webkit-backdrop-filter: blur(14px);
   border-radius: 14px;
   padding: 1.1rem 1.1rem 1.1rem 2.2rem;
-  box-shadow: 
+  box-shadow:
     0 10px 30px rgba(0, 0, 0, 0.7),
     0 0 20px rgba(253, 230, 138, 0.12);
   display: flex;
@@ -582,11 +581,25 @@
 }
 
 /* Staggered Vertical Stepping Matching Image 22 */
-.alembicCardStep1 { transform: translateY(0px); }
-.alembicCardStep2 { transform: translateY(12px); }
-.alembicCardStep3 { transform: translateY(-8px); }
-.alembicCardStep4 { transform: translateY(16px); }
-.alembicCardStep5 { transform: translateY(-4px); }
+.alembicCardStep1 {
+  transform: translateY(0px);
+}
+
+.alembicCardStep2 {
+  transform: translateY(12px);
+}
+
+.alembicCardStep3 {
+  transform: translateY(-8px);
+}
+
+.alembicCardStep4 {
+  transform: translateY(16px);
+}
+
+.alembicCardStep5 {
+  transform: translateY(-4px);
+}
 
 @media (max-width: 1100px) {
   .alembicGrid {
@@ -594,11 +607,13 @@
     justify-content: center;
     gap: 1.75rem 1rem;
   }
+
   .alembicCardWrap {
     flex: 0 0 calc(33.33% - 1rem);
     max-width: 280px;
     transform: none !important;
   }
+
   .alembicStardustTrailSvg {
     display: none;
   }
