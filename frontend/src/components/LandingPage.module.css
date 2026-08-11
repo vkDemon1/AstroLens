@@ -130,23 +130,218 @@
   pointer-events: none;
 }
 
+/* ── 3D Flip Card Container & Perspective ── */
 .statPanel {
+  perspective: 1000px;
   position: relative;
-  z-index: 2;
-  aspect-ratio: 300 / 170;
+  flex: 1;
+  max-width: 300px;
+  height: 170px;
+  border-radius: 16px;
+}
+
+.cardInner {
+  position: relative;
   width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  border-radius: 16px;
+}
+
+.statPanel:hover .cardInner {
+  transform: rotateY(180deg);
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(11, 7, 32, 0.65);
+  background: rgba(11, 7, 32, 0.75);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55), inset 0 0 25px rgba(253, 230, 138, 0.06);
-  transition: all 0.35s var(--ease-out);
 }
 
-.statPanel:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 18px 45px rgba(226, 232, 240, 0.25), 0 0 35px rgba(56, 189, 248, 0.3), inset 0 0 35px rgba(255, 255, 255, 0.15);
+.cardFront {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.cardBack {
+  transform: rotateY(180deg);
+  background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.98) 0%, rgba(9, 5, 25, 0.98) 100%);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  box-shadow: inset 0 0 30px rgba(56, 189, 248, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+}
+
+.statBackContent {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statBackTitle {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #FDE68A;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.statBackDesc {
+  font-size: 0.76rem;
+  color: #E2E8F0;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Live SVG Tracking Animations ── */
+.pulseNodeDot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulseNode 2s ease-in-out infinite;
+}
+
+@keyframes pulseNode {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 5px #FFFFFF) drop-shadow(0 0 10px #38BDF8);
+  }
+
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+}
+
+.scanningPalmLine {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawPalmLines 4.5s linear infinite;
+}
+
+@keyframes drawPalmLines {
+  0% {
+    stroke-dashoffset: 200;
+  }
+
+  50% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -200;
+  }
+}
+
+/* Card 3: Stable Data Flow Ring & Radar Ping Center Dot Animations */
+.flowDataRing {
+  stroke-dasharray: 10 10;
+  animation: flowData 8s linear infinite;
+}
+
+@keyframes flowData {
+  to {
+    stroke-dashoffset: -100;
+  }
+}
+
+.radarPingDot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: radarPing 2s ease-in-out infinite;
+}
+
+@keyframes radarPing {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+}
+
+.pulseSandStream {
+  animation: pulseSand 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseSand {
+  0% {
+    opacity: 0.4;
+    filter: drop-shadow(0 0 2px #FDE68A);
+  }
+
+  100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px #FDE68A) drop-shadow(0 0 14px #FFF);
+  }
+}
+
+.sandDropLine {
+  stroke-dasharray: 6;
+  animation: dropSandLine 0.8s linear infinite;
+}
+
+@keyframes dropSandLine {
+  0% {
+    stroke-dashoffset: 12;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Card 4: Flowing Infinity Path Animation */
+.flowInfinityPath {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: flowInfinity 3s linear infinite;
+}
+
+@keyframes flowInfinity {
+  0% {
+    stroke-dashoffset: 400;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 .panelFrameSvg {
@@ -188,38 +383,34 @@
   font-size: 2.25rem;
   font-weight: 700;
   line-height: 1;
+  color: #FDE68A;
   background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 35%, #D97706 75%, #F59E0B 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 14px rgba(253, 230, 138, 0.65)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(253, 230, 138, 0.4);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.95));
   letter-spacing: 0.02em;
 }
 
 .statLabelGold {
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 50%, #D97706 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.55));
-  letter-spacing: 0.09em;
+  color: #FDE68A;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   margin-top: 0.45rem;
 }
 
 .statLabelGoldSolo {
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #FFFBEB 0%, #FDE68A 40%, #F59E0B 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 10px rgba(253, 230, 138, 0.6));
-  letter-spacing: 0.1em;
+  color: #FDE68A;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.9), 0 0 10px rgba(255, 215, 0, 0.4);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-top: 3.4rem;
 }
@@ -270,6 +461,7 @@
 
 .featureCard {
   position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -277,35 +469,308 @@
   width: 100%;
   height: 100%;
   border-radius: var(--radius-md);
-  background: rgba(13, 0, 32, 0.55);
+  background: #0b071e;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(201, 162, 39, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  transition: all 0.35s var(--ease-out);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out, border-color 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
 }
 
+/* ── Focus Mode Dimming ── */
+.featuresGrid:hover .featureCard {
+  opacity: 0.5;
+  filter: grayscale(40%);
+}
+
+.featuresGrid:hover .featureCard:hover,
 .featureCard:hover {
-  transform: translateY(-8px);
-  border-color: rgba(201, 162, 39, 0.65);
-  box-shadow: 0 12px 40px rgba(201, 162, 39, 0.3), 0 0 25px rgba(123, 47, 255, 0.25);
+  opacity: 1;
+  filter: grayscale(0%);
+  border-color: #38BDF8 !important;
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), 0 0 65px rgba(14, 165, 233, 0.35), inset 0 0 18px rgba(56, 189, 248, 0.2);
 }
 
+.pipelineThreadTrack {
+  display: none !important;
+}
+
+/* ── Internal Icon Reactivity (Unique Color Breathing Animations) ── */
+.featureIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 16px;
+  background: rgba(8, 4, 24, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+  overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.handTileImg,
+.featureIcon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+/* Card 1: Cyan Breathing Glow & AI Laser Scan Line */
+.cardContainer:nth-of-type(1) .featureIcon::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0%;
+  width: 100%;
+  height: 2px;
+  background: rgba(0, 195, 255, 0.85);
+  box-shadow: 0 0 10px rgba(0, 195, 255, 1), 0 0 15px rgba(56, 189, 248, 0.8);
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cardContainer:nth-of-type(1) .featureCard:hover .featureIcon {
+  border-color: #38BDF8;
+  animation: iconBreatheCyan 1.5s infinite alternate ease-in-out;
+}
+
+.cardContainer:nth-of-type(1) .featureCard:hover .featureIcon::after {
+  opacity: 1;
+  animation: aiScan 1.5s infinite ease-in-out alternate;
+}
+
+@keyframes aiScan {
+  0% {
+    top: 0%;
+    opacity: 0.3;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 100%;
+    opacity: 0.3;
+  }
+}
+
+@keyframes iconBreatheCyan {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(56, 189, 248, 0.6);
+    border-color: rgba(56, 189, 248, 0.8);
+  }
+
+  100% {
+    transform: scale(1.15);
+    box-shadow: 0 0 22px rgba(56, 189, 248, 1);
+    border-color: #38BDF8;
+  }
+}
+
+/* Card 2: Purple Breathing Glow & Silver/White Energy Ripple */
+.cardContainer:nth-of-type(2) .featureIcon::before {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(211, 211, 211, 0) 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.2);
+  transition: opacity 1.5s ease;
+}
+
+.cardContainer:nth-of-type(2) .featureCard:hover .featureIcon {
+  border-color: #C084FC;
+  animation: iconBreathePurple 1.5s infinite alternate ease-in-out;
+}
+
+.cardContainer:nth-of-type(2) .featureCard:hover .featureIcon::before {
+  animation: energyRipple 1.8s infinite ease-out;
+}
+
+@keyframes energyRipple {
+  0% {
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(1.8);
+    opacity: 0;
+  }
+}
+
+@keyframes iconBreathePurple {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(192, 132, 252, 0.6);
+    border-color: rgba(192, 132, 252, 0.8);
+  }
+
+  100% {
+    transform: scale(1.15);
+    box-shadow: 0 0 22px rgba(192, 132, 252, 1);
+    border-color: #C084FC;
+  }
+}
+
+/* Card 3: Gold Breathing Glow & Rotating Conic Network Scan */
+.cardContainer:nth-of-type(3) .featureIcon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 70%, rgba(255, 215, 0, 0.5) 100%);
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(0deg);
+  transition: opacity 0.3s ease;
+}
+
+.cardContainer:nth-of-type(3) .featureCard:hover .featureIcon {
+  border-color: #FDE68A;
+  animation: iconBreatheGold 1.5s infinite alternate ease-in-out;
+}
+
+.cardContainer:nth-of-type(3) .featureCard:hover .featureIcon::after {
+  opacity: 1;
+  animation: networkScan 2s linear infinite;
+}
+
+@keyframes networkScan {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes iconBreatheGold {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(253, 230, 138, 0.6);
+    border-color: rgba(253, 230, 138, 0.8);
+  }
+
+  100% {
+    transform: scale(1.15);
+    box-shadow: 0 0 22px rgba(253, 230, 138, 1);
+    border-color: #FDE68A;
+  }
+}
+
+/* Card 4: Pink Breathing Glow & Holographic Foil Shimmer Sweep */
+.cardContainer:nth-of-type(4) .featureIcon::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(135deg, transparent 35%, rgba(255, 105, 180, 0.8) 48%, rgba(255, 255, 255, 0.95) 50%, rgba(255, 105, 180, 0.8) 52%, transparent 65%);
+  pointer-events: none;
+  z-index: 4;
+  opacity: 0;
+  transform: translate(-120%, -120%);
+  transition: opacity 0.3s ease;
+}
+
+.cardContainer:nth-of-type(4) .featureCard:hover .featureIcon {
+  border-color: #FF69B4;
+  animation: iconBreatheGreen 1.5s infinite alternate ease-in-out;
+}
+
+.cardContainer:nth-of-type(4) .featureCard:hover .featureIcon::after {
+  opacity: 1;
+  animation: foilShimmer 2.2s infinite ease-in-out;
+}
+
+@keyframes foilShimmer {
+  0% {
+    transform: translate(-120%, -120%);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translate(60%, 60%);
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    transform: translate(120%, 120%);
+    opacity: 0;
+  }
+}
+
+@keyframes iconBreatheGreen {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(255, 105, 180, 0.6);
+    border-color: rgba(255, 105, 180, 0.8);
+  }
+
+  100% {
+    transform: scale(1.15);
+    box-shadow: 0 0 22px rgba(255, 105, 180, 1);
+    border-color: #FF69B4;
+  }
+}
+
+/* Active Step Glow Class (For JS state cycling or click activation) */
+.activeCard,
+.featureCard.active,
 .highlightedCard {
-  background: linear-gradient(145deg, rgba(8, 47, 73, 0.8), rgba(15, 23, 42, 0.85));
+  background: linear-gradient(145deg, rgba(8, 47, 73, 0.95), rgba(15, 23, 42, 0.98)) !important;
   border: 2.5px solid #38BDF8 !important;
-  box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), 0 0 75px rgba(14, 165, 233, 0.35), inset 0 0 18px rgba(56, 189, 248, 0.15);
+  box-shadow: 0 0 35px rgba(56, 189, 248, 0.6), 0 0 75px rgba(14, 165, 233, 0.35), inset 0 0 18px rgba(56, 189, 248, 0.15) !important;
   animation: cyan-pulse 3s ease-in-out infinite alternate;
 }
 
+.activeCard .featureTitle,
+.featureCard.active .featureTitle,
 .highlightedCard .featureTitle {
   text-shadow: 0 0 8px rgba(253, 230, 138, 0.5);
 }
 
+.activeCard .featureDesc,
+.featureCard.active .featureDesc,
 .highlightedCard .featureDesc {
   text-shadow: none;
 }
 
+.activeCard:hover,
+.featureCard.active:hover,
 .highlightedCard:hover {
   transform: translateY(-10px) scale(1.02);
   border-color: #7DD3FC !important;
@@ -331,35 +796,47 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 0 8px rgba(232, 200, 74, 0.6));
+  filter: drop-shadow(0 0 8px rgba(0, 255, 128, 0.7));
+  animation: arrowFlow 1.2s infinite alternate ease-in-out;
+}
+
+.cardContainer:nth-of-type(1) .chevronArrow {
+  animation-delay: 0s;
+}
+
+.cardContainer:nth-of-type(2) .chevronArrow {
+  animation-delay: 0.3s;
+}
+
+.cardContainer:nth-of-type(3) .chevronArrow {
+  animation-delay: 0.6s;
+}
+
+@keyframes arrowFlow {
+  0% {
+    transform: translateY(-50%) translateX(0px);
+    opacity: 0.5;
+    filter: drop-shadow(0 0 2px rgba(0, 255, 128, 0.4));
+  }
+
+  100% {
+    transform: translateY(-50%) translateX(8px);
+    opacity: 1;
+    filter: drop-shadow(0 0 12px rgba(0, 255, 128, 1));
+  }
 }
 
 @media (max-width: 1024px) {
   .chevronArrow {
     display: none;
   }
+
+  .pipelineThreadTrack {
+    display: none;
+  }
 }
 
-.featureIcon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: rgba(8, 4, 24, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.45);
-  flex-shrink: 0;
-  overflow: hidden;
-}
 
-.handTileImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 14px;
-}
 
 .featureTitle {
   font-family: var(--font-display);
@@ -409,7 +886,7 @@
   background-repeat: no-repeat;
   pointer-events: none;
   mix-blend-mode: screen;
-  filter: brightness(1.3) contrast(1.2);
+  filter: brightness(1.2) contrast(1.2);
 
   /* 👇 THIS TILTS THE LEFT SIDE UP 👇 */
   /* Increase degrees (e.g., 6deg) to tilt it higher, or decrease to lower it */
@@ -424,6 +901,39 @@
   display: none !important;
 }
 
+
+/* ── Grand Ornate Filigree Frame SVG Overlay ── */
+.grandFiligreeCanvasSvg {
+  position: absolute;
+  top: -20px;
+  bottom: -20px;
+  left: -20px;
+  right: -20px;
+  width: calc(100% + 40px);
+  height: calc(100% + 40px);
+  pointer-events: none;
+  z-index: 2;
+  overflow: visible;
+  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.3)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+}
+
+.chasingGoldBeam {
+  stroke-dasharray: 120 4000;
+  stroke-dashoffset: 4000;
+  stroke-linecap: round;
+  animation: goldChasingGlint 7s linear infinite;
+  filter: drop-shadow(0 0 6px #FFFBEB) drop-shadow(0 0 12px #FDE68A);
+}
+
+@keyframes goldChasingGlint {
+  0% {
+    stroke-dashoffset: 4000;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
 
 /* ── Ultra-Sheer Glass Container ── */
 .alembicCanvas {
@@ -443,8 +953,8 @@
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 
-  /* Crisp outer rim */
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  /* Filigree border replaces basic stroke */
+  border: none;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
@@ -465,7 +975,7 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 16px rgba(253, 230, 138, 0.8)) drop-shadow(0 3px 6px rgba(0, 0, 0, 0.95));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
 }
 
 .alembicStardustTrailSvg {
@@ -553,7 +1063,7 @@
   border-radius: 50%;
   background: radial-gradient(circle at 35% 35%, #FFFBEB 0%, #FDE68A 40%, #D97706 80%, #78350F 100%);
   border: 2px solid #FFFBEB;
-  box-shadow: 0 0 16px rgba(253, 230, 138, 0.7), 0 4px 12px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -578,7 +1088,7 @@
   border-radius: 14px;
   padding: 1.1rem 1.1rem 1.2rem 2.3rem;
   border: 1.5px solid rgba(253, 230, 138, 0.35);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(253, 230, 138, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -600,7 +1110,8 @@
   top: 12px;
   right: 12px;
   z-index: 6;
-  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.6));
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+
 }
 
 .alembicCardContent {
@@ -617,7 +1128,7 @@
   margin-bottom: 0.4rem;
   letter-spacing: 0.03em;
   padding-right: 2.2rem;
-  text-shadow: 0 0 8px rgba(253, 230, 138, 0.5);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
 }
 
 .alembicDividerBar {
@@ -698,11 +1209,29 @@
   z-index: 3;
 }
 
+/* Celestial Golden Section Heading */
+.sectionHeading {
+  text-align: center;
+  font-size: 2.25rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #fff2b2 0%, #ffd700 50%, #cca146 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 3.5rem;
+}
+
 .testimonialsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2.5rem;
-  margin-top: 3rem;
+  margin-top: 2rem;
 }
 
 @keyframes starGlowPulse {
@@ -811,43 +1340,200 @@
 }
 
 .star1 {
-  top: 42%;
-  left: 6%;
   width: 14px;
   height: 14px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.9'/%3E%3C/svg%3E");
 }
 
 .star2 {
-  top: 40%;
-  right: 6%;
   width: 18px;
   height: 18px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffd700' opacity='0.95'/%3E%3C/svg%3E");
 }
 
 .star3 {
-  top: 60%;
-  left: 8%;
   width: 12px;
   height: 12px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23fde68a' opacity='0.85'/%3E%3C/svg%3E");
 }
 
 .star4 {
-  top: 58%;
-  right: 8%;
   width: 15px;
   height: 15px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='15' height='15' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.8'/%3E%3C/svg%3E");
 }
 
 .star5 {
-  top: 50%;
-  left: 4%;
   width: 10px;
   height: 10px;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.7'/%3E%3C/svg%3E");
+}
+
+.star6 {
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffd700' opacity='0.9'/%3E%3C/svg%3E");
+}
+
+.star7 {
+  width: 11px;
+  height: 11px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffffff' opacity='0.8'/%3E%3C/svg%3E");
+}
+
+.star8 {
+  width: 13px;
+  height: 13px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24'%3E%3Cpath d='M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8Z' fill='%23ffd700' opacity='0.95'/%3E%3C/svg%3E");
+}
+
+/* ── Wide Dispersion Unique Card Star Layouts (Organically Scattered Across Full Card) ── */
+
+/* Card 1 Wide Scatter Layout (Star8 in lower-middle open gap) */
+.testimonialCard:nth-child(1) .star1 {
+  top: 6%;
+  left: 8%;
+  transform: rotate(12deg);
+}
+
+.testimonialCard:nth-child(1) .star2 {
+  top: 15%;
+  right: 7%;
+  transform: rotate(-8deg);
+}
+
+.testimonialCard:nth-child(1) .star3 {
+  top: 48%;
+  left: 3%;
+  transform: rotate(25deg);
+}
+
+.testimonialCard:nth-child(1) .star4 {
+  top: 52%;
+  right: 4%;
+  transform: rotate(5deg);
+}
+
+.testimonialCard:nth-child(1) .star5 {
+  top: 85%;
+  left: 6%;
+  transform: rotate(-15deg);
+}
+
+.testimonialCard:nth-child(1) .star6 {
+  top: 90%;
+  right: 8%;
+  transform: rotate(18deg);
+}
+
+.testimonialCard:nth-child(1) .star7 {
+  top: 32%;
+  left: 16%;
+  transform: rotate(-10deg);
+}
+
+.testimonialCard:nth-child(1) .star8 {
+  top: 76%;
+  left: 45%;
+  transform: rotate(-10deg);
+}
+
+/* Card 2 Wide Scatter Layout (Star8 in lower-middle open gap) */
+.testimonialCard:nth-child(2) .star1 {
+  top: 12%;
+  left: 6%;
+  transform: rotate(-18deg);
+}
+
+.testimonialCard:nth-child(2) .star2 {
+  top: 8%;
+  right: 9%;
+  transform: rotate(15deg);
+}
+
+.testimonialCard:nth-child(2) .star3 {
+  top: 42%;
+  right: 3%;
+  transform: rotate(-10deg);
+}
+
+.testimonialCard:nth-child(2) .star4 {
+  top: 62%;
+  left: 3%;
+  transform: rotate(30deg);
+}
+
+.testimonialCard:nth-child(2) .star5 {
+  top: 88%;
+  right: 6%;
+  transform: rotate(-5deg);
+}
+
+.testimonialCard:nth-child(2) .star6 {
+  top: 84%;
+  left: 8%;
+  transform: rotate(8deg);
+}
+
+.testimonialCard:nth-child(2) .star7 {
+  top: 68%;
+  right: 14%;
+  transform: rotate(-25deg);
+}
+
+.testimonialCard:nth-child(2) .star8 {
+  top: 78%;
+  left: 54%;
+  transform: rotate(15deg);
+}
+
+/* Card 3 Wide Scatter Layout (Star8 in lower-middle open gap) */
+.testimonialCard:nth-child(3) .star1 {
+  top: 7%;
+  left: 9%;
+  transform: rotate(8deg);
+}
+
+.testimonialCard:nth-child(3) .star2 {
+  top: 22%;
+  right: 4%;
+  transform: rotate(-22deg);
+}
+
+.testimonialCard:nth-child(3) .star3 {
+  top: 55%;
+  left: 3.5%;
+  transform: rotate(14deg);
+}
+
+.testimonialCard:nth-child(3) .star4 {
+  top: 65%;
+  right: 3%;
+  transform: rotate(-12deg);
+}
+
+.testimonialCard:nth-child(3) .star5 {
+  top: 91%;
+  left: 7%;
+  transform: rotate(20deg);
+}
+
+.testimonialCard:nth-child(3) .star6 {
+  top: 86%;
+  right: 9%;
+  transform: rotate(-15deg);
+}
+
+.testimonialCard:nth-child(3) .star7 {
+  top: 45%;
+  left: 15%;
+  transform: rotate(12deg);
+}
+
+.testimonialCard:nth-child(3) .star8 {
+  top: 75%;
+  left: 48%;
+  transform: rotate(-8deg);
 }
 
 /* Hover-Triggered Star Glow Animation (Only Star Elements Pulse/Glow!) */
@@ -869,11 +1555,23 @@
 }
 
 .testimonialCard:hover .star4 {
-  animation: starGlowPulse 0.8s infinite alternate ease-in-out 0.1s;
+  animation: starGlowPulse 0.6s infinite alternate ease-in-out 0.1s;
 }
 
 .testimonialCard:hover .star5 {
   animation: starGlowPulse 0.4s infinite alternate ease-in-out 0.25s;
+}
+
+.testimonialCard:hover .star6 {
+  animation: starGlowPulse 0.6s infinite alternate ease-in-out 0.4s;
+}
+
+.testimonialCard:hover .star7 {
+  animation: starGlowPulse 0.5s infinite alternate ease-in-out 0.2s;
+}
+
+.testimonialCard:hover .star8 {
+  animation: starGlowPulse 0.6s infinite alternate ease-in-out 0.35s;
 }
 
 /* 4. Glass Surface Glare (Sweeping Light Glare Reflection) */

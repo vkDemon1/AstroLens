@@ -63,6 +63,174 @@ const TESTIMONIALS = [
   { name: 'Anya K.', quote: 'Best astrology app I\'ve ever used. The aura card looks gorgeous on Instagram.' },
 ];
 
+/* ── Grand Ornate Gold Filigree Canvas Frame SVG ── */
+function GrandFiligreeCanvasFrame() {
+  return (
+    <svg
+      className={styles.grandFiligreeCanvasSvg}
+      viewBox="0 0 1200 480"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="none"
+    >
+      <defs>
+        <linearGradient id="grandFiligreeGoldGrad" x1="0" y1="0" x2="1200" y2="480" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="20%" stopColor="#FDE68A" />
+          <stop offset="50%" stopColor="#E8C84A" />
+          <stop offset="80%" stopColor="#D97706" />
+          <stop offset="100%" stopColor="#FFFBEB" />
+        </linearGradient>
+
+        <linearGradient id="glintBeamGrad" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFFFF" />
+          <stop offset="50%" stopColor="#FDE68A" />
+          <stop offset="100%" stopColor="#38BDF8" />
+        </linearGradient>
+
+        <filter id="starGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* ── Main Dual Gold Outer Frame Rectangle ── */}
+      <rect x="30" y="30" width="1140" height="420" rx="18" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="2.2" fill="none" opacity="0.95" />
+      <rect x="38" y="38" width="1124" height="404" rx="14" stroke="#FDE68A" strokeWidth="0.9" fill="none" opacity="0.45" />
+
+      {/* ── Top Header Arch Banner (Sweeping Ornate Arch over "THE TECHNOLOGY BEHIND THE MAGIC") ── */}
+      <path
+        d="M 320 30 Q 600 -18 880 30"
+        stroke="url(#grandFiligreeGoldGrad)"
+        strokeWidth="2.8"
+        fill="none"
+      />
+      <path
+        d="M 350 38 Q 600 -2 850 38"
+        stroke="#FDE68A"
+        strokeWidth="1.2"
+        fill="none"
+        opacity="0.65"
+      />
+
+      {/* Top Center Diamond Star Sigil Crest */}
+      <g transform="translate(600, 6)" filter="url(#starGlow)">
+        <polygon points="0,-14 7,0 0,14 -7,0" fill="#FFFBEB" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.2" />
+        <circle cx="0" cy="0" r="3.5" fill="#38BDF8" />
+        <line x1="0" y1="-22" x2="0" y2="22" stroke="#FFFBEB" strokeWidth="1" opacity="0.9" />
+        <line x1="-22" y1="0" x2="22" y2="0" stroke="#FFFBEB" strokeWidth="1" opacity="0.9" />
+        <line x1="-12" y1="-12" x2="12" y2="12" stroke="#FDE68A" strokeWidth="0.7" opacity="0.6" />
+        <line x1="12" y1="-12" x2="-12" y2="12" stroke="#FDE68A" strokeWidth="0.7" opacity="0.6" />
+      </g>
+
+      {/* Top Side Arch Flourish Wings */}
+      <path d="M 420 22 C 480 8 520 8 570 12" stroke="#FDE68A" strokeWidth="1" fill="none" opacity="0.7" />
+      <path d="M 780 22 C 720 8 680 8 630 12" stroke="#FDE68A" strokeWidth="1" fill="none" opacity="0.7" />
+
+      {/* ── Bottom Inverted Arch Flourish ── */}
+      <path
+        d="M 320 450 Q 600 498 880 450"
+        stroke="url(#grandFiligreeGoldGrad)"
+        strokeWidth="2.8"
+        fill="none"
+      />
+      <path
+        d="M 350 442 Q 600 480 850 442"
+        stroke="#FDE68A"
+        strokeWidth="1.2"
+        fill="none"
+        opacity="0.65"
+      />
+
+      {/* Bottom Center Inverted Star Crest */}
+      <g transform="translate(600, 474)" filter="url(#starGlow)">
+        <polygon points="0,-12 6,0 0,12 -6,0" fill="#FFFBEB" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.2" />
+        <circle cx="0" cy="0" r="3" fill="#FDE68A" />
+        <line x1="0" y1="-18" x2="0" y2="18" stroke="#FFFBEB" strokeWidth="0.9" opacity="0.8" />
+        <line x1="-18" y1="0" x2="18" y2="0" stroke="#FFFBEB" strokeWidth="0.9" opacity="0.8" />
+      </g>
+
+      {/* ── Left & Right Diamond Outward Nodes with Glowing Starbursts ── */}
+      {/* Left Node */}
+      <g transform="translate(30, 240)" filter="url(#starGlow)">
+        <path d="M 0 -30 L -25 0 L 0 30" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="2.2" fill="none" />
+        <circle cx="-25" cy="0" r="6" fill="#FFFBEB" stroke="#FDE68A" strokeWidth="1.5" />
+        <line x1="-38" y1="0" x2="-12" y2="0" stroke="#FFFBEB" strokeWidth="1.2" />
+        <line x1="-25" y1="-13" x2="-25" y2="13" stroke="#FFFBEB" strokeWidth="1.2" />
+      </g>
+
+      {/* Right Node */}
+      <g transform="translate(1170, 240)" filter="url(#starGlow)">
+        <path d="M 0 -30 L 25 0 L 0 30" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="2.2" fill="none" />
+        <circle cx="25" cy="0" r="6" fill="#FFFBEB" stroke="#FDE68A" strokeWidth="1.5" />
+        <line x1="12" y1="0" x2="38" y2="0" stroke="#FFFBEB" strokeWidth="1.2" />
+        <line x1="25" y1="-13" x2="25" y2="13" stroke="#FFFBEB" strokeWidth="1.2" />
+      </g>
+
+      {/* ── Four Corner Notched Filigree Flourishes with Starbursts ── */}
+      {/* Top-Left Corner */}
+      <g transform="translate(30, 30)">
+        <path d="M 0 45 C 20 45 45 20 45 0" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.8" fill="none" />
+        <path d="M 0 35 C 15 35 35 15 35 0" stroke="#FDE68A" strokeWidth="0.8" fill="none" opacity="0.6" />
+        <g transform="translate(18, 18)" filter="url(#starGlow)">
+          <circle cx="0" cy="0" r="3.5" fill="#FFFBEB" />
+          <line x1="-8" y1="0" x2="8" y2="0" stroke="#FFFBEB" strokeWidth="0.8" />
+          <line x1="0" y1="-8" x2="0" y2="8" stroke="#FFFBEB" strokeWidth="0.8" />
+        </g>
+      </g>
+
+      {/* Top-Right Corner */}
+      <g transform="translate(1170, 30)">
+        <path d="M 0 45 C -20 45 -45 20 -45 0" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.8" fill="none" />
+        <path d="M 0 35 C -15 35 -35 15 -35 0" stroke="#FDE68A" strokeWidth="0.8" fill="none" opacity="0.6" />
+        <g transform="translate(-18, 18)" filter="url(#starGlow)">
+          <circle cx="0" cy="0" r="3.5" fill="#FFFBEB" />
+          <line x1="-8" y1="0" x2="8" y2="0" stroke="#FFFBEB" strokeWidth="0.8" />
+          <line x1="0" y1="-8" x2="0" y2="8" stroke="#FFFBEB" strokeWidth="0.8" />
+        </g>
+      </g>
+
+      {/* Bottom-Left Corner */}
+      <g transform="translate(30, 450)">
+        <path d="M 0 -45 C 20 -45 45 -20 45 0" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.8" fill="none" />
+        <path d="M 0 -35 C 15 -35 35 -15 35 0" stroke="#FDE68A" strokeWidth="0.8" fill="none" opacity="0.6" />
+        <g transform="translate(18, -18)" filter="url(#starGlow)">
+          <circle cx="0" cy="0" r="3.5" fill="#FFFBEB" />
+          <line x1="-8" y1="0" x2="8" y2="0" stroke="#FFFBEB" strokeWidth="0.8" />
+          <line x1="0" y1="-8" x2="0" y2="8" stroke="#FFFBEB" strokeWidth="0.8" />
+        </g>
+      </g>
+
+      {/* Bottom-Right Corner */}
+      <g transform="translate(1170, 450)">
+        <path d="M 0 -45 C -20 -45 -45 -20 -45 0" stroke="url(#grandFiligreeGoldGrad)" strokeWidth="1.8" fill="none" />
+        <path d="M 0 -35 C -15 -35 -35 -15 -35 0" stroke="#FDE68A" strokeWidth="0.8" fill="none" opacity="0.6" />
+        <g transform="translate(-18, -18)" filter="url(#starGlow)">
+          <circle cx="0" cy="0" r="3.5" fill="#FFFBEB" />
+          <line x1="-8" y1="0" x2="8" y2="0" stroke="#FFFBEB" strokeWidth="0.8" />
+          <line x1="0" y1="-8" x2="0" y2="8" stroke="#FFFBEB" strokeWidth="0.8" />
+        </g>
+      </g>
+
+      {/* ── Traveling Gold Chasing Beam ── */}
+      <rect
+        x="30"
+        y="30"
+        width="1140"
+        height="420"
+        rx="18"
+        stroke="url(#glintBeamGrad)"
+        strokeWidth="2.8"
+        fill="none"
+        className={styles.chasingGoldBeam}
+      />
+    </svg>
+  );
+}
+
 /* ── Alchemical Alembic Process Diagram Components (Image 22 Style) ── */
 function AlembicCardFrame() {
   return (
@@ -306,7 +474,7 @@ function HandConstellationBg() {
         { x: 150, y: 34 }, { x: 170, y: 92 }, { x: 172, y: 68 }, { x: 174, y: 44 }, { x: 165, y: 128 },
         { x: 186, y: 102 }, { x: 192, y: 84 }, { x: 198, y: 66 }, { x: 150, y: 122 }, { x: 138, y: 106 }, { x: 162, y: 106 }
       ].map((pt, i) => (
-        <g key={i}>
+        <g key={i} className={styles.pulseNodeDot} style={{ animationDelay: `${(i * 0.12) % 2.4}s` }}>
           <circle cx={pt.x} cy={pt.y} r="3.4" fill="#FFFFFF" opacity="1" />
           <circle cx={pt.x} cy={pt.y} r="6.5" fill="#E2E8F0" opacity="0.6" />
         </g>
@@ -334,16 +502,16 @@ function PalmLinesSwirlBg() {
 
       {/* Swirling Abstract Palm Crease Lines */}
       {/* Heart Line Curve */}
-      <path d="M 25 48 Q 115 18 225 54 T 240 70" stroke="url(#goldLineGrad)" strokeWidth="2.5" fill="none" opacity="0.65" />
-      <path d="M 35 53 Q 125 26 215 58 T 275 82" stroke="#FFE885" strokeWidth="1.2" fill="none" opacity="0.45" />
+      <path className={styles.scanningPalmLine} d="M 25 48 Q 115 18 225 54 T 240 70" stroke="url(#goldLineGrad)" strokeWidth="2.5" fill="none" opacity="0.65" />
+      <path className={styles.scanningPalmLine} d="M 35 53 Q 125 26 215 58 T 275 82" stroke="#FFE885" strokeWidth="1.2" fill="none" opacity="0.45" />
 
       {/* Head Line Curve */}
-      <path d="M 18 88 Q 98 62 188 98 T 275 118" stroke="url(#goldLineGrad)" strokeWidth="2.8" fill="none" opacity="0.8" />
-      <path d="M 28 93 Q 108 70 178 103 T 265 123" stroke="#38BDF8" strokeWidth="1.4" fill="none" opacity="0.55" />
+      <path className={styles.scanningPalmLine} d="M 18 88 Q 98 62 188 98 T 275 118" stroke="url(#goldLineGrad)" strokeWidth="2.8" fill="none" opacity="0.8" />
+      <path className={styles.scanningPalmLine} d="M 28 93 Q 108 70 178 103 T 265 123" stroke="#38BDF8" strokeWidth="1.4" fill="none" opacity="0.55" />
 
       {/* Life Line Arc */}
-      <path d="M 68 28 Q 158 78 128 152" stroke="url(#goldLineGrad)" strokeWidth="2.4" fill="none" opacity="0.75" />
-      <path d="M 78 33 Q 163 80 136 150" stroke="#F472B6" strokeWidth="1.2" fill="none" opacity="0.5" />
+      <path className={styles.scanningPalmLine} d="M 68 28 Q 158 78 128 152" stroke="url(#goldLineGrad)" strokeWidth="2.4" fill="none" opacity="0.75" />
+      <path className={styles.scanningPalmLine} d="M 78 33 Q 163 80 136 150" stroke="#F472B6" strokeWidth="1.2" fill="none" opacity="0.5" />
 
       {/* Accent Starlight Sparks */}
       <circle cx="128" cy="78" r="2.2" fill="#FFF" opacity="0.85" />
@@ -372,10 +540,10 @@ function HourglassVortexBg() {
 
       {/* Swirling Galaxy Clockwork Vortex (Right Side) */}
       <g opacity="0.55">
-        <ellipse cx="215" cy="85" rx="72" ry="36" stroke="#FDE68A" strokeWidth="1.2" strokeDasharray="6 4" transform="rotate(-15 215 85)" />
-        <ellipse cx="215" cy="85" rx="52" ry="25" stroke="#38BDF8" strokeWidth="1.4" transform="rotate(-15 215 85)" />
-        <ellipse cx="215" cy="85" rx="32" ry="15" stroke="#818CF8" strokeWidth="1.6" transform="rotate(-15 215 85)" />
-        <circle cx="215" cy="85" r="9" fill="#FDE68A" opacity="0.65" />
+        <ellipse className={styles.flowDataRing} cx="215" cy="85" rx="72" ry="36" stroke="#FDE68A" strokeWidth="1.2" transform="rotate(-15 215 85)" />
+        <ellipse className={styles.flowDataRing} cx="215" cy="85" rx="52" ry="25" stroke="#38BDF8" strokeWidth="1.4" transform="rotate(-15 215 85)" />
+        <ellipse className={styles.flowDataRing} cx="215" cy="85" rx="32" ry="15" stroke="#818CF8" strokeWidth="1.6" transform="rotate(-15 215 85)" />
+        <circle className={styles.radarPingDot} cx="215" cy="85" r="9" fill="#FDE68A" opacity="0.65" />
       </g>
 
       {/* Detailed Glass & Gold Hourglass Graphic (Left Side) */}
@@ -390,9 +558,9 @@ function HourglassVortexBg() {
         <path d="M 16 108 C 16 75 35 65 40 60 C 45 65 64 75 64 108" fill="rgba(255,255,255,0.07)" stroke="url(#hgGold)" strokeWidth="1.5" />
 
         {/* Golden Sand Stream */}
-        <path d="M 22 28 C 22 45 36 54 40 58 C 44 54 58 45 58 28 Z" fill="#FDE68A" opacity="0.75" />
-        <line x1="40" y1="58" x2="40" y2="92" stroke="#FFF" strokeWidth="1.6" strokeDasharray="3 2" opacity="0.95" />
-        <path d="M 22 104 Q 40 85 58 104 Z" fill="#FDE68A" opacity="0.85" />
+        <path className={styles.pulseSandStream} d="M 22 28 C 22 45 36 54 40 58 C 44 54 58 45 58 28 Z" fill="#FDE68A" opacity="0.75" />
+        <line className={styles.sandDropLine} x1="40" y1="58" x2="40" y2="92" stroke="#FFF" strokeWidth="1.6" opacity="0.95" />
+        <path className={styles.pulseSandStream} d="M 22 104 Q 40 85 58 104 Z" fill="#FDE68A" opacity="0.85" />
 
         {/* Pillar Support Rods */}
         <line x1="14" y1="12" x2="14" y2="108" stroke="url(#hgGold)" strokeWidth="2.8" />
@@ -434,6 +602,7 @@ function CosmicInfinityBg() {
         />
         {/* Middle Vibrant Loops */}
         <path
+          className={styles.flowInfinityPath}
           d="M 0 0 C -35 -40 -85 -40 -85 0 C -85 40 -35 40 0 0 C 35 -40 85 -40 85 0 C 85 40 35 40 0 0 Z"
           fill="none"
           stroke="url(#infGlow1)"
@@ -475,6 +644,30 @@ function CosmicInfinityBg() {
 export default function LandingPage({ onNavigate }) {
   const heroRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
+  const [cardTilts, setCardTilts] = useState({});
+
+  const handleCardMouseMove = (index, e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+
+    setCardTilts((prev) => ({
+      ...prev,
+      [index]: { rotateX, rotateY, isHovered: true }
+    }));
+  };
+
+  const handleCardMouseLeave = (index) => {
+    setCardTilts((prev) => ({
+      ...prev,
+      [index]: { rotateX: 0, rotateY: 0, isHovered: false }
+    }));
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -572,48 +765,100 @@ export default function LandingPage({ onNavigate }) {
 
           {/* Panel 1: 21 HAND LANDMARKS */}
           <div className={styles.statPanel}>
-            <StatPanelFrame />
-            <div className={styles.statPanelBg}>
-              <HandConstellationBg />
-            </div>
-            <div className={styles.statPanelContent}>
-              <span className={styles.statValueGold}>21</span>
-              <span className={styles.statLabelGold}>HAND LANDMARKS</span>
+            <div className={styles.cardInner}>
+              <div className={styles.cardFront}>
+                <StatPanelFrame />
+                <div className={styles.statPanelBg}>
+                  <HandConstellationBg />
+                </div>
+                <div className={styles.statPanelContent}>
+                  <span className={styles.statValueGold}>21</span>
+                  <span className={styles.statLabelGold}>HAND LANDMARKS</span>
+                </div>
+              </div>
+              <div className={styles.cardBack}>
+                <StatPanelFrame />
+                <div className={styles.statBackContent}>
+                  <h4 className={styles.statBackTitle}>HAND LANDMARKS</h4>
+                  <p className={styles.statBackDesc}>
+                    Mapping 21 distinct nodal coordinates across the metacarpals and phalanges for precise tracking.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Panel 2: 3 PALM LINES DETECTED */}
           <div className={styles.statPanel}>
-            <StatPanelFrame />
-            <div className={styles.statPanelBg}>
-              <PalmLinesSwirlBg />
-            </div>
-            <div className={styles.statPanelContent}>
-              <span className={styles.statValueGold}>3</span>
-              <span className={styles.statLabelGold}>PALM LINES DETECTED</span>
+            <div className={styles.cardInner}>
+              <div className={styles.cardFront}>
+                <StatPanelFrame />
+                <div className={styles.statPanelBg}>
+                  <PalmLinesSwirlBg />
+                </div>
+                <div className={styles.statPanelContent}>
+                  <span className={styles.statValueGold}>3</span>
+                  <span className={styles.statLabelGold}>PALM LINES DETECTED</span>
+                </div>
+              </div>
+              <div className={styles.cardBack}>
+                <StatPanelFrame />
+                <div className={styles.statBackContent}>
+                  <h4 className={styles.statBackTitle}>PALM LINES DETECTED</h4>
+                  <p className={styles.statBackDesc}>
+                    Adaptive Canny thresholding isolating Life, Head, and Heart crease vectors in real-time.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Panel 3: <2s SCAN TIME */}
           <div className={styles.statPanel}>
-            <StatPanelFrame />
-            <div className={styles.statPanelBg}>
-              <HourglassVortexBg />
-            </div>
-            <div className={styles.statPanelContent}>
-              <span className={styles.statValueGold}>&lt;2s</span>
-              <span className={styles.statLabelGold}>SCAN TIME</span>
+            <div className={styles.cardInner}>
+              <div className={styles.cardFront}>
+                <StatPanelFrame />
+                <div className={styles.statPanelBg}>
+                  <HourglassVortexBg />
+                </div>
+                <div className={styles.statPanelContent}>
+                  <span className={styles.statValueGold}>&lt;2s</span>
+                  <span className={styles.statLabelGold}>SCAN TIME</span>
+                </div>
+              </div>
+              <div className={styles.cardBack}>
+                <StatPanelFrame />
+                <div className={styles.statBackContent}>
+                  <h4 className={styles.statBackTitle}>SCAN TIME</h4>
+                  <p className={styles.statBackDesc}>
+                    Ultra-fast WebGL plasma processing delivering full Palmistry &amp; Aura readouts in under 2s.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
           {/* Panel 4: COSMIC POTENTIAL */}
           <div className={styles.statPanel}>
-            <StatPanelFrame />
-            <div className={styles.statPanelBg}>
-              <CosmicInfinityBg />
-            </div>
-            <div className={styles.statPanelContent}>
-              <span className={styles.statLabelGoldSolo}>COSMIC POTENTIAL</span>
+            <div className={styles.cardInner}>
+              <div className={styles.cardFront}>
+                <StatPanelFrame />
+                <div className={styles.statPanelBg}>
+                  <CosmicInfinityBg />
+                </div>
+                <div className={styles.statPanelContent}>
+                  <span className={styles.statLabelGoldSolo}>COSMIC POTENTIAL</span>
+                </div>
+              </div>
+              <div className={styles.cardBack}>
+                <StatPanelFrame />
+                <div className={styles.statBackContent}>
+                  <h4 className={styles.statBackTitle}>COSMIC POTENTIAL</h4>
+                  <p className={styles.statBackDesc}>
+                    Gemini AI Engine synthesizing palm geometry into deep, personalized cosmic destiny insights.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -627,30 +872,40 @@ export default function LandingPage({ onNavigate }) {
         </p>
 
         <div className={styles.featuresGrid}>
-          {FEATURES.map((f, index) => (
-            <div key={f.title} className={styles.cardContainer}>
-              <div
-                className={`glass-card ${styles.featureCard} ${f.isHighlighted ? styles.highlightedCard : ''}`}
-              >
-                <div className={styles.featureIcon}>{f.icon}</div>
-                <h3 className={styles.featureTitle}>{f.title}</h3>
-                <p className={styles.featureDesc}>{f.desc}</p>
-              </div>
-              {index < FEATURES.length - 1 && (
-                <div className={styles.chevronArrow} aria-hidden="true">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 18L15 12L9 6" stroke="url(#arrowGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <defs>
-                      <linearGradient id="arrowGrad" x1="9" y1="6" x2="15" y2="18" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#E8C84A" />
-                        <stop offset="1" stopColor="#2EC4B6" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
+          {FEATURES.map((f, index) => {
+            const tilt = cardTilts[index] || { rotateX: 0, rotateY: 0, isHovered: false };
+            const transformStyle = tilt.isHovered
+              ? `perspective(1000px) rotateX(${tilt.rotateX.toFixed(2)}deg) rotateY(${tilt.rotateY.toFixed(2)}deg) translateY(-8px) scale3d(1.02, 1.02, 1.02)`
+              : 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)';
+
+            return (
+              <div key={f.title} className={styles.cardContainer}>
+                <div
+                  className={`glass-card ${styles.featureCard} ${f.isHighlighted ? styles.highlightedCard : ''}`}
+                  onMouseMove={(e) => handleCardMouseMove(index, e)}
+                  onMouseLeave={() => handleCardMouseLeave(index)}
+                  style={{ transform: transformStyle }}
+                >
+                  <div className={styles.featureIcon}>{f.icon}</div>
+                  <h3 className={styles.featureTitle}>{f.title}</h3>
+                  <p className={styles.featureDesc}>{f.desc}</p>
                 </div>
-              )}
-            </div>
-          ))}
+                {index < FEATURES.length - 1 && (
+                  <div className={styles.chevronArrow} aria-hidden="true">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9 18L15 12L9 6" stroke="url(#arrowGrad)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <defs>
+                        <linearGradient id="arrowGrad" x1="9" y1="6" x2="15" y2="18" gradientUnits="userSpaceOnUse">
+                          <stop stopColor="#E8C84A" />
+                          <stop offset="1" stopColor="#2EC4B6" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -665,6 +920,9 @@ export default function LandingPage({ onNavigate }) {
         </div>
 
         <div className={styles.alembicCanvas}>
+          {/* Ornate Gold Filigree Canvas Frame SVG Overlay */}
+          <GrandFiligreeCanvasFrame />
+
           {/* Main Title Header Banner */}
           <div className={styles.alembicHeaderWrap}>
             <h2 className={styles.alembicTitle}>THE TECHNOLOGY BEHIND THE MAGIC</h2>
