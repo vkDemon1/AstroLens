@@ -634,20 +634,18 @@
   }
 }
 
-/* Card 3: Gold Breathing Glow & Rotating Conic Network Scan */
+/* Card 3: Gold Breathing Glow & Vertical Neural Data Stream */
 .cardContainer:nth-of-type(3) .featureIcon::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 150%;
-  height: 150%;
-  border-radius: 50%;
-  background: conic-gradient(from 0deg, transparent 70%, rgba(255, 215, 0, 0.5) 100%);
+  top: -50%;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(255, 215, 0, 0.4) 50%, transparent 100%);
   pointer-events: none;
   z-index: 4;
   opacity: 0;
-  transform: translate(-50%, -50%) rotate(0deg);
   transition: opacity 0.3s ease;
 }
 
@@ -658,16 +656,16 @@
 
 .cardContainer:nth-of-type(3) .featureCard:hover .featureIcon::after {
   opacity: 1;
-  animation: networkScan 2s linear infinite;
+  animation: neuralStream 1.5s ease-in-out infinite;
 }
 
-@keyframes networkScan {
+@keyframes neuralStream {
   0% {
-    transform: translate(-50%, -50%) rotate(0deg);
+    top: -50%;
   }
 
   100% {
-    transform: translate(-50%, -50%) rotate(360deg);
+    top: 100%;
   }
 }
 
