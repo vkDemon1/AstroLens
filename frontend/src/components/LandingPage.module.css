@@ -878,17 +878,17 @@
   right: -50px;
 
   z-index: 1;
-  background-image: url('/Aurora1.png');
-  background-size: 150%;
+  background-image: url('/Aurora13.png');
+  background-size: 100%;
   background-position: center;
   background-repeat: no-repeat;
   pointer-events: none;
   mix-blend-mode: screen;
-  filter: brightness(1.2) contrast(1.2);
+  filter: brightness(1.2);
 
   /* 👇 THIS TILTS THE LEFT SIDE UP 👇 */
   /* Increase degrees (e.g., 6deg) to tilt it higher, or decrease to lower it */
-  transform: rotate(2deg);
+  transform: rotate(0deg);
 
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
@@ -900,7 +900,7 @@
 }
 
 
-/* ── Grand Ornate Filigree Frame SVG Overlay ── */
+/* ── Grand Ornate Layered Metallic Astrolabe Frame SVG Overlay ── */
 .grandFiligreeCanvasSvg {
   position: absolute;
   top: -20px;
@@ -912,7 +912,7 @@
   pointer-events: none;
   z-index: 2;
   overflow: visible;
-  filter: drop-shadow(0 0 8px rgba(253, 230, 138, 0.3)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 0 6px rgba(253, 230, 138, 0.8)) drop-shadow(0 4px 12px rgba(0, 0, 0, 0.6));
 }
 
 .chasingGoldBeam {
@@ -933,27 +933,41 @@
   }
 }
 
-/* ── Ultra-Sheer Glass Container ── */
+/* ── Modern Glassmorphism Tech-Panel Container ── */
 .alembicCanvas {
   position: relative;
   z-index: 3;
   width: 100%;
   max-width: 1380px;
   margin: 0 auto;
-  padding: 3.5rem 2rem 4rem;
-  /* Generous padding to clear the moving cards */
-  border-radius: 20px;
+  padding: 3.5rem 2.5rem 4rem;
+  border-radius: 24px;
 
-  /* Make it slightly more transparent so the aurora pops */
-  background: rgba(255, 255, 255, 0.02);
+  /* Frosted Glass Panel Fill */
+  background: rgba(15, 23, 42, 0.45);
 
-  /* REMOVED THE BLUR SO THE AURORA STAYS CRISP */
+  /* Glassmorphic Backdrop Blur */
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 
-  /* Filigree border replaces basic stroke */
-  border: none;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  /* Elegant Gold Glow Border */
+  border: 1px solid rgba(255, 215, 0, 0.18);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.05);
+
+  /* Breathing Glow Pulse */
+  animation: panelBreathe 6s ease-in-out infinite alternate;
+}
+
+@keyframes panelBreathe {
+  0% {
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(255, 215, 0, 0.04);
+    border-color: rgba(255, 215, 0, 0.15);
+  }
+
+  100% {
+    box-shadow: 0 4px 45px rgba(0, 0, 0, 0.75), inset 0 0 35px rgba(255, 215, 0, 0.09);
+    border-color: rgba(255, 215, 0, 0.28);
+  }
 }
 
 .alembicHeaderWrap {
