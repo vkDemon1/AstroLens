@@ -985,35 +985,7 @@
 }
 
 .alembicStardustTrailSvg {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: auto;
-  transform: translateY(-50%);
-  pointer-events: none;
-  z-index: 3;
-  opacity: 0;
-  transition: opacity 0.8s ease 0.4s;
-}
-
-.alembicSectionVisible .alembicStardustTrailSvg {
-  opacity: 0.85;
-}
-
-.alembicStardustTrailSvg path {
-  stroke-dasharray: 10 6;
-  animation: alembicPipelineFlow 2.5s linear infinite;
-}
-
-@keyframes alembicPipelineFlow {
-  from {
-    stroke-dashoffset: 32;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
+  display: none;
 }
 
 /* 5-Card Grid */
@@ -1024,10 +996,8 @@
   gap: 1.25rem;
   position: relative;
   z-index: 5;
-  perspective: 1200px;
 }
 
-/* ── SCROLL ENTRANCE & WAVE LAYOUT ── */
 .alembicCardWrap {
   position: relative;
   flex: 1 1 0;
@@ -1035,40 +1005,57 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  opacity: 0;
-  transform: translateY(60px) scale(0.92);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  transition: transform 0.35s var(--ease-out);
 }
 
-.alembicSectionVisible .alembicCardWrap {
-  opacity: 1;
+/* ── EXACT STAGGERED "WAVE" LAYOUT ── */
+.alembicCardStep1 {
+  transform: translateY(20px) !important;
 }
 
-.alembicSectionVisible .alembicCardStep1 {
-  transform: translateY(20px);
-  transition-delay: 0s;
+/* Down */
+.alembicCardStep2 {
+  transform: translateY(-20px) !important;
 }
 
-.alembicSectionVisible .alembicCardStep2 {
-  transform: translateY(-20px);
-  transition-delay: 0.15s;
+/* Up */
+.alembicCardStep3 {
+  transform: translateY(20px) !important;
 }
 
-.alembicSectionVisible .alembicCardStep3 {
-  transform: translateY(20px);
-  transition-delay: 0.3s;
+/* Down */
+.alembicCardStep4 {
+  transform: translateY(-20px) !important;
 }
 
-.alembicSectionVisible .alembicCardStep4 {
-  transform: translateY(-20px);
-  transition-delay: 0.45s;
+/* Up */
+.alembicCardStep5 {
+  transform: translateY(20px) !important;
 }
 
-.alembicSectionVisible .alembicCardStep5 {
-  transform: translateY(20px);
-  transition-delay: 0.6s;
+/* Down */
+
+/* Hover transforms explicitly calculate from the base stagger positions */
+.alembicCardStep1:hover {
+  transform: translateY(12px) scale(1.03) !important;
 }
+
+.alembicCardStep2:hover {
+  transform: translateY(-28px) scale(1.03) !important;
+}
+
+.alembicCardStep3:hover {
+  transform: translateY(12px) scale(1.03) !important;
+}
+
+.alembicCardStep4:hover {
+  transform: translateY(-28px) scale(1.03) !important;
+}
+
+.alembicCardStep5:hover {
+  transform: translateY(12px) scale(1.03) !important;
+}
+
 
 /* Left-Attached Numbered Sigil Circle */
 .alembicSigilCircle {
@@ -1086,7 +1073,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.4s var(--ease-out), box-shadow 0.4s var(--ease-out);
 }
 
 .alembicSigilCircle span {
@@ -1095,18 +1081,6 @@
   font-weight: 800;
   color: #1E1B4B;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.8);
-}
-
-/* Badge Pulse & Glow on Card Hover */
-.alembicCardWrap:hover .alembicSigilCircle {
-  transform: translateY(-50%) scale(1.18) rotate(12deg);
-  box-shadow: 0 0 22px rgba(253, 230, 138, 0.95), 0 6px 18px rgba(0, 0, 0, 0.9);
-  animation: sigilGlowPulse 1.8s ease-in-out infinite alternate;
-}
-
-@keyframes sigilGlowPulse {
-  0% { box-shadow: 0 0 16px rgba(253, 230, 138, 0.8), 0 4px 12px rgba(0, 0, 0, 0.8); }
-  100% { box-shadow: 0 0 28px rgba(56, 189, 248, 0.9), 0 6px 20px rgba(0, 0, 0, 0.9); }
 }
 
 /* Individual Module Cards */
@@ -1125,39 +1099,6 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.12s ease-out;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-/* Cosmic Glow on Hover */
-.alembicGlassPanel:hover {
-  border-color: rgba(253, 230, 138, 0.88);
-  box-shadow: 0 14px 40px rgba(253, 230, 138, 0.35), 0 0 30px rgba(56, 189, 248, 0.25), inset 0 0 20px rgba(253, 230, 138, 0.12);
-}
-
-/* Specular Glare Overlay */
-.cardGlare {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  pointer-events: none;
-  z-index: 5;
-  background: radial-gradient(
-    circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgba(255, 255, 255, 0.24) 0%,
-    rgba(253, 230, 138, 0.08) 35%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.alembicGlassPanel:hover .cardGlare {
-  opacity: 1;
 }
 
 .alembicFrameSvg {
@@ -1176,11 +1117,7 @@
   right: 12px;
   z-index: 6;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
-  transition: transform 0.3s ease;
-}
 
-.alembicGlassPanel:hover .alembicCardIconWrap {
-  transform: scale(1.08);
 }
 
 .alembicCardContent {
@@ -1205,12 +1142,6 @@
   height: 1.5px;
   background: linear-gradient(90deg, #FDE68A 0%, transparent 100%);
   margin-bottom: 0.4rem;
-  transition: width 0.4s ease;
-}
-
-.alembicGlassPanel:hover .alembicDividerBar {
-  width: 55px;
-  background: linear-gradient(90deg, #FDE68A 0%, #38BDF8 100%);
 }
 
 .alembicCardSubtext {
@@ -1218,159 +1149,6 @@
   color: #F8FAFC;
   line-height: 1.45;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
-}
-
-.scrambleTextActive {
-  font-family: monospace;
-  letter-spacing: -0.02em;
-  color: #E0E7FF;
-  text-shadow: 0 0 6px rgba(192, 132, 252, 0.8);
-}
-
-/* ── CARD-SPECIFIC MICRO-ANIMATIONS ── */
-
-/* Card 01: Iris / Webcam Aperture */
-.alembicGlassPanel:hover .irisRing {
-  animation: irisSpin 4s linear infinite;
-  transform-origin: 21px 21px;
-}
-
-.alembicGlassPanel:hover .irisDot {
-  animation: irisPulse 1.2s ease-in-out infinite alternate;
-  transform-origin: 21px 21px;
-}
-
-.alembicGlassPanel:hover .irisCrosshair {
-  animation: irisCrosshairScan 1.6s ease-in-out infinite alternate;
-  transform-origin: 21px 21px;
-}
-
-@keyframes irisSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-@keyframes irisPulse {
-  0% { transform: scale(1); fill: #FFFFFF; filter: drop-shadow(0 0 2px #FFF); }
-  100% { transform: scale(1.4); fill: #38BDF8; filter: drop-shadow(0 0 10px #38BDF8); }
-}
-
-@keyframes irisCrosshairScan {
-  0% { opacity: 0.5; stroke: #FDE68A; }
-  100% { opacity: 1; stroke: #38BDF8; filter: drop-shadow(0 0 6px #38BDF8); }
-}
-
-/* Card 02: MediaPipe Topology Wireframe */
-.alembicGlassPanel:hover .topologyLine {
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-  animation: topologyDraw 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  stroke: #38BDF8;
-}
-
-.alembicGlassPanel:hover .topologyDot {
-  animation: topologyNodePulse 1.5s ease-in-out infinite alternate;
-  animation-delay: calc(var(--dot-idx, 0) * 0.07s);
-}
-
-@keyframes topologyDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes topologyNodePulse {
-  0% { transform: scale(1); fill: #FFF; }
-  100% { transform: scale(1.6); fill: #FDE68A; filter: drop-shadow(0 0 6px #FDE68A); }
-}
-
-/* Card 03: Sacred Geometry ROI */
-.alembicGlassPanel:hover .roiTriangle {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
-  animation: roiTriangleDraw 1s ease-out forwards;
-  fill: rgba(56, 189, 248, 0.4);
-  filter: drop-shadow(0 0 8px #38BDF8);
-}
-
-.alembicGlassPanel:hover .roiNode {
-  animation: roiNodeGlow 0.8s ease-in-out infinite alternate;
-}
-
-.alembicGlassPanel:hover .roiCrop {
-  animation: roiCropExpand 1.2s ease-in-out infinite alternate;
-  transform-origin: 21px 21px;
-}
-
-@keyframes roiTriangleDraw {
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes roiNodeGlow {
-  0% { transform: scale(1); fill: #FFF; }
-  100% { transform: scale(1.6); fill: #FDE68A; filter: drop-shadow(0 0 8px #FDE68A); }
-}
-
-@keyframes roiCropExpand {
-  0% { transform: scale(1); stroke: #FDE68A; }
-  100% { transform: scale(1.12); stroke: #38BDF8; filter: drop-shadow(0 0 6px #38BDF8); }
-}
-
-/* Card 04: Canny Edge Plasma */
-.cannyContour {
-  transition: stroke 0.3s ease, opacity 0.3s ease, filter 0.3s ease;
-}
-
-.alembicGlassPanel:hover .cannyContour {
-  stroke: #38BDF8;
-  opacity: 1;
-  stroke-width: 1.5;
-  filter: drop-shadow(0 0 6px #38BDF8);
-  animation: cannyContourGlow 1.5s ease-in-out infinite alternate;
-}
-
-.alembicGlassPanel:hover .cannyPlasma {
-  animation: cannyPlasmaPulse 1.2s ease-in-out infinite alternate;
-}
-
-.alembicGlassPanel:hover .cannyScan {
-  animation: cannyScanSweep 1.6s ease-in-out infinite;
-}
-
-@keyframes cannyContourGlow {
-  0% { stroke: #38BDF8; filter: drop-shadow(0 0 4px #38BDF8); }
-  100% { stroke: #FDE68A; filter: drop-shadow(0 0 10px #FDE68A); }
-}
-
-@keyframes cannyPlasmaPulse {
-  0% { stroke-width: 2; filter: drop-shadow(0 0 4px #38BDF8); }
-  100% { stroke-width: 3; stroke: #FFF; filter: drop-shadow(0 0 12px #FFF); }
-}
-
-@keyframes cannyScanSweep {
-  0% { transform: translateY(-14px); opacity: 0; }
-  50% { opacity: 0.95; }
-  100% { transform: translateY(14px); opacity: 0; }
-}
-
-/* Card 05: Cosmic Oracle Gemini AI */
-.alembicGlassPanel:hover .oracleBrain {
-  stroke: #C084FC;
-  fill: rgba(192, 132, 252, 0.35);
-  filter: drop-shadow(0 0 10px #C084FC);
-  animation: oraclePulse 1.5s ease-in-out infinite alternate;
-}
-
-.alembicGlassPanel:hover .oracleNodes {
-  animation: oracleStarGlow 1s ease-in-out infinite alternate;
-}
-
-@keyframes oraclePulse {
-  0% { filter: drop-shadow(0 0 6px #C084FC); }
-  100% { filter: drop-shadow(0 0 14px #E879F9); }
-}
-
-@keyframes oracleStarGlow {
-  0% { transform: scale(1); fill: #FFF; }
-  100% { transform: scale(1.6); fill: #FDE68A; filter: drop-shadow(0 0 8px #FDE68A); }
 }
 
 @media (max-width: 1100px) {

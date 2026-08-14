@@ -104,40 +104,39 @@ function AlembicIrisIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="21" cy="21" r="18" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.8" />
-      <circle className={styles.irisRing} cx="21" cy="21" r="12" stroke="#38BDF8" strokeWidth="1.2" strokeDasharray="6 2" />
-      <circle className={styles.irisDot} cx="21" cy="21" r="5" fill="#FFF" />
-      <path className={styles.irisCrosshair} d="M 21 3 V 9 M 21 33 V 39 M 3 21 H 9 M 33 21 H 39" stroke="#FDE68A" strokeWidth="1.2" opacity="0.7" />
+      <circle cx="21" cy="21" r="12" stroke="#38BDF8" strokeWidth="1.2" />
+      <circle cx="21" cy="21" r="6" fill="#FFF" />
+      <path d="M 21 3 V 9 M 21 33 V 39 M 3 21 H 9 M 33 21 H 39" stroke="#FDE68A" strokeWidth="1" opacity="0.7" />
     </svg>
   );
 }
 
 /* Panel 2: MediaPipe Hand Topology Icon */
 function AlembicTopologyIcon() {
-  const points = [
-    { x: 21, y: 36 }, { x: 16, y: 28 }, { x: 26, y: 28 }, { x: 11, y: 20 }, { x: 8, y: 14 },
-    { x: 15, y: 16 }, { x: 14, y: 8 }, { x: 21, y: 14 }, { x: 21, y: 6 }, { x: 27, y: 16 },
-    { x: 28, y: 8 }, { x: 32, y: 20 }, { x: 35, y: 12 }
-  ];
-
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
+      {/* Skeleton / Landmark Mesh */}
       <g stroke="#FDE68A" strokeWidth="1.2" strokeLinecap="round">
-        <line className={styles.topologyLine} x1="21" y1="36" x2="16" y2="28" />
-        <line className={styles.topologyLine} x1="21" y1="36" x2="26" y2="28" />
-        <line className={styles.topologyLine} x1="16" y1="28" x2="11" y2="20" />
-        <line className={styles.topologyLine} x1="11" y1="20" x2="8" y2="14" />
-        <line className={styles.topologyLine} x1="16" y1="28" x2="15" y2="16" />
-        <line className={styles.topologyLine} x1="15" y1="16" x2="14" y2="8" />
-        <line className={styles.topologyLine} x1="21" y1="26" x2="21" y2="14" />
-        <line className={styles.topologyLine} x1="21" y1="14" x2="21" y2="6" />
-        <line className={styles.topologyLine} x1="26" y1="28" x2="27" y2="16" />
-        <line className={styles.topologyLine} x1="27" y1="16" x2="28" y2="8" />
-        <line className={styles.topologyLine} x1="26" y1="28" x2="32" y2="20" />
-        <line className={styles.topologyLine} x1="32" y1="20" x2="35" y2="12" />
+        <line x1="21" y1="36" x2="16" y2="28" />
+        <line x1="21" y1="36" x2="26" y2="28" />
+        <line x1="16" y1="28" x2="11" y2="20" />
+        <line x1="11" y1="20" x2="8" y2="14" />
+        <line x1="16" y1="28" x2="15" y2="16" />
+        <line x1="15" y1="16" x2="14" y2="8" />
+        <line x1="21" y1="26" x2="21" y2="14" />
+        <line x1="21" y1="14" x2="21" y2="6" />
+        <line x1="26" y1="28" x2="27" y2="16" />
+        <line x1="27" y1="16" x2="28" y2="8" />
+        <line x1="26" y1="28" x2="32" y2="20" />
+        <line x1="32" y1="20" x2="35" y2="12" />
       </g>
-      {points.map((pt, i) => (
-        <circle key={i} className={styles.topologyDot} style={{ '--dot-idx': i }} cx={pt.x} cy={pt.y} r="1.6" fill="#FFF" />
+      {[
+        { x: 21, y: 36 }, { x: 16, y: 28 }, { x: 26, y: 28 }, { x: 11, y: 20 }, { x: 8, y: 14 },
+        { x: 15, y: 16 }, { x: 14, y: 8 }, { x: 21, y: 14 }, { x: 21, y: 6 }, { x: 27, y: 16 },
+        { x: 28, y: 8 }, { x: 32, y: 20 }, { x: 35, y: 12 }
+      ].map((pt, i) => (
+        <circle key={i} cx={pt.x} cy={pt.y} r="1.5" fill="#FFF" />
       ))}
     </svg>
   );
@@ -148,11 +147,13 @@ function AlembicRoiIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <path className={styles.roiCrop} d="M 10 16 V 10 H 16 M 26 10 H 32 V 16 M 32 26 V 32 H 26 M 16 32 H 10 V 26" stroke="#FDE68A" strokeWidth="2.2" strokeLinecap="round" />
-      <polygon className={styles.roiTriangle} points="21,12 13,28 29,28" fill="rgba(56, 189, 248, 0.25)" stroke="#38BDF8" strokeWidth="1.6" />
-      <circle className={styles.roiNode} cx="21" cy="12" r="2.2" fill="#FFF" />
-      <circle className={styles.roiNode} cx="13" cy="28" r="2.2" fill="#FFF" />
-      <circle className={styles.roiNode} cx="29" cy="28" r="2.2" fill="#FFF" />
+      {/* Crop Handles */}
+      <path d="M 10 16 V 10 H 16 M 26 10 H 32 V 16 M 32 26 V 32 H 26 M 16 32 H 10 V 26" stroke="#FDE68A" strokeWidth="2.2" strokeLinecap="round" />
+      {/* Palm Triangle Grid */}
+      <polygon points="21,12 13,28 29,28" fill="rgba(56, 189, 248, 0.25)" stroke="#38BDF8" strokeWidth="1.5" />
+      <circle cx="21" cy="12" r="2" fill="#FFF" />
+      <circle cx="13" cy="28" r="2" fill="#FFF" />
+      <circle cx="29" cy="28" r="2" fill="#FFF" />
     </svg>
   );
 }
@@ -162,11 +163,12 @@ function AlembicCannyIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <path className={styles.cannyContour} d="M 14 36 C 10 28 8 20 10 12 C 12 10 14 12 16 16 C 16 9 18 6 20 6 C 22 6 24 9 24 15 C 24 8 26 5 28 5 C 30 5 32 8 32 15 C 32 10 34 8 36 9 C 38 10 36 16 34 24 C 31 32 26 36 14 36 Z" stroke="#FDE68A" strokeWidth="1" opacity="0.5" />
-      <line className={styles.cannyScan} x1="4" y1="21" x2="38" y2="21" stroke="#38BDF8" strokeWidth="1.5" opacity="0" />
-      <path className={styles.cannyPlasma} d="M 12 20 Q 20 24 30 20" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #38BDF8)" />
-      <path className={styles.cannyPlasma} d="M 11 25 Q 20 25 28 30" stroke="#FFF" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
-      <path className={styles.cannyPlasma} d="M 18 14 Q 24 22 18 32" stroke="#FDE68A" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #FDE68A)" />
+      {/* Hand Contour */}
+      <path d="M 14 36 C 10 28 8 20 10 12 C 12 10 14 12 16 16 C 16 9 18 6 20 6 C 22 6 24 9 24 15 C 24 8 26 5 28 5 C 30 5 32 8 32 15 C 32 10 34 8 36 9 C 38 10 36 16 34 24 C 31 32 26 36 14 36 Z" stroke="#FDE68A" strokeWidth="1" opacity="0.5" />
+      {/* Plasma Crease Lines */}
+      <path d="M 12 20 Q 20 24 30 20" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #38BDF8)" />
+      <path d="M 11 25 Q 20 25 28 30" stroke="#FFF" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
+      <path d="M 18 14 Q 24 22 18 32" stroke="#FDE68A" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #FDE68A)" />
     </svg>
   );
 }
@@ -176,128 +178,14 @@ function AlembicOracleIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <path className={styles.oracleBrain} d="M 15 14 C 11 14 8 18 10 23 C 8 27 12 32 16 32 C 18 32 20 30 21 28 C 22 30 24 32 26 32 C 30 32 34 27 32 23 C 34 18 31 14 27 14 C 25 14 23 15 21 17 C 19 15 17 14 15 14 Z" stroke="#C084FC" strokeWidth="1.5" fill="rgba(192, 132, 252, 0.2)" />
-      <circle className={styles.oracleNodes} cx="16" cy="20" r="1.8" fill="#FFF" />
-      <circle className={styles.oracleNodes} cx="26" cy="20" r="1.8" fill="#FFF" />
-      <circle className={styles.oracleNodes} cx="21" cy="24" r="2.2" fill="#FDE68A" />
-      <path className={styles.oracleBrain} d="M 16 20 L 21 24 L 26 20" stroke="#FDE68A" strokeWidth="1" />
+      {/* Brain-Shaped Nebula */}
+      <path d="M 15 14 C 11 14 8 18 10 23 C 8 27 12 32 16 32 C 18 32 20 30 21 28 C 22 30 24 32 26 32 C 30 32 34 27 32 23 C 34 18 31 14 27 14 C 25 14 23 15 21 17 C 19 15 17 14 15 14 Z" stroke="#C084FC" strokeWidth="1.5" fill="rgba(192, 132, 252, 0.2)" />
+      {/* Core AI Star Nodes */}
+      <circle cx="16" cy="20" r="1.5" fill="#FFF" />
+      <circle cx="26" cy="20" r="1.5" fill="#FFF" />
+      <circle cx="21" cy="24" r="2" fill="#FDE68A" />
+      <path d="M 16 20 L 21 24 L 26 20" stroke="#FDE68A" strokeWidth="1" />
     </svg>
-  );
-}
-
-/* Single Interactive Alembic Card with 3D Tilt, Glare & Micro-Animations */
-function AlembicProcessCard({ p }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0, glareX: 50, glareY: 50, isHovered: false });
-  const [displayText, setDisplayText] = useState(p.subtext);
-  const scrambleIntervalRef = useRef(null);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const tiltX = ((y - centerY) / centerY) * -10;
-    const tiltY = ((x - centerX) / centerX) * 10;
-
-    const glareX = (x / rect.width) * 100;
-    const glareY = (y / rect.height) * 100;
-
-    setTilt({
-      x: tiltX,
-      y: tiltY,
-      glareX,
-      glareY,
-      isHovered: true,
-    });
-  };
-
-  const startScramble = () => {
-    if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
-    const glyphs = '✦⚡🔮☿♀♂♃♄♅01☄🌌✧★';
-    const targetText = p.subtext;
-    let iteration = 0;
-
-    scrambleIntervalRef.current = setInterval(() => {
-      setDisplayText(
-        targetText
-          .split('')
-          .map((char, idx) => {
-            if (char === ' ' || char === '|' || char === ':') return char;
-            if (idx < iteration) return targetText[idx];
-            return glyphs[Math.floor(Math.random() * glyphs.length)];
-          })
-          .join('')
-      );
-      if (iteration >= targetText.length) {
-        clearInterval(scrambleIntervalRef.current);
-        setDisplayText(targetText);
-      }
-      iteration += 2;
-    }, 25);
-  };
-
-  const handleMouseEnter = () => {
-    setTilt((prev) => ({ ...prev, isHovered: true }));
-    if (p.step === '05') {
-      startScramble();
-    }
-  };
-
-  const handleMouseLeave = () => {
-    setTilt({ x: 0, y: 0, glareX: 50, glareY: 50, isHovered: false });
-    if (scrambleIntervalRef.current) {
-      clearInterval(scrambleIntervalRef.current);
-      setDisplayText(p.subtext);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (scrambleIntervalRef.current) clearInterval(scrambleIntervalRef.current);
-    };
-  }, []);
-
-  const transformStyle = tilt.isHovered
-    ? `perspective(1000px) rotateX(${tilt.x.toFixed(2)}deg) rotateY(${tilt.y.toFixed(2)}deg) scale3d(1.04, 1.04, 1.04)`
-    : 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
-
-  return (
-    <div className={`${styles.alembicCardWrap} ${p.offsetClass}`}>
-      {/* Numbered Sigil Circle (Attached on left) */}
-      <div className={styles.alembicSigilCircle}>
-        <span>{p.step}</span>
-      </div>
-
-      {/* Glass Alembic Panel Body */}
-      <div
-        className={styles.alembicGlassPanel}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{
-          transform: transformStyle,
-          '--glare-x': `${tilt.glareX}%`,
-          '--glare-y': `${tilt.glareY}%`,
-        }}
-      >
-        <AlembicCardFrame />
-        <div className={styles.cardGlare} />
-
-        {/* Top-Right Icon */}
-        <div className={styles.alembicCardIconWrap}>{p.icon}</div>
-
-        {/* Panel Content */}
-        <div className={styles.alembicCardContent}>
-          <h3 className={styles.alembicCardTitle}>{p.title}</h3>
-          <div className={styles.alembicDividerBar} />
-          <p className={`${styles.alembicCardSubtext} ${p.step === '05' && tilt.isHovered ? styles.scrambleTextActive : ''}`}>
-            {p.step === '05' ? displayText : p.subtext}
-          </p>
-        </div>
-      </div>
-    </div>
   );
 }
 function StatPanelFrame() {
@@ -592,27 +480,8 @@ function CosmicInfinityBg() {
 
 export default function LandingPage({ onNavigate }) {
   const heroRef = useRef(null);
-  const alembicSectionRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
   const [cardTilts, setCardTilts] = useState({});
-  const [isAlembicVisible, setIsAlembicVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsAlembicVisible(true);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    if (alembicSectionRef.current) {
-      observer.observe(alembicSectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleCardMouseMove = (index, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -878,10 +747,7 @@ export default function LandingPage({ onNavigate }) {
       </section>
 
       {/* ── Alchemical Alembic 5-Step Process Diagram ── */}
-      <section
-        ref={alembicSectionRef}
-        className={`${styles.alembicSection} ${isAlembicVisible ? styles.alembicSectionVisible : ''}`}
-      >
+      <section className={styles.alembicSection}>
         {/* ── Soft Photographic Aurora Glow Layer ── */}
         <div className={styles.auroraContainer}>
           <div className={`${styles.auroraGlow} ${styles.auroraGlowTealLeft}`} />
@@ -956,8 +822,27 @@ export default function LandingPage({ onNavigate }) {
                 icon: <AlembicOracleIcon />,
                 offsetClass: styles.alembicCardStep5,
               },
-            ].map((p) => (
-              <AlembicProcessCard key={p.step} p={p} />
+            ].map(p => (
+              <div key={p.step} className={`${styles.alembicCardWrap} ${p.offsetClass}`}>
+                {/* Numbered Sigil Circle (Attached on left) */}
+                <div className={styles.alembicSigilCircle}>
+                  <span>{p.step}</span>
+                </div>
+
+                {/* Glass Alembic Panel Body */}
+                <div className={styles.alembicGlassPanel}>
+                  <AlembicCardFrame />
+                  {/* Top-Right Icon */}
+                  <div className={styles.alembicCardIconWrap}>{p.icon}</div>
+
+                  {/* Panel Content */}
+                  <div className={styles.alembicCardContent}>
+                    <h3 className={styles.alembicCardTitle}>{p.title}</h3>
+                    <div className={styles.alembicDividerBar} />
+                    <p className={styles.alembicCardSubtext}>{p.subtext}</p>
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         </div>
