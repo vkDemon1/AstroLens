@@ -71,7 +71,7 @@ function GrandFiligreeCanvasFrame() {
 /* ── Alchemical Alembic Process Diagram Components (Image 22 Style) ── */
 function AlembicCardFrame() {
   return (
-    <svg className={styles.alembicFrameSvg} viewBox="0 0 240 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg className={styles.alembicFrameSvg} viewBox="0 0 240 160" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
         <linearGradient id="alembicGoldGrad" x1="0" y1="0" x2="240" y2="160" gradientUnits="userSpaceOnUse">
           <stop offset="0%" stopColor="#FFFBEB" />
@@ -80,24 +80,25 @@ function AlembicCardFrame() {
           <stop offset="100%" stopColor="#78350F" />
         </linearGradient>
       </defs>
-      {/* Outer Curved Glass Border */}
-      <rect x="4" y="4" width="232" height="152" rx="14" fill="none" stroke="url(#alembicGoldGrad)" strokeWidth="1.8" />
-      <rect x="8" y="8" width="224" height="144" rx="10" fill="none" stroke="#FDE68A" strokeWidth="0.6" opacity="0.4" />
+      {/* Outer Curved Glass Border Hugging Edges */}
+      <rect x="2" y="2" width="236" height="156" rx="12" fill="none" stroke="url(#alembicGoldGrad)" strokeWidth="1.8" />
+      <rect x="5" y="5" width="230" height="150" rx="9" fill="none" stroke="#FDE68A" strokeWidth="0.6" opacity="0.4" />
 
       {/* Ornate Corner Sigils & Celestial Accents */}
       {/* Top-Left Sigil */}
-      <circle cx="16" cy="16" r="3" fill="#FDE68A" />
-      <path d="M 16 10 V 22 M 10 16 H 22" stroke="#FDE68A" strokeWidth="0.8" opacity="0.6" />
+      <circle cx="14" cy="14" r="3" fill="#FDE68A" />
+      <path d="M 14 8 V 20 M 8 14 H 20" stroke="#FDE68A" strokeWidth="0.8" opacity="0.6" />
 
       {/* Bottom-Right Saturn Ring Sigil */}
-      <circle cx="224" cy="144" r="4" stroke="#FDE68A" strokeWidth="1" fill="none" />
-      <ellipse cx="224" cy="144" rx="7" ry="2" stroke="#FDE68A" strokeWidth="0.8" transform="rotate(-25 224 144)" />
+      <circle cx="226" cy="146" r="4" stroke="#FDE68A" strokeWidth="1" fill="none" />
+      <ellipse cx="226" cy="146" rx="7" ry="2" stroke="#FDE68A" strokeWidth="0.8" transform="rotate(-25 226 146)" />
 
       {/* Bottom-Left Crescent Moon */}
-      <path d="M 18 140 A 5 5 0 1 0 22 147 A 4 4 0 1 1 18 140 Z" fill="#FDE68A" opacity="0.7" />
+      <path d="M 15 143 A 5 5 0 1 0 19 150 A 4 4 0 1 1 15 143 Z" fill="#FDE68A" opacity="0.7" />
     </svg>
   );
 }
+
 
 /* ── Panel 1: Webcam / Iris Aperture Icon ── */
 function AlembicIrisIcon() {
@@ -1437,11 +1438,6 @@ export default function LandingPage({ onNavigate }) {
                   key={p.step}
                   className={`${styles.alembicCardWrap} ${p.offsetClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
                 >
-                  {/* Numbered Sigil Circle (Stays attached on left of card) */}
-                  <div className={`${styles.alembicSigilCircle} ${isActive ? styles.alembicSigilCircleActive : ''}`}>
-                    <span>{p.step}</span>
-                  </div>
-
                   {isActive ? (
                     /* In-Place Expanded Interactive Card */
                     <div
@@ -1449,7 +1445,11 @@ export default function LandingPage({ onNavigate }) {
                       role="region"
                       aria-label={`${p.title} active experience`}
                     >
-                      <AlembicCardFrame />
+                      {/* Numbered Sigil Circle (Attached on outer left edge of active card) */}
+                      <div className={styles.alembicSigilCircle}>
+                        <span>{p.step}</span>
+                      </div>
+
                       {p.renderExp(() => setActiveCard(null))}
                     </div>
                   ) : (
@@ -1467,6 +1467,11 @@ export default function LandingPage({ onNavigate }) {
                       tabIndex={0}
                       aria-label={`Open ${p.title} interactive experience`}
                     >
+                      {/* Numbered Sigil Circle (Attached on outer left edge of default card) */}
+                      <div className={styles.alembicSigilCircle}>
+                        <span>{p.step}</span>
+                      </div>
+
                       <AlembicCardFrame />
 
                       {/* Top-Right Icon */}
@@ -1484,6 +1489,7 @@ export default function LandingPage({ onNavigate }) {
                       </div>
                     </div>
                   )}
+
                 </div>
               );
             })}

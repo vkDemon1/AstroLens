@@ -1098,8 +1098,9 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow: hidden;
+  overflow: visible;
 }
+
 
 .alembicFrameSvg {
   position: absolute;
@@ -1209,79 +1210,61 @@
 }
 
 /* ──────────────────────────────────────────────────────────
-   IN-PLACE EXPANDED ACTIVE CARD PANEL
+   IN-PLACE EXPANDED ACTIVE CARD PANEL (RAZOR SHARP, PIXEL ALIGNED)
    ────────────────────────────────────────────────────────── */
 .alembicActiveCardPanel {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+  top: -85px;
   z-index: 30;
   width: 440px;
-  background: rgba(10, 8, 30, 0.97);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1.8px solid #FDE68A;
+  background: #0C0A28;
+  border: 1.6px solid #FDE68A;
   border-radius: 14px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(253, 230, 138, 0.25), 0 0 50px rgba(56, 189, 248, 0.12);
-  padding: 1.1rem 1.2rem 1.2rem 2.4rem;
+  padding: 1.25rem 1.35rem 1.35rem 2.4rem;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  animation: cardUnfold 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  animation: cardFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  filter: none !important;
 }
 
-@keyframes cardUnfold {
+
+@keyframes cardFadeIn {
   from {
     opacity: 0;
-    transform: translateY(-50%) scale3d(0.94, 0.94, 1);
   }
   to {
     opacity: 1;
-    transform: translateY(-50%) scale3d(1, 1, 1);
   }
 }
 
-/* Card-Specific Expansion Anchors */
+/* Card-Specific Expansion Anchors (Pixel-Aligned, Zero Fractional Blur) */
 .activeCard01 {
   left: 0;
-  transform-origin: left center;
 }
 
 .activeCard02 {
   left: -20px;
   width: 445px;
-  transform-origin: left center;
 }
 
 .activeCard03 {
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 450px;
-  transform-origin: center center;
-  animation-name: cardUnfoldCenter;
-}
-
-@keyframes cardUnfoldCenter {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale3d(0.94, 0.94, 1);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale3d(1, 1, 1);
-  }
+  left: -98px;
+  width: 445px;
 }
 
 .activeCard04 {
   right: -20px;
   width: 445px;
-  transform-origin: right center;
 }
 
 .activeCard05 {
   right: 0;
-  transform-origin: right center;
+  width: 440px;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -1296,43 +1279,48 @@
   width: 100%;
 }
 
-/* Structured Header Row (Title on Left, Badge & Close on Right) */
+/* Structured Header Row (Title on Left, Badge & Close on Right — Zero Collision) */
 .expHeaderRow {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-  padding-bottom: 0.3rem;
+  padding-bottom: 0.35rem;
   border-bottom: 1px solid rgba(253, 230, 138, 0.2);
 }
-
 
 .expTitleGroup {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
   min-width: 0;
+  flex: 1;
 }
 
 .expTitle {
   font-family: var(--font-display);
-  font-size: 1.02rem;
+  font-size: 0.96rem;
   font-weight: 700;
   color: #FFF;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
   margin: 0;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-font-smoothing: antialiased;
 }
 
 .expSubtitle {
   font-size: 0.64rem;
-  color: rgba(226, 232, 240, 0.65);
+  color: rgba(226, 232, 240, 0.7);
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-font-smoothing: antialiased;
 }
+
 
 .expHeaderRight {
   display: flex;
