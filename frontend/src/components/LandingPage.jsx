@@ -100,7 +100,322 @@ function AlembicCardFrame() {
 }
 
 
-/* ── Panel 1: Webcam / Iris Aperture Icon ── */
+/* ══════════════════════════════════════════════════════════
+   CUSTOM CELESTIAL & COMPUTER VISION SVG ICONS (64x64)
+   ══════════════════════════════════════════════════════════ */
+
+/**
+ * 1. The Palm Twin / Explorer Archetype Icon
+ * Concept: "Astrolabe Constellation"
+ * Intricate astrolabe dial, celestial coordinates, skeletal tracking mesh, and pulsing core star.
+ */
+export function AstrolabeIcon({ width = 64, height = 64, className = '', style = {} }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
+    >
+      <defs>
+        <radialGradient id="astrolabeBgGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#1E293B" stopOpacity="0.9" />
+          <stop offset="70%" stopColor="#0F172A" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#070A13" stopOpacity="1" />
+        </radialGradient>
+        <linearGradient id="astrolabeGoldGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="35%" stopColor="#FDE68A" />
+          <stop offset="70%" stopColor="#D97706" />
+          <stop offset="100%" stopColor="#78350F" />
+        </linearGradient>
+        <linearGradient id="astrolabeCyanGrad" x1="15" y1="10" x2="49" y2="50" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#E0F2FE" />
+          <stop offset="40%" stopColor="#38BDF8" />
+          <stop offset="100%" stopColor="#818CF8" />
+        </linearGradient>
+        <filter id="astrolabeGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.8" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* Dark Outer Cosmos Plate */}
+      <circle cx="32" cy="32" r="28.5" fill="url(#astrolabeBgGrad)" />
+
+      {/* Outer Astrolabe Brass Coordinate Rings */}
+      <circle cx="32" cy="32" r="29" stroke="url(#astrolabeGoldGrad)" strokeWidth="1.3" />
+      <circle cx="32" cy="32" r="26.5" stroke="#FDE68A" strokeWidth="0.75" strokeDasharray="2 3" opacity="0.65" />
+      <circle cx="32" cy="32" r="23" stroke="#38BDF8" strokeWidth="0.5" strokeDasharray="1 4" opacity="0.4" />
+
+      {/* Astrolabe Cardinal Axis Ticks */}
+      <path
+        d="M 32 3 V 6.5 M 32 57.5 V 61 M 3 32 H 6.5 M 57.5 32 H 61"
+        stroke="#FDE68A"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 11.5 11.5 L 14 14 M 50 50 L 52.5 52.5 M 52.5 11.5 L 50 14 M 14 50 L 11.5 52.5"
+        stroke="#FDE68A"
+        strokeWidth="0.8"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+
+      {/* Celestial Orbital Ellipse (Tilted Astrolabe Ring) */}
+      <ellipse
+        cx="32"
+        cy="32"
+        rx="23.5"
+        ry="9"
+        stroke="url(#astrolabeCyanGrad)"
+        strokeWidth="0.6"
+        strokeDasharray="4 3"
+        transform="rotate(-28 32 32)"
+        opacity="0.45"
+      />
+
+      {/* Hand Skeletal Tracking Constellation Lines */}
+      <line x1="32" y1="33" x2="32" y2="11" stroke="url(#astrolabeCyanGrad)" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+      <line x1="32" y1="33" x2="22" y2="15" stroke="url(#astrolabeCyanGrad)" strokeWidth="1" strokeLinecap="round" opacity="0.8" />
+      <line x1="32" y1="33" x2="42" y2="16" stroke="url(#astrolabeCyanGrad)" strokeWidth="1" strokeLinecap="round" opacity="0.8" />
+      <line x1="22" y1="41" x2="14" y2="28" stroke="url(#astrolabeCyanGrad)" strokeWidth="1" strokeLinecap="round" opacity="0.75" />
+      <line x1="42" y1="16" x2="49" y2="27" stroke="url(#astrolabeCyanGrad)" strokeWidth="0.9" strokeLinecap="round" opacity="0.7" />
+
+      {/* Palm Trunk Vector to Wrist */}
+      <line x1="32" y1="33" x2="22" y2="41" stroke="url(#astrolabeCyanGrad)" strokeWidth="1.2" strokeLinecap="round" opacity="0.9" />
+      <line x1="22" y1="41" x2="32" y2="50" stroke="url(#astrolabeCyanGrad)" strokeWidth="1.2" strokeLinecap="round" opacity="0.9" />
+      <line x1="32" y1="33" x2="49" y2="27" stroke="#38BDF8" strokeWidth="0.6" strokeDasharray="2 2" strokeLinecap="round" opacity="0.4" />
+      <line x1="32" y1="50" x2="49" y2="27" stroke="#38BDF8" strokeWidth="0.6" strokeDasharray="2 2" strokeLinecap="round" opacity="0.35" />
+
+      {/* Constellation Star Nodes */}
+      <circle cx="14" cy="28" r="1.8" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="22" cy="15" r="2" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="32" cy="11" r="2.2" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="42" cy="16" r="2" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="49" cy="27" r="1.8" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="22" cy="41" r="2" fill="#FFF" stroke="#38BDF8" strokeWidth="0.8" />
+      <circle cx="32" cy="50" r="2.5" fill="#FDE68A" stroke="#FFF" strokeWidth="0.8" filter="url(#astrolabeGlow)" />
+
+      {/* Pulsing Core Star at Palm Center (32, 33) */}
+      <g className={styles.astrolabePulseStar}>
+        <circle cx="32" cy="33" r="5" fill="rgba(56, 189, 248, 0.35)" filter="url(#astrolabeGlow)" />
+        <path
+          d="M 32 27 Q 32 33 38 33 Q 32 33 32 39 Q 32 33 26 33 Q 32 33 32 27 Z"
+          fill="#FFFBEB"
+          stroke="#FDE68A"
+          strokeWidth="0.4"
+        />
+        <circle cx="32" cy="33" r="1.8" fill="#FFF" />
+      </g>
+    </svg>
+  );
+}
+
+/**
+ * 2. The Heart Pattern Icon
+ * Concept: "Sacred Geometry Heart Core"
+ * Overlapping sacred geometry orbital ellipses forming a heart in negative space with intersection nodes.
+ */
+export function SacredHeartGeometryIcon({ width = 64, height = 64, className = '', style = {} }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
+    >
+      <defs>
+        <radialGradient id="heartBgGlow" cx="50%" cy="45%" r="50%">
+          <stop offset="0%" stopColor="#BE185D" stopOpacity="0.4" />
+          <stop offset="60%" stopColor="#831843" stopOpacity="0.15" />
+          <stop offset="100%" stopColor="#0F172A" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="heartPinkGrad" x1="16" y1="12" x2="48" y2="52" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FDA4AF" />
+          <stop offset="40%" stopColor="#F472B6" />
+          <stop offset="80%" stopColor="#E11D48" />
+          <stop offset="100%" stopColor="#BE185D" />
+        </linearGradient>
+        <linearGradient id="heartGoldGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="45%" stopColor="#FDE68A" />
+          <stop offset="100%" stopColor="#D97706" />
+        </linearGradient>
+        <filter id="heartGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.6" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* Ethereal Pink Cosmos Aura */}
+      <circle cx="32" cy="32" r="28" fill="url(#heartBgGlow)" />
+
+      {/* Sacred Mandorla / Vesica Piscis Upper Lobes */}
+      <circle cx="24.5" cy="25.5" r="14" stroke="url(#heartPinkGrad)" strokeWidth="0.9" fill="none" opacity="0.45" strokeDasharray="3 2" />
+      <circle cx="39.5" cy="25.5" r="14" stroke="url(#heartPinkGrad)" strokeWidth="0.9" fill="none" opacity="0.45" strokeDasharray="3 2" />
+
+      {/* Symmetrical Dual Orbital Ellipses */}
+      <ellipse cx="32" cy="32" rx="22" ry="9" stroke="url(#heartGoldGrad)" strokeWidth="0.9" fill="none" transform="rotate(45 32 32)" opacity="0.65" />
+      <ellipse cx="32" cy="32" rx="22" ry="9" stroke="url(#heartGoldGrad)" strokeWidth="0.9" fill="none" transform="rotate(-45 32 32)" opacity="0.65" />
+
+      {/* Inscribed Sacred Geometric Triangle (Base of Heart) */}
+      <polygon points="32,51 16.5,23.5 47.5,23.5" stroke="#FDE68A" strokeWidth="0.75" strokeDasharray="3 2" fill="none" opacity="0.55" />
+
+      {/* Golden Harmonic Radiance Rays */}
+      <line x1="32" y1="51" x2="32" y2="21" stroke="#FDE68A" strokeWidth="0.8" strokeDasharray="2 3" opacity="0.5" />
+
+      {/* Pure Sacred Heart Continuous Vector Contour */}
+      <path
+        d="M 32 51 C 18 39 14 27 23 18.5 C 28.5 13.5 32 19 32 22 C 32 19 35.5 13.5 41 18.5 C 50 27 46 39 32 51 Z"
+        fill="rgba(244, 114, 182, 0.16)"
+        stroke="url(#heartPinkGrad)"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        filter="url(#heartGlow)"
+      />
+
+      {/* Glowing Geometric Energy Nodes at Key Intersections */}
+      <circle cx="32" cy="51" r="2.5" fill="#FDE68A" stroke="#FFF" strokeWidth="0.8" filter="url(#heartGlow)" />
+      <circle cx="16.5" cy="23.5" r="2" fill="#F472B6" stroke="#FFF" strokeWidth="0.8" />
+      <circle cx="47.5" cy="23.5" r="2" fill="#F472B6" stroke="#FFF" strokeWidth="0.8" />
+      <circle cx="32" cy="22" r="2" fill="#FFFBEB" stroke="#FDE68A" strokeWidth="0.8" />
+      <circle cx="23.5" cy="34.5" r="1.6" fill="#FDE68A" />
+      <circle cx="40.5" cy="34.5" r="1.6" fill="#FDE68A" />
+
+      {/* Pulsing Sacred Heart Center Core */}
+      <g className={styles.sacredHeartPulse}>
+        <circle cx="32" cy="32" r="4.5" fill="rgba(244, 114, 182, 0.4)" filter="url(#heartGlow)" />
+        <circle cx="32" cy="32" r="2.2" fill="#FFFBEB" stroke="#F472B6" strokeWidth="0.8" />
+      </g>
+    </svg>
+  );
+}
+
+/**
+ * 3. The Cosmic Oracle / Fine Features Icon
+ * Concept: "Neural Nebula Spark"
+ * AI Neural Network Trinity, Toroidal Magnetic Plasma Rings, and Geometric Oracle Eye.
+ */
+export function NeuralNebulaIcon({ width = 64, height = 64, className = '', style = {} }) {
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      style={style}
+    >
+      <defs>
+        <radialGradient id="nebulaBgGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.45" />
+          <stop offset="60%" stopColor="#4338CA" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#0F172A" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="nebulaPurpleGrad" x1="10" y1="12" x2="54" y2="52" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#F0ABFC" />
+          <stop offset="35%" stopColor="#C084FC" />
+          <stop offset="70%" stopColor="#818CF8" />
+          <stop offset="100%" stopColor="#4F46E5" />
+        </linearGradient>
+        <linearGradient id="nebulaCyanIndigo" x1="16" y1="20" x2="48" y2="44" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#38BDF8" />
+          <stop offset="60%" stopColor="#818CF8" />
+          <stop offset="100%" stopColor="#C084FC" />
+        </linearGradient>
+        <linearGradient id="nebulaGoldAccent" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#FFFBEB" />
+          <stop offset="50%" stopColor="#FDE68A" />
+          <stop offset="100%" stopColor="#D97706" />
+        </linearGradient>
+        <filter id="nebulaSparkGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="1.6" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+
+      {/* Deep Violet Nebula Background Aura */}
+      <circle cx="32" cy="32" r="28" fill="url(#nebulaBgGlow)" />
+
+      {/* Sweeping Magnetic Field / Toroidal Plasma Rings */}
+      <ellipse cx="32" cy="32" rx="27" ry="9" stroke="url(#nebulaPurpleGrad)" strokeWidth="0.8" fill="none" transform="rotate(-25 32 32)" opacity="0.55" strokeDasharray="4 2.5" />
+      <ellipse cx="32" cy="32" rx="27" ry="9" stroke="#38BDF8" strokeWidth="0.75" fill="none" transform="rotate(35 32 32)" opacity="0.5" strokeDasharray="3 3" />
+
+      {/* Outer Geometric Celestial Oracle Eye Contour */}
+      <path
+        d="M 6 32 C 16 16 48 16 58 32 C 48 48 16 48 6 32 Z"
+        fill="rgba(79, 70, 229, 0.12)"
+        stroke="url(#nebulaPurpleGrad)"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Inner Sacred Diamond Iris Frame */}
+      <polygon
+        points="32,15 48,32 32,49 16,32"
+        stroke="url(#nebulaGoldAccent)"
+        strokeWidth="0.9"
+        fill="rgba(15, 23, 42, 0.75)"
+        strokeDasharray="3 2"
+      />
+
+      {/* Neural Synapse Curved Firing Axons (3-Node Network) */}
+      <path d="M 32 23 Q 27 30 23.5 38" stroke="url(#nebulaCyanIndigo)" strokeWidth="1.5" strokeLinecap="round" filter="url(#nebulaSparkGlow)" />
+      <path d="M 32 23 Q 37 30 40.5 38" stroke="url(#nebulaCyanIndigo)" strokeWidth="1.5" strokeLinecap="round" filter="url(#nebulaSparkGlow)" />
+      <path d="M 23.5 38 Q 32 42 40.5 38" stroke="url(#nebulaPurpleGrad)" strokeWidth="1.5" strokeLinecap="round" filter="url(#nebulaSparkGlow)" />
+
+      {/* Central Synaptic Convergent Radiance */}
+      <line x1="32" y1="23" x2="32" y2="33" stroke="#FDE68A" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
+      <line x1="23.5" y1="38" x2="32" y2="33" stroke="#FDE68A" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
+      <line x1="40.5" y1="38" x2="32" y2="33" stroke="#FDE68A" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
+
+      {/* 3 Interconnected Neural Synapse Nodes */}
+      <circle cx="32" cy="23" r="2.8" fill="#FFF" stroke="#38BDF8" strokeWidth="1.1" filter="url(#nebulaSparkGlow)" />
+      <circle cx="23.5" cy="38" r="2.8" fill="#FFF" stroke="#C084FC" strokeWidth="1.1" filter="url(#nebulaSparkGlow)" />
+      <circle cx="40.5" cy="38" r="2.8" fill="#FFF" stroke="#C084FC" strokeWidth="1.1" filter="url(#nebulaSparkGlow)" />
+
+      {/* Central Pulsing AI Brain Spark Core */}
+      <g className={styles.neuralSparkPulse}>
+        <circle cx="32" cy="33" r="4.8" fill="rgba(253, 230, 138, 0.45)" filter="url(#nebulaSparkGlow)" />
+        <path
+          d="M 32 27 Q 32 33 38 33 Q 32 33 32 39 Q 32 33 26 33 Q 32 33 32 27 Z"
+          fill="#FFF"
+          stroke="#FDE68A"
+          strokeWidth="0.5"
+        />
+        <circle cx="32" cy="33" r="1.5" fill="#1E1B4B" />
+      </g>
+
+      {/* Cardinal Plasma Sparks */}
+      <circle cx="6" cy="32" r="1.4" fill="#38BDF8" />
+      <circle cx="58" cy="32" r="1.4" fill="#38BDF8" />
+      <circle cx="32" cy="15" r="1.4" fill="#FDE68A" />
+      <circle cx="32" cy="49" r="1.4" fill="#FDE68A" />
+    </svg>
+  );
+}
+
+/* ── Panel Icon Wrappers (Backward Compatible) ── */
 function AlembicIrisIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -112,51 +427,14 @@ function AlembicIrisIcon() {
   );
 }
 
-/* ── Panel 2: MediaPipe Hand Topology Icon ── */
 function AlembicTopologyIcon() {
-  return (
-    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <g stroke="#FDE68A" strokeWidth="1.2" strokeLinecap="round">
-        <line x1="21" y1="36" x2="16" y2="28" />
-        <line x1="21" y1="36" x2="26" y2="28" />
-        <line x1="16" y1="28" x2="11" y2="20" />
-        <line x1="11" y1="20" x2="8" y2="14" />
-        <line x1="16" y1="28" x2="15" y2="16" />
-        <line x1="15" y1="16" x2="14" y2="8" />
-        <line x1="21" y1="26" x2="21" y2="14" />
-        <line x1="21" y1="14" x2="21" y2="6" />
-        <line x1="26" y1="28" x2="27" y2="16" />
-        <line x1="27" y1="16" x2="28" y2="8" />
-        <line x1="26" y1="28" x2="32" y2="20" />
-        <line x1="32" y1="20" x2="35" y2="12" />
-      </g>
-      {[
-        { x: 21, y: 36 }, { x: 16, y: 28 }, { x: 26, y: 28 }, { x: 11, y: 20 }, { x: 8, y: 14 },
-        { x: 15, y: 16 }, { x: 14, y: 8 }, { x: 21, y: 14 }, { x: 21, y: 6 }, { x: 27, y: 16 },
-        { x: 28, y: 8 }, { x: 32, y: 20 }, { x: 35, y: 12 }
-      ].map((pt, i) => (
-        <circle key={i} cx={pt.x} cy={pt.y} r="1.5" fill="#FFF" />
-      ))}
-    </svg>
-  );
+  return <AstrolabeIcon width={42} height={42} />;
 }
 
-/* ── Panel 3: ROI Extraction Grid Icon ── */
 function AlembicRoiIcon() {
-  return (
-    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <path d="M 10 16 V 10 H 16 M 26 10 H 32 V 16 M 32 26 V 32 H 26 M 16 32 H 10 V 26" stroke="#FDE68A" strokeWidth="2.2" strokeLinecap="round" />
-      <polygon points="21,12 13,28 29,28" fill="rgba(56, 189, 248, 0.25)" stroke="#38BDF8" strokeWidth="1.5" />
-      <circle cx="21" cy="12" r="2" fill="#FFF" />
-      <circle cx="13" cy="28" r="2" fill="#FFF" />
-      <circle cx="29" cy="28" r="2" fill="#FFF" />
-    </svg>
-  );
+  return <SacredHeartGeometryIcon width={42} height={42} />;
 }
 
-/* ── Panel 4: Canny Edge Plasma Hand Icon ── */
 function AlembicCannyIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,19 +447,10 @@ function AlembicCannyIcon() {
   );
 }
 
-/* ── Panel 5: Gemini AI Brain Nebula Icon ── */
 function AlembicOracleIcon() {
-  return (
-    <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      <path d="M 15 14 C 11 14 8 18 10 23 C 8 27 12 32 16 32 C 18 32 20 30 21 28 C 22 30 24 32 26 32 C 30 32 34 27 32 23 C 34 18 31 14 27 14 C 25 14 23 15 21 17 C 19 15 17 14 15 14 Z" stroke="#C084FC" strokeWidth="1.5" fill="rgba(192, 132, 252, 0.2)" />
-      <circle cx="16" cy="20" r="1.5" fill="#FFF" />
-      <circle cx="26" cy="20" r="1.5" fill="#FFF" />
-      <circle cx="21" cy="24" r="2" fill="#FDE68A" />
-      <path d="M 16 20 L 21 24 L 26 20" stroke="#FDE68A" strokeWidth="1" />
-    </svg>
-  );
+  return <NeuralNebulaIcon width={42} height={42} />;
 }
+
 
 /* ══════════════════════════════════════════════════════════
    5 MINI PRODUCT EXPERIENCES COMPONENTS
@@ -367,26 +636,8 @@ function PalmTwinExp({ onClose }) {
             <span style={{ fontSize: '0.66rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Palm Twin</span>
             <div className={styles.twinHeroName}>THE EXPLORER 🧭</div>
           </div>
-          <div style={{ width: 46, height: 46, background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', border: '1px solid #38BDF8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="38" height="38" viewBox="0 0 42 42" fill="none">
-              {landmarks.map(pt => (
-                <circle
-                  key={pt.id}
-                  cx={pt.x}
-                  cy={pt.y}
-                  r={activeNode === pt.id ? 3.2 : 1.6}
-                  fill={activeNode === pt.id ? '#FDE68A' : '#38BDF8'}
-                  stroke="#FFF"
-                  strokeWidth="0.6"
-                  style={{ cursor: 'pointer', transition: 'all 0.2s' }}
-                  onMouseEnter={() => setActiveNode(pt.id)}
-                  onMouseLeave={() => setActiveNode(null)}
-                />
-              ))}
-              <line x1="21" y1="34" x2="21" y2="20" stroke="#FDE68A" strokeWidth="0.8" opacity="0.6" />
-              <line x1="21" y1="20" x2="14" y2="8" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
-              <line x1="21" y1="20" x2="28" y2="8" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
-            </svg>
+          <div style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+            <AstrolabeIcon width={48} height={48} />
           </div>
         </div>
 
@@ -430,11 +681,11 @@ function HiddenPatternsExp({ onClose }) {
   const [toast, setToast] = useState(null);
 
   const zones = [
-    { id: 'heart', name: 'Heart', icon: '❤️', desc: 'Emotional depth & instinctual empathy frequencies.', coords: { x: 26, y: 16 } },
-    { id: 'head',  name: 'Head',  icon: '🧠', desc: 'Strategic clarity & adaptive problem-solving vectors.', coords: { x: 18, y: 22 } },
-    { id: 'life',  name: 'Life',  icon: '⚡', desc: 'Kinetic vitality & grounded physical endurance.', coords: { x: 14, y: 28 } },
-    { id: 'fate',  name: 'Fate',  icon: '🧭', desc: 'Directional synchronicity & pivotal life crossroads.', coords: { x: 22, y: 24 } },
-    { id: 'hidden', name: 'Hidden', icon: '✨', desc: 'Metaphysical intuition imprint active under high pressure.', coords: { x: 28, y: 26 } }
+    { id: 'heart', name: 'Heart', icon: '❤️', desc: 'Emotional depth & instinctual empathy frequencies.' },
+    { id: 'head',  name: 'Head',  icon: '🧠', desc: 'Strategic clarity & adaptive problem-solving vectors.' },
+    { id: 'life',  name: 'Life',  icon: '⚡', desc: 'Kinetic vitality & grounded physical endurance.' },
+    { id: 'fate',  name: 'Fate',  icon: '🧭', desc: 'Directional synchronicity & pivotal life crossroads.' },
+    { id: 'hidden', name: 'Hidden', icon: '✨', desc: 'Metaphysical intuition imprint active under high pressure.' }
   ];
 
   const handleSelectZone = (zoneId) => {
@@ -462,26 +713,12 @@ function HiddenPatternsExp({ onClose }) {
       </div>
 
       <div className={styles.patternsInteractiveArea}>
-        {/* Palm ROI Triangle SVG */}
+        {/* Sacred Geometry Heart ROI graphic */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
-          <div style={{ width: 85, height: 80, background: 'rgba(10, 15, 35, 0.9)', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
-            <svg width="85" height="80" viewBox="0 0 40 38" fill="none">
-              <polygon points="20,34 10,14 30,14" fill="rgba(56, 189, 248, 0.15)" stroke="#FDE68A" strokeWidth="1.2" strokeDasharray="3 2" />
-              {zones.map(z => (
-                <circle
-                  key={z.id}
-                  cx={z.coords.x}
-                  cy={z.coords.y}
-                  r={activeZone === z.id ? 4 : 2}
-                  fill={activeZone === z.id ? '#38BDF8' : unlocked[z.id] ? '#FDE68A' : '#64748B'}
-                  stroke="#FFF"
-                  strokeWidth="0.8"
-                  style={{ cursor: 'pointer', transition: 'all 0.25s' }}
-                  onClick={() => handleSelectZone(z.id)}
-                />
-              ))}
-            </svg>
+          <div style={{ width: 85, height: 80, background: 'rgba(10, 15, 35, 0.95)', borderRadius: '10px', border: '1px solid rgba(244, 114, 182, 0.35)', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', flexShrink: 0, boxShadow: '0 4px 14px rgba(0, 0, 0, 0.6)' }}>
+            <SacredHeartGeometryIcon width={76} height={72} />
           </div>
+
 
           <div style={{ flex: 1 }}>
             <div style={{ fontWeight: '800', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '0.2rem', fontSize: '0.74rem' }}>
@@ -1062,9 +1299,12 @@ function CosmicInfinityBg() {
 
 export default function LandingPage({ onNavigate }) {
   const heroRef = useRef(null);
+  const alembicRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
   const [cardTilts, setCardTilts] = useState({});
   const [activeCard, setActiveCard] = useState(null); // '01' | '02' | '03' | '04' | '05' | null
+  const [hasEnteredAlembic, setHasEnteredAlembic] = useState(false);
+  const [showDiscoveryHint, setShowDiscoveryHint] = useState(false);
 
   const handleCardMouseMove = (index, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -1103,6 +1343,29 @@ export default function LandingPage({ onNavigate }) {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
+  /* ── First-Visit Section Discovery Observer ── */
+  useEffect(() => {
+    if (!alembicRef.current || hasEnteredAlembic) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasEnteredAlembic) {
+          setHasEnteredAlembic(true);
+          setShowDiscoveryHint(true);
+          const timer = setTimeout(() => {
+            setShowDiscoveryHint(false);
+          }, 3800);
+          return () => clearTimeout(timer);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(alembicRef.current);
+    return () => observer.disconnect();
+  }, [hasEnteredAlembic]);
+
 
   const handleDemo = async () => {
     try {
@@ -1339,7 +1602,8 @@ export default function LandingPage({ onNavigate }) {
       </section>
 
       {/* ── Alchemical Alembic 5-Step Process Diagram ── */}
-      <section className={styles.alembicSection}>
+      <section ref={alembicRef} className={styles.alembicSection}>
+
         {/* ── Soft Photographic Aurora Glow Layer ── */}
         <div className={styles.auroraContainer}>
           <div className={`${styles.auroraGlow} ${styles.auroraGlowTealLeft}`} />
@@ -1349,12 +1613,21 @@ export default function LandingPage({ onNavigate }) {
         </div>
 
         <div className={styles.alembicCanvas}>
+
           {/* Ornate Gold Filigree Canvas Frame SVG Overlay */}
           <GrandFiligreeCanvasFrame />
 
           {/* Main Title Header Banner */}
           <div className={styles.alembicHeaderWrap}>
             <h2 className={styles.alembicTitle}>THE TECHNOLOGY BEHIND THE MAGIC</h2>
+            <div className={`${styles.discoveryHintWrap} ${showDiscoveryHint ? styles.discoveryHintVisible : styles.discoveryHintHidden}`}>
+              <span className={styles.discoveryHintDesktop}>
+                ✦ EXPLORE THE MAGIC ✦ &nbsp;Click any card to reveal what happens behind the magic
+              </span>
+              <span className={styles.discoveryHintMobile}>
+                ✦ EXPLORE THE MAGIC ✦ &nbsp;Tap any card to explore
+              </span>
+            </div>
           </div>
 
           {/* Background Stardust Trail Connecting All 5 Sigil Circles */}
@@ -1377,7 +1650,7 @@ export default function LandingPage({ onNavigate }) {
           </svg>
 
           {/* 5 Alchemical Alembic Panels — In-Place Anchored Card Expansion */}
-          <div className={styles.alembicGrid}>
+          <div className={`${styles.alembicGrid} ${hasEnteredAlembic ? styles.discoverySequenceActive : ''}`}>
             {[
               {
                 step: '01',
@@ -1456,11 +1729,15 @@ export default function LandingPage({ onNavigate }) {
                     /* Default Glass Alembic Panel Body */
                     <div
                       className={styles.alembicGlassPanel}
-                      onClick={() => setActiveCard(p.step)}
+                      onClick={() => {
+                        setActiveCard(p.step);
+                        setShowDiscoveryHint(false);
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           setActiveCard(p.step);
+                          setShowDiscoveryHint(false);
                         }
                       }}
                       role="button"
@@ -1484,18 +1761,18 @@ export default function LandingPage({ onNavigate }) {
                         <p className={styles.alembicCardSubtext}>{p.subtext}</p>
                         <div className={styles.cardActionHint}>
                           <span>{p.hintText}</span>
-                          <span>→</span>
+                          <span className={styles.cardActionHintArrow}>→</span>
                         </div>
                       </div>
                     </div>
                   )}
-
                 </div>
               );
             })}
           </div>
         </div>
       </section>
+
 
 
 
