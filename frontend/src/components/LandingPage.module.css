@@ -966,7 +966,7 @@
 
 .alembicHeaderWrap {
   text-align: center;
-  margin-bottom: 4rem;
+  margin-bottom: 2.5rem;
   position: relative;
   z-index: 5;
 }
@@ -1151,6 +1151,705 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.95);
 }
 
+/* ══════════════════════════════════════════════════════════
+   5 MINI PRODUCT EXPERIENCES — IN-PLACE ANCHORED CARD EXPANSION
+   ══════════════════════════════════════════════════════════ */
+
+/* Default card styling & subtle interactive hover hint */
+.alembicGlassPanel {
+  cursor: pointer;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.alembicGlassPanel:hover {
+  border-color: rgba(253, 230, 138, 0.7);
+  box-shadow: 0 10px 30px rgba(56, 189, 248, 0.15), 0 0 16px rgba(253, 230, 138, 0.12);
+}
+
+.cardActionHint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.65rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  transition: all 0.2s ease;
+}
+
+.alembicGlassPanel:hover .cardActionHint {
+  background: rgba(56, 189, 248, 0.22);
+  color: #FFF;
+  border-color: #38BDF8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.35);
+}
+
+/* Dimming inactive cards — purely opacity & pointer-events (NO movement/resizing!) */
+.cardWrapActive {
+  z-index: 30 !important;
+}
+
+.cardWrapDimmed {
+  opacity: 0.38;
+  transition: opacity 0.25s ease;
+}
+
+.cardWrapDimmed:hover {
+  opacity: 0.75;
+}
+
+.alembicSigilCircleActive {
+  z-index: 35 !important;
+}
+
+/* ──────────────────────────────────────────────────────────
+   IN-PLACE EXPANDED ACTIVE CARD PANEL
+   ────────────────────────────────────────────────────────── */
+.alembicActiveCardPanel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  width: 440px;
+  background: rgba(10, 8, 30, 0.97);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.8px solid #FDE68A;
+  border-radius: 14px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.95), 0 0 25px rgba(253, 230, 138, 0.25), 0 0 50px rgba(56, 189, 248, 0.12);
+  padding: 1.1rem 1.2rem 1.2rem 2.4rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  animation: cardUnfold 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+@keyframes cardUnfold {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale3d(0.94, 0.94, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale3d(1, 1, 1);
+  }
+}
+
+/* Card-Specific Expansion Anchors */
+.activeCard01 {
+  left: 0;
+  transform-origin: left center;
+}
+
+.activeCard02 {
+  left: -20px;
+  width: 445px;
+  transform-origin: left center;
+}
+
+.activeCard03 {
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 450px;
+  transform-origin: center center;
+  animation-name: cardUnfoldCenter;
+}
+
+@keyframes cardUnfoldCenter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale3d(0.94, 0.94, 1);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale3d(1, 1, 1);
+  }
+}
+
+.activeCard04 {
+  right: -20px;
+  width: 445px;
+  transform-origin: right center;
+}
+
+.activeCard05 {
+  right: 0;
+  transform-origin: right center;
+}
+
+/* ──────────────────────────────────────────────────────────
+   STRUCTURED INTERNAL LAYOUT FOR ALL 5 PANELS
+   ────────────────────────────────────────────────────────── */
+.expContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+/* Structured Header Row (Title on Left, Badge & Close on Right) */
+.expHeaderRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgba(253, 230, 138, 0.2);
+}
+
+
+.expTitleGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.expTitle {
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #FFF;
+  letter-spacing: 0.04em;
+  margin: 0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.expSubtitle {
+  font-size: 0.64rem;
+  color: rgba(226, 232, 240, 0.65);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.expHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.expBadge {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 12px;
+  background: rgba(253, 230, 138, 0.15);
+  color: #FDE68A;
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  white-space: nowrap;
+}
+
+.expBadgeCyan {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+.expBadgePurple {
+  background: rgba(192, 132, 252, 0.15);
+  color: #C084FC;
+  border-color: rgba(192, 132, 252, 0.35);
+}
+
+.expCloseBtn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  color: #FDE68A;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.expCloseBtn:hover {
+  background: rgba(239, 68, 68, 0.25);
+  border-color: #EF4444;
+  color: #FFF;
+  transform: scale(1.08);
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARD 01: DAILY PALM PULSE (HABIT / RETENTION)
+   ────────────────────────────────────────────────────────── */
+.pulseScannerBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.1rem 0.8rem;
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pulseRadarGraphic {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 0.75rem;
+}
+
+.pulseScanningBeam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #38BDF8, #FDE68A, transparent);
+  box-shadow: 0 0 8px #38BDF8;
+  animation: pulseScanSweep 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes pulseScanSweep {
+  0% {
+    top: 5%;
+    opacity: 0.3;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    top: 95%;
+    opacity: 0.3;
+  }
+}
+
+.pulseMetricRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.45rem;
+  font-size: 0.74rem;
+}
+
+.pulseMetricLabel {
+  color: #CBD5E1;
+  width: 60px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.pulseMetricTrack {
+  flex: 1;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.pulseMetricFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.7s cubic-bezier(0.34, 1.2, 0.64, 1);
+}
+
+.pulseMetricVal {
+  color: #FFF;
+  font-weight: 800;
+  font-size: 0.76rem;
+  width: 36px;
+  text-align: right;
+}
+
+.pulseThemeBox {
+  background: rgba(253, 230, 138, 0.08);
+  border-left: 3px solid #FDE68A;
+  padding: 0.55rem 0.75rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.74rem;
+  color: #FEF08A;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0.2rem 0;
+}
+
+.pulseNextReminder {
+  font-size: 0.64rem;
+  color: #94A3B8;
+  text-align: center;
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARD 02: PALM TWIN (STRUCTURAL VIRALITY)
+   ────────────────────────────────────────────────────────── */
+.twinArchetypeBox {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: 10px;
+  padding: 0.85rem 0.95rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.twinNameHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.twinHeroName {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #FDE68A;
+  letter-spacing: 0.04em;
+}
+
+.twinPercGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+}
+
+.twinPercItem {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.45rem 0.25rem;
+  text-align: center;
+}
+
+.twinPercVal {
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.twinPercLabel {
+  font-size: 0.62rem;
+  color: #CBD5E1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 0.15rem;
+}
+
+.twinShareCardPreview {
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), rgba(15, 23, 42, 0.95));
+  border: 1px dashed rgba(253, 230, 138, 0.4);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #E2E8F0;
+  line-height: 1.4;
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARD 03: HIDDEN PALM PATTERNS (PROGRESSION / EXPLORATION)
+   ────────────────────────────────────────────────────────── */
+.patternsInteractiveArea {
+  position: relative;
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 10px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 0.75rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.patternZonesGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.35rem;
+}
+
+.patternZoneChip {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  padding: 0.4rem 0.2rem;
+  font-size: 0.66rem;
+  color: #CBD5E1;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.patternZoneChip:hover {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38BDF8;
+  color: #FFF;
+}
+
+.patternZoneChipActive {
+  background: rgba(253, 230, 138, 0.2) !important;
+  border-color: #FDE68A !important;
+  color: #FEF08A !important;
+  font-weight: 700;
+}
+
+.patternZoneChipLocked {
+  opacity: 0.55;
+  cursor: pointer;
+}
+
+.discoveryProgressBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.66rem;
+  color: #94A3B8;
+  padding-top: 0.2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARD 04: PALM EVOLUTION (RETENTION / JOURNEY)
+   ────────────────────────────────────────────────────────── */
+.evolutionSliderWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.evolutionTimeTrack {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding: 0 0.25rem;
+}
+
+.evolutionEraBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #CBD5E1;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.evolutionEraBtn:hover,
+.evolutionEraBtnActive {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.3), rgba(217, 119, 6, 0.3));
+  border-color: #FDE68A;
+  color: #FFF;
+  box-shadow: 0 0 10px rgba(253, 230, 138, 0.3);
+}
+
+.evolutionMetricsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.45rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 8px;
+  padding: 0.6rem;
+  border: 1px solid rgba(253, 230, 138, 0.2);
+}
+
+.evolutionMetricCol {
+  text-align: center;
+}
+
+.evolutionMetricTitle {
+  font-size: 0.62rem;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.evolutionMetricShift {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #38BDF8;
+  margin-top: 0.15rem;
+}
+
+/* ──────────────────────────────────────────────────────────
+   CARD 05: ASK THE COSMIC ORACLE (MONETIZATION FUNNEL)
+   ────────────────────────────────────────────────────────── */
+.oracleCategoryGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.3rem;
+}
+
+.oracleCategoryBtn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(192, 132, 252, 0.25);
+  color: #E2E8F0;
+  font-size: 0.66rem;
+  font-weight: 600;
+  padding: 0.4rem 0.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.oracleCategoryBtn:hover,
+.oracleCategoryBtnActive {
+  background: rgba(192, 132, 252, 0.25);
+  border-color: #C084FC;
+  color: #FFF;
+  box-shadow: 0 0 10px rgba(192, 132, 252, 0.3);
+}
+
+.oracleReadingBox {
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  font-size: 0.74rem;
+  color: #F1F5F9;
+  line-height: 1.45;
+  position: relative;
+  min-height: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.oracleFunnelGrid {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.funnelBtn {
+  flex: 1;
+  padding: 0.42rem 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.funnelBtnFree {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #CBD5E1;
+}
+
+.funnelBtnDeep {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(30, 58, 138, 0.5));
+  border-color: #38BDF8;
+  color: #38BDF8;
+}
+
+.funnelBtnDeep:hover {
+  background: #38BDF8;
+  color: #0F172A;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.5);
+}
+
+.funnelBtnLive {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.25), rgba(217, 119, 6, 0.4));
+  border-color: #FDE68A;
+  color: #FEF08A;
+}
+
+.funnelBtnLive:hover {
+  background: #FDE68A;
+  color: #1E1B4B;
+  box-shadow: 0 0 12px rgba(253, 230, 138, 0.5);
+}
+
+/* ──────────────────────────────────────────────────────────
+   UNIVERSAL MINI-EXPERIENCE ACTION BUTTONS & TOASTS
+   ────────────────────────────────────────────────────────── */
+.expActionBtn {
+  background: linear-gradient(135deg, #FDE68A 0%, #D97706 100%);
+  color: #1E1B4B;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+  width: 100%;
+}
+
+.expActionBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(253, 230, 138, 0.45);
+  filter: brightness(1.08);
+}
+
+.expActionBtnSecondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(253, 230, 138, 0.3);
+  color: #FDE68A;
+  box-shadow: none;
+}
+
+.expActionBtnSecondary:hover {
+  background: rgba(253, 230, 138, 0.15);
+  color: #FFF;
+  box-shadow: 0 0 10px rgba(253, 230, 138, 0.2);
+}
+
+.expToastMsg {
+  position: absolute;
+  bottom: -22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(16, 185, 129, 0.95);
+  color: #FFF;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  z-index: 40;
+  white-space: nowrap;
+  animation: toastPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastPop {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
 @media (max-width: 1100px) {
   .alembicGrid {
     flex-wrap: wrap;
@@ -1162,7 +1861,6 @@
     flex: 0 0 calc(33.33% - 1rem);
     max-width: 280px;
     transform: none !important;
-    /* Stack cleanly on smaller screens */
   }
 
   .alembicCardStep1:hover,
@@ -1171,6 +1869,18 @@
   .alembicCardStep4:hover,
   .alembicCardStep5:hover {
     transform: translateY(-8px) scale(1.03) !important;
+  }
+
+  .alembicActiveCardPanel {
+    width: min(92vw, 420px);
+    left: 50% !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) !important;
+    animation-name: cardUnfoldCenter !important;
+  }
+
+  .oracleCategoryGrid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -1184,7 +1894,6 @@
     display: none;
   }
 
-  /* Turns off Aurora on mobile for cleanliness */
   .alembicCanvas {
     padding: 1.75rem 0.9rem 2rem;
     border-radius: 14px;
@@ -1198,6 +1907,21 @@
     letter-spacing: 0.1em;
   }
 
+  .alembicActiveCardPanel {
+    position: relative;
+    top: 0;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+    width: 100%;
+    animation: none;
+    padding: 1rem 1rem 1.1rem 2.2rem;
+  }
+
+  .patternZonesGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
   .alembicCardWrap {
     flex: 0 0 100%;
     max-width: 320px;
@@ -1207,6 +1931,8 @@
     min-height: 145px;
   }
 }
+
+
 
 /* ── Testimonials (Volumetric 3D Gemstone Crystal 2-Layer Method) ── */
 .testimonials {

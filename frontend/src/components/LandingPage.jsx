@@ -99,7 +99,7 @@ function AlembicCardFrame() {
   );
 }
 
-/* Panel 1: Webcam / Iris Aperture Icon */
+/* ── Panel 1: Webcam / Iris Aperture Icon ── */
 function AlembicIrisIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,12 +111,11 @@ function AlembicIrisIcon() {
   );
 }
 
-/* Panel 2: MediaPipe Hand Topology Icon */
+/* ── Panel 2: MediaPipe Hand Topology Icon ── */
 function AlembicTopologyIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      {/* Skeleton / Landmark Mesh */}
       <g stroke="#FDE68A" strokeWidth="1.2" strokeLinecap="round">
         <line x1="21" y1="36" x2="16" y2="28" />
         <line x1="21" y1="36" x2="26" y2="28" />
@@ -142,14 +141,12 @@ function AlembicTopologyIcon() {
   );
 }
 
-/* Panel 3: ROI Extraction Grid Icon */
+/* ── Panel 3: ROI Extraction Grid Icon ── */
 function AlembicRoiIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      {/* Crop Handles */}
       <path d="M 10 16 V 10 H 16 M 26 10 H 32 V 16 M 32 26 V 32 H 26 M 16 32 H 10 V 26" stroke="#FDE68A" strokeWidth="2.2" strokeLinecap="round" />
-      {/* Palm Triangle Grid */}
       <polygon points="21,12 13,28 29,28" fill="rgba(56, 189, 248, 0.25)" stroke="#38BDF8" strokeWidth="1.5" />
       <circle cx="21" cy="12" r="2" fill="#FFF" />
       <circle cx="13" cy="28" r="2" fill="#FFF" />
@@ -158,14 +155,12 @@ function AlembicRoiIcon() {
   );
 }
 
-/* Panel 4: Canny Edge Plasma Hand Icon */
+/* ── Panel 4: Canny Edge Plasma Hand Icon ── */
 function AlembicCannyIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      {/* Hand Contour */}
       <path d="M 14 36 C 10 28 8 20 10 12 C 12 10 14 12 16 16 C 16 9 18 6 20 6 C 22 6 24 9 24 15 C 24 8 26 5 28 5 C 30 5 32 8 32 15 C 32 10 34 8 36 9 C 38 10 36 16 34 24 C 31 32 26 36 14 36 Z" stroke="#FDE68A" strokeWidth="1" opacity="0.5" />
-      {/* Plasma Crease Lines */}
       <path d="M 12 20 Q 20 24 30 20" stroke="#38BDF8" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #38BDF8)" />
       <path d="M 11 25 Q 20 25 28 30" stroke="#FFF" strokeWidth="2" strokeLinecap="round" opacity="0.9" />
       <path d="M 18 14 Q 24 22 18 32" stroke="#FDE68A" strokeWidth="2" strokeLinecap="round" filter="drop-shadow(0 0 4px #FDE68A)" />
@@ -173,14 +168,12 @@ function AlembicCannyIcon() {
   );
 }
 
-/* Panel 5: Gemini AI Brain Nebula Icon */
+/* ── Panel 5: Gemini AI Brain Nebula Icon ── */
 function AlembicOracleIcon() {
   return (
     <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.8)" stroke="#FDE68A" strokeWidth="1.5" />
-      {/* Brain-Shaped Nebula */}
       <path d="M 15 14 C 11 14 8 18 10 23 C 8 27 12 32 16 32 C 18 32 20 30 21 28 C 22 30 24 32 26 32 C 30 32 34 27 32 23 C 34 18 31 14 27 14 C 25 14 23 15 21 17 C 19 15 17 14 15 14 Z" stroke="#C084FC" strokeWidth="1.5" fill="rgba(192, 132, 252, 0.2)" />
-      {/* Core AI Star Nodes */}
       <circle cx="16" cy="20" r="1.5" fill="#FFF" />
       <circle cx="26" cy="20" r="1.5" fill="#FFF" />
       <circle cx="21" cy="24" r="2" fill="#FDE68A" />
@@ -188,6 +181,594 @@ function AlembicOracleIcon() {
     </svg>
   );
 }
+
+/* ══════════════════════════════════════════════════════════
+   5 MINI PRODUCT EXPERIENCES COMPONENTS
+   ══════════════════════════════════════════════════════════ */
+
+/* ── CARD 01: DAILY PALM PULSE (HABIT / RETENTION) ── */
+function DailyPalmPulseExp({ onClose }) {
+  const [scanState, setScanState] = useState('idle'); // 'idle' | 'scanning' | 'done'
+  const [toast, setToast] = useState(null);
+
+  const handleStartScan = () => {
+    setScanState('scanning');
+    setTimeout(() => {
+      setScanState('done');
+    }, 1500);
+  };
+
+  const handleShare = async () => {
+    const text = "✦ My Daily Cosmic Pulse: Energy 82% | Focus 64% | Emotion 91% — 'Trust your instincts.' Discover yours on AstroLens! ✨";
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "Today's Cosmic Pulse", text, url: window.location.href });
+        setToast('Shared successfully!');
+      } catch {
+        navigator.clipboard?.writeText(text);
+        setToast('✓ Copied to clipboard!');
+      }
+    } else {
+      navigator.clipboard?.writeText(text);
+      setToast('✓ Copied to clipboard!');
+    }
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  return (
+    <div className={styles.expContainer}>
+      <div className={styles.expHeaderRow}>
+        <div className={styles.expTitleGroup}>
+          <h4 className={styles.expTitle}>TODAY'S PALM PULSE</h4>
+          <span className={styles.expSubtitle}>Daily Habit &amp; Cosmic Resonance</span>
+        </div>
+        <div className={styles.expHeaderRight}>
+          <span className={`${styles.expBadge} ${styles.expBadgeCyan}`}>DAILY PULSE</span>
+          <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
+        </div>
+      </div>
+
+      {scanState === 'idle' && (
+        <div className={styles.pulseScannerBox}>
+          <div className={styles.pulseRadarGraphic}>
+            <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+              <circle cx="38" cy="38" r="34" stroke="rgba(56, 189, 248, 0.3)" strokeWidth="1.5" strokeDasharray="4 4" />
+              <circle cx="38" cy="38" r="24" stroke="rgba(253, 230, 138, 0.4)" strokeWidth="1.2" />
+              <circle cx="38" cy="38" r="12" fill="rgba(56, 189, 248, 0.2)" stroke="#38BDF8" strokeWidth="1" />
+              <circle cx="38" cy="38" r="3.5" fill="#FFF" />
+            </svg>
+          </div>
+          <p style={{ fontSize: '0.78rem', color: '#E2E8F0', margin: '0 0 0.85rem', lineHeight: '1.4' }}>
+            Check in with your cosmic energy and vital alignment.
+          </p>
+          <button className={styles.expActionBtn} onClick={handleStartScan}>
+            <span>📡</span> SCAN TODAY'S PULSE
+          </button>
+        </div>
+      )}
+
+      {scanState === 'scanning' && (
+        <div className={styles.pulseScannerBox}>
+          <div className={styles.pulseRadarGraphic}>
+            <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+              <circle cx="38" cy="38" r="34" stroke="#38BDF8" strokeWidth="2" />
+              <circle cx="38" cy="38" r="20" fill="rgba(56, 189, 248, 0.35)" />
+            </svg>
+            <div className={styles.pulseScanningBeam} />
+          </div>
+          <p style={{ fontSize: '0.78rem', color: '#38BDF8', fontWeight: '700', margin: '0' }}>
+            Aligning planetary frequencies...
+          </p>
+          <span style={{ fontSize: '0.64rem', color: '#94A3B8', marginTop: '0.25rem' }}>
+            Extracting vital biometric resonance
+          </span>
+        </div>
+      )}
+
+      {scanState === 'done' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+          <div>
+            <div className={styles.pulseMetricRow}>
+              <span className={styles.pulseMetricLabel}>Energy</span>
+              <div className={styles.pulseMetricTrack}>
+                <div className={styles.pulseMetricFill} style={{ width: '82%', background: 'linear-gradient(90deg, #38BDF8, #818CF8)' }} />
+              </div>
+              <span className={styles.pulseMetricVal}>82%</span>
+            </div>
+            <div className={styles.pulseMetricRow}>
+              <span className={styles.pulseMetricLabel}>Focus</span>
+              <div className={styles.pulseMetricTrack}>
+                <div className={styles.pulseMetricFill} style={{ width: '64%', background: 'linear-gradient(90deg, #FDE68A, #D97706)' }} />
+              </div>
+              <span className={styles.pulseMetricVal}>64%</span>
+            </div>
+            <div className={styles.pulseMetricRow}>
+              <span className={styles.pulseMetricLabel}>Emotion</span>
+              <div className={styles.pulseMetricTrack}>
+                <div className={styles.pulseMetricFill} style={{ width: '91%', background: 'linear-gradient(90deg, #F472B6, #C084FC)' }} />
+              </div>
+              <span className={styles.pulseMetricVal}>91%</span>
+            </div>
+          </div>
+
+          <div className={styles.pulseThemeBox}>
+            <strong>Today's Theme:</strong> "Trust your instincts. A rare alignment fuels bold decisions."
+          </div>
+
+          <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.15rem' }}>
+            <button className={styles.expActionBtn} onClick={handleShare} style={{ flex: 2 }}>
+              <span>↗</span> SHARE TODAY'S PULSE
+            </button>
+            <button className={`${styles.expActionBtn} ${styles.expActionBtnSecondary}`} onClick={handleStartScan} style={{ flex: 1 }}>
+              <span>↺</span> Rescan
+            </button>
+          </div>
+
+          <div className={styles.pulseNextReminder}>
+            ✦ Next pulse available tomorrow at 06:00 UTC · Demo Insight
+          </div>
+        </div>
+      )}
+
+      {toast && <div className={styles.expToastMsg}>{toast}</div>}
+    </div>
+  );
+}
+
+/* ── CARD 02: PALM TWIN (STRUCTURAL VIRALITY) ── */
+function PalmTwinExp({ onClose }) {
+  const [activeNode, setActiveNode] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const landmarks = [
+    { id: 0, x: 21, y: 34, name: 'Wrist Anchor' },
+    { id: 4, x: 8,  y: 16, name: 'Thumb Tip' },
+    { id: 8, x: 14, y: 8,  name: 'Index Apex' },
+    { id: 12, x: 21, y: 6, name: 'Middle Apex' },
+    { id: 16, x: 28, y: 8, name: 'Ring Apex' },
+    { id: 20, x: 35, y: 13, name: 'Pinky Apex' },
+    { id: 9, x: 21, y: 20, name: 'Palm Center' }
+  ];
+
+  const handleChallengeFriend = async () => {
+    const text = "✦ My Palm Archetype is 73% Explorer! What's yours? Discover your Palm Twin on AstroLens: https://astrolens.app ✨";
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: "My Palm Twin Archetype", text, url: window.location.href });
+        setToast('Challenge sent!');
+      } catch {
+        navigator.clipboard?.writeText(text);
+        setToast('✓ Challenge link copied to clipboard!');
+      }
+    } else {
+      navigator.clipboard?.writeText(text);
+      setToast('✓ Challenge link copied to clipboard!');
+    }
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  return (
+    <div className={styles.expContainer}>
+      <div className={styles.expHeaderRow}>
+        <div className={styles.expTitleGroup}>
+          <h4 className={styles.expTitle}>PALM TWIN ARCHETYPE</h4>
+          <span className={styles.expSubtitle}>Viral Personality Discovery</span>
+        </div>
+        <div className={styles.expHeaderRight}>
+          <span className={styles.expBadge}>VIRAL MATCH</span>
+          <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
+        </div>
+      </div>
+
+      <div className={styles.twinArchetypeBox}>
+        <div className={styles.twinNameHeader}>
+          <div>
+            <span style={{ fontSize: '0.66rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Palm Twin</span>
+            <div className={styles.twinHeroName}>THE EXPLORER 🧭</div>
+          </div>
+          <div style={{ width: 46, height: 46, background: 'rgba(56, 189, 248, 0.1)', borderRadius: '50%', border: '1px solid #38BDF8', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <svg width="38" height="38" viewBox="0 0 42 42" fill="none">
+              {landmarks.map(pt => (
+                <circle
+                  key={pt.id}
+                  cx={pt.x}
+                  cy={pt.y}
+                  r={activeNode === pt.id ? 3.2 : 1.6}
+                  fill={activeNode === pt.id ? '#FDE68A' : '#38BDF8'}
+                  stroke="#FFF"
+                  strokeWidth="0.6"
+                  style={{ cursor: 'pointer', transition: 'all 0.2s' }}
+                  onMouseEnter={() => setActiveNode(pt.id)}
+                  onMouseLeave={() => setActiveNode(null)}
+                />
+              ))}
+              <line x1="21" y1="34" x2="21" y2="20" stroke="#FDE68A" strokeWidth="0.8" opacity="0.6" />
+              <line x1="21" y1="20" x2="14" y2="8" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
+              <line x1="21" y1="20" x2="28" y2="8" stroke="#38BDF8" strokeWidth="0.8" opacity="0.6" />
+            </svg>
+          </div>
+        </div>
+
+        {/* Breakdown percentages */}
+        <div className={styles.twinPercGrid}>
+          <div className={styles.twinPercItem} style={{ borderColor: 'rgba(56, 189, 248, 0.35)', background: 'rgba(56, 189, 248, 0.08)' }}>
+            <div className={styles.twinPercVal} style={{ color: '#38BDF8' }}>73%</div>
+            <div className={styles.twinPercLabel}>Explorer</div>
+          </div>
+          <div className={styles.twinPercItem}>
+            <div className={styles.twinPercVal} style={{ color: '#FDE68A' }}>18%</div>
+            <div className={styles.twinPercLabel}>Visionary</div>
+          </div>
+          <div className={styles.twinPercItem}>
+            <div className={styles.twinPercVal} style={{ color: '#C084FC' }}>9%</div>
+            <div className={styles.twinPercLabel}>Strategist</div>
+          </div>
+        </div>
+
+        {/* Shareable Card Preview Box */}
+        <div className={styles.twinShareCardPreview}>
+          <div style={{ fontWeight: '800', color: '#FDE68A', marginBottom: '0.2rem', letterSpacing: '0.05em' }}>✦ MY PALM ARCHETYPE ✦</div>
+          <div>"Driven by curiosity and kinetic vital momentum."</div>
+          <div style={{ fontSize: '0.64rem', color: '#94A3B8', marginTop: '0.25rem' }}>Who is your cosmic palm twin? Challenge them below:</div>
+        </div>
+
+        <button className={styles.expActionBtn} onClick={handleChallengeFriend}>
+          <span>⚡</span> CHALLENGE A FRIEND
+        </button>
+      </div>
+
+      {toast && <div className={styles.expToastMsg}>{toast}</div>}
+    </div>
+  );
+}
+
+/* ── CARD 03: HIDDEN PALM PATTERNS (PROGRESSION / EXPLORATION) ── */
+function HiddenPatternsExp({ onClose }) {
+  const [activeZone, setActiveZone] = useState('heart');
+  const [unlocked, setUnlocked] = useState({ heart: true, head: true, life: true, fate: false, hidden: false });
+  const [toast, setToast] = useState(null);
+
+  const zones = [
+    { id: 'heart', name: 'Heart', icon: '❤️', desc: 'Emotional depth & instinctual empathy frequencies.', coords: { x: 26, y: 16 } },
+    { id: 'head',  name: 'Head',  icon: '🧠', desc: 'Strategic clarity & adaptive problem-solving vectors.', coords: { x: 18, y: 22 } },
+    { id: 'life',  name: 'Life',  icon: '⚡', desc: 'Kinetic vitality & grounded physical endurance.', coords: { x: 14, y: 28 } },
+    { id: 'fate',  name: 'Fate',  icon: '🧭', desc: 'Directional synchronicity & pivotal life crossroads.', coords: { x: 22, y: 24 } },
+    { id: 'hidden', name: 'Hidden', icon: '✨', desc: 'Metaphysical intuition imprint active under high pressure.', coords: { x: 28, y: 26 } }
+  ];
+
+  const handleSelectZone = (zoneId) => {
+    setActiveZone(zoneId);
+    if (!unlocked[zoneId]) {
+      setUnlocked(prev => ({ ...prev, [zoneId]: true }));
+      setToast(`✦ Unlocked ${zoneId.toUpperCase()} pattern!`);
+      setTimeout(() => setToast(null), 2500);
+    }
+  };
+
+  const unlockedCount = Object.values(unlocked).filter(Boolean).length;
+
+  return (
+    <div className={styles.expContainer}>
+      <div className={styles.expHeaderRow}>
+        <div className={styles.expTitleGroup}>
+          <h4 className={styles.expTitle}>HIDDEN PALM PATTERNS</h4>
+          <span className={styles.expSubtitle}>ROI Progression &amp; Deep Imprints</span>
+        </div>
+        <div className={styles.expHeaderRight}>
+          <span className={`${styles.expBadge} ${styles.expBadgeCyan}`}>LENS SCAN</span>
+          <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
+        </div>
+      </div>
+
+      <div className={styles.patternsInteractiveArea}>
+        {/* Palm ROI Triangle SVG */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+          <div style={{ width: 85, height: 80, background: 'rgba(10, 15, 35, 0.9)', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.3)', position: 'relative', overflow: 'hidden', flexShrink: 0 }}>
+            <svg width="85" height="80" viewBox="0 0 40 38" fill="none">
+              <polygon points="20,34 10,14 30,14" fill="rgba(56, 189, 248, 0.15)" stroke="#FDE68A" strokeWidth="1.2" strokeDasharray="3 2" />
+              {zones.map(z => (
+                <circle
+                  key={z.id}
+                  cx={z.coords.x}
+                  cy={z.coords.y}
+                  r={activeZone === z.id ? 4 : 2}
+                  fill={activeZone === z.id ? '#38BDF8' : unlocked[z.id] ? '#FDE68A' : '#64748B'}
+                  stroke="#FFF"
+                  strokeWidth="0.8"
+                  style={{ cursor: 'pointer', transition: 'all 0.25s' }}
+                  onClick={() => handleSelectZone(z.id)}
+                />
+              ))}
+            </svg>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <div style={{ fontWeight: '800', color: '#FDE68A', textTransform: 'uppercase', marginBottom: '0.2rem', fontSize: '0.74rem' }}>
+              {zones.find(z => z.id === activeZone)?.icon} {zones.find(z => z.id === activeZone)?.name} Pattern
+            </div>
+            <div style={{ color: '#E2E8F0', lineHeight: '1.4', fontSize: '0.72rem' }}>
+              {zones.find(z => z.id === activeZone)?.desc}
+            </div>
+          </div>
+        </div>
+
+        {/* Zone chips selector */}
+        <div className={styles.patternZonesGrid}>
+          {zones.map(z => (
+            <button
+              key={z.id}
+              className={`${styles.patternZoneChip} ${activeZone === z.id ? styles.patternZoneChipActive : ''} ${!unlocked[z.id] ? styles.patternZoneChipLocked : ''}`}
+              onClick={() => handleSelectZone(z.id)}
+            >
+              {unlocked[z.id] ? '✓' : '🔒'} {z.name}
+            </button>
+          ))}
+        </div>
+
+        {/* Progress tracker */}
+        <div className={styles.discoveryProgressBar}>
+          <span>PROGRESSION: {unlockedCount} / 5 DISCOVERED</span>
+          <span style={{ color: unlockedCount === 5 ? '#34D399' : '#FDE68A', fontWeight: '800' }}>
+            {unlockedCount === 5 ? '✦ ALL UNLOCKED' : `${Math.round((unlockedCount / 5) * 100)}%`}
+          </span>
+        </div>
+      </div>
+
+      <button className={`${styles.expActionBtn} ${styles.expActionBtnSecondary}`} onClick={() => setUnlocked({ heart: true, head: true, life: true, fate: false, hidden: false })}>
+        <span>↺</span> EXPLORE AGAIN
+      </button>
+
+      {toast && <div className={styles.expToastMsg}>{toast}</div>}
+    </div>
+  );
+}
+
+/* ── CARD 04: PALM EVOLUTION (RETENTION / JOURNEY) ── */
+function PalmEvolutionExp({ onClose }) {
+  const [era, setEra] = useState('present'); // 'past' | 'present' | 'future'
+  const [toast, setToast] = useState(null);
+
+  const eraData = {
+    past: {
+      label: 'Past · 3 Yrs Ago',
+      life: '+4%',
+      focus: 'Baseline',
+      heart: '+7%',
+      story: 'Formative foundation. Early energy focused on establishing stability.',
+      color: '#F59E0B'
+    },
+    present: {
+      label: 'Present · Today',
+      life: '+12%',
+      focus: '+8%',
+      heart: '+16%',
+      story: 'Current kinetic peak. Enhanced Life line clarity fuels bold expansion.',
+      color: '#38BDF8'
+    },
+    future: {
+      label: 'Future · +1 Year',
+      life: '+24%',
+      focus: '+19%',
+      heart: '+28%',
+      story: 'Projected alignment. Deeper heart crease resonance indicates lasting clarity.',
+      color: '#C084FC'
+    }
+  };
+
+  const current = eraData[era];
+
+  const handleSaveMoment = () => {
+    setToast('✓ Saved to Palm Journey — Moment 01!');
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  return (
+    <div className={styles.expContainer}>
+      <div className={styles.expHeaderRow}>
+        <div className={styles.expTitleGroup}>
+          <h4 className={styles.expTitle}>PALM EVOLUTION TIMELINE</h4>
+          <span className={styles.expSubtitle}>Longitudinal Cosmic Journey</span>
+        </div>
+        <div className={styles.expHeaderRight}>
+          <span className={`${styles.expBadge} ${styles.expBadgePurple}`}>MOMENT 01</span>
+          <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
+        </div>
+      </div>
+
+      <div className={styles.evolutionSliderWrap}>
+        {/* Timeline Slider Buttons */}
+        <div className={styles.evolutionTimeTrack}>
+          <button
+            className={`${styles.evolutionEraBtn} ${era === 'past' ? styles.evolutionEraBtnActive : ''}`}
+            onClick={() => setEra('past')}
+          >
+            PAST (3 Yrs)
+          </button>
+          <div style={{ height: 2, flex: 1, background: 'rgba(253, 230, 138, 0.25)', margin: '0 0.4rem' }} />
+          <button
+            className={`${styles.evolutionEraBtn} ${era === 'present' ? styles.evolutionEraBtnActive : ''}`}
+            onClick={() => setEra('present')}
+          >
+            PRESENT (Now)
+          </button>
+          <div style={{ height: 2, flex: 1, background: 'rgba(253, 230, 138, 0.25)', margin: '0 0.4rem' }} />
+          <button
+            className={`${styles.evolutionEraBtn} ${era === 'future' ? styles.evolutionEraBtnActive : ''}`}
+            onClick={() => setEra('future')}
+          >
+            FUTURE (+1 Yr)
+          </button>
+        </div>
+
+        {/* Dynamic Palm Morph Visualization */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: 'rgba(15, 23, 42, 0.65)', borderRadius: '8px', padding: '0.6rem 0.75rem', border: '1px solid rgba(253, 230, 138, 0.2)' }}>
+          <div style={{ width: 64, height: 64, flexShrink: 0 }}>
+            <svg width="64" height="64" viewBox="0 0 42 42" fill="none">
+              <rect x="2" y="2" width="38" height="38" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke={current.color} strokeWidth="1.2" />
+              {/* Heart line */}
+              <path
+                d={era === 'past' ? "M 12 21 Q 20 25 28 22" : era === 'present' ? "M 12 20 Q 20 24 30 20" : "M 12 18 Q 20 22 32 18"}
+                stroke="#38BDF8"
+                strokeWidth={era === 'future' ? '2.4' : '1.8'}
+                strokeLinecap="round"
+              />
+              {/* Head line */}
+              <path
+                d={era === 'past' ? "M 11 26 Q 20 26 26 31" : era === 'present' ? "M 11 25 Q 20 25 28 30" : "M 11 24 Q 20 23 30 28"}
+                stroke="#FFF"
+                strokeWidth={era === 'future' ? '2.2' : '1.6'}
+                strokeLinecap="round"
+              />
+              {/* Life line */}
+              <path
+                d={era === 'past' ? "M 18 15 Q 22 22 18 30" : era === 'present' ? "M 18 14 Q 24 22 18 32" : "M 18 13 Q 26 22 18 35"}
+                stroke="#FDE68A"
+                strokeWidth={era === 'future' ? '2.5' : '2'}
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: '0.68rem', color: current.color, fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+              {current.label}
+            </div>
+            <div style={{ fontSize: '0.72rem', color: '#E2E8F0', lineHeight: '1.4', marginTop: '0.2rem' }}>
+              {current.story}
+            </div>
+          </div>
+        </div>
+
+        {/* Metrics Grid */}
+        <div className={styles.evolutionMetricsGrid}>
+          <div className={styles.evolutionMetricCol}>
+            <div className={styles.evolutionMetricTitle}>Life Pattern</div>
+            <div className={styles.evolutionMetricShift} style={{ color: '#FDE68A' }}>{current.life}</div>
+          </div>
+          <div className={styles.evolutionMetricCol}>
+            <div className={styles.evolutionMetricTitle}>Focus Pattern</div>
+            <div className={styles.evolutionMetricShift} style={{ color: '#FFF' }}>{current.focus}</div>
+          </div>
+          <div className={styles.evolutionMetricCol}>
+            <div className={styles.evolutionMetricTitle}>Heart Pattern</div>
+            <div className={styles.evolutionMetricShift} style={{ color: '#38BDF8' }}>{current.heart}</div>
+          </div>
+        </div>
+
+        <button className={styles.expActionBtn} onClick={handleSaveMoment}>
+          <span>✦</span> SAVE THIS MOMENT (MOMENT 01)
+        </button>
+      </div>
+
+      {toast && <div className={styles.expToastMsg}>{toast}</div>}
+    </div>
+  );
+}
+
+/* ── CARD 05: ASK THE COSMIC ORACLE (MONETIZATION FUNNEL) ── */
+function CosmicOracleExp({ onClose }) {
+  const [selectedCat, setSelectedCat] = useState('career');
+  const [isSynthesizing, setIsSynthesizing] = useState(false);
+  const [toast, setToast] = useState(null);
+
+  const categories = [
+    { id: 'love',      name: '❤️ LOVE',      reading: 'Your heart crease indicates deep emotional resonance. A harmonious connection arrives when you stay true to your personal sovereignty.' },
+    { id: 'career',    name: '💼 CAREER',    reading: 'Your line geometry reveals a trajectory shaped by strategic perseverance rather than repetition. You thrive when resolving ambiguity.' },
+    { id: 'money',     name: '💰 MONEY',     reading: 'Your destiny arc indicates prosperous expansion through diversified creative endeavors rather than singular rigid channels.' },
+    { id: 'direction', name: '🧭 DIRECTION', reading: 'The bifurcation on your Head line signals a pivotal decision point. Trust the unconventional road; it aligns with your vital core.' },
+    { id: 'week',      name: '✨ THIS WEEK', reading: 'A high-energy surge initiates mid-week. Channel this kinetic focus into launching what you have hesitated to begin.' },
+  ];
+
+  const handleSelectCat = (catId) => {
+    setIsSynthesizing(true);
+    setSelectedCat(catId);
+    setTimeout(() => {
+      setIsSynthesizing(false);
+    }, 900);
+  };
+
+  const handleFunnelAction = (tierName) => {
+    if (tierName === 'deep') {
+      setToast('✦ Unlocked Demo: 12-Page AI Palmistry Deep Blueprint ($4.99 value)!');
+    } else if (tierName === 'astrologer') {
+      setToast('✦ Connecting to Verified AstroLive Astrologer... (Demo Funnel)');
+    }
+    setTimeout(() => setToast(null), 2500);
+  };
+
+  const currentReading = categories.find(c => c.id === selectedCat);
+
+  return (
+    <div className={styles.expContainer}>
+      <div className={styles.expHeaderRow}>
+        <div className={styles.expTitleGroup}>
+          <h4 className={styles.expTitle}>ASK THE COSMIC ORACLE</h4>
+          <span className={styles.expSubtitle}>Gemini AI Divination Funnel</span>
+        </div>
+        <div className={styles.expHeaderRight}>
+          <span className={`${styles.expBadge} ${styles.expBadgePurple}`}>AI ORACLE</span>
+          <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
+        </div>
+      </div>
+
+      {/* Category selector */}
+      <div className={styles.oracleCategoryGrid}>
+        {categories.map(c => (
+          <button
+            key={c.id}
+            className={`${styles.oracleCategoryBtn} ${selectedCat === c.id ? styles.oracleCategoryBtnActive : ''}`}
+            onClick={() => handleSelectCat(c.id)}
+          >
+            {c.name}
+          </button>
+        ))}
+      </div>
+
+      {/* Reading container */}
+      <div className={styles.oracleReadingBox}>
+        {isSynthesizing ? (
+          <div style={{ textAlign: 'center', padding: '0.6rem 0.2rem' }}>
+            <div style={{ fontSize: '0.88rem', color: '#C084FC', marginBottom: '0.2rem' }}>✦ AI SYNTHESIS IN PROGRESS ✦</div>
+            <div style={{ fontSize: '0.66rem', color: '#94A3B8' }}>Cross-referencing palm vectors with planetary transits...</div>
+          </div>
+        ) : (
+          <div>
+            <div style={{ fontSize: '0.64rem', color: '#FDE68A', fontWeight: '800', textTransform: 'uppercase', marginBottom: '0.25rem', letterSpacing: '0.04em' }}>
+              DEMO ORACLE READING · {currentReading?.name}
+            </div>
+            <p style={{ margin: '0', fontSize: '0.74rem', color: '#F8FAFC', lineHeight: '1.45' }}>
+              "{currentReading?.reading}"
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* 3-Tier Monetization Funnel */}
+      <div>
+        <div style={{ fontSize: '0.6rem', color: '#94A3B8', textTransform: 'uppercase', textAlign: 'center', marginBottom: '0.35rem', letterSpacing: '0.04em' }}>
+          Explore Full Consultation Funnel:
+        </div>
+        <div className={styles.oracleFunnelGrid}>
+          <button className={`${styles.funnelBtn} ${styles.funnelBtnFree}`} onClick={() => setToast('✓ 1 Free Insight Used')}>
+            Free Insight
+          </button>
+          <button className={`${styles.funnelBtn} ${styles.funnelBtnDeep}`} onClick={() => handleFunnelAction('deep')}>
+            🔮 Deep ($4.99)
+          </button>
+          <button className={`${styles.funnelBtn} ${styles.funnelBtnLive}`} onClick={() => handleFunnelAction('astrologer')}>
+            📞 Live Astrologer
+          </button>
+        </div>
+      </div>
+
+      {toast && <div className={styles.expToastMsg}>{toast}</div>}
+    </div>
+  );
+}
+
+
+
+
 function StatPanelFrame() {
   return (
     <svg className={styles.panelFrameSvg} viewBox="0 0 300 170" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -482,6 +1063,7 @@ export default function LandingPage({ onNavigate }) {
   const heroRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
   const [cardTilts, setCardTilts] = useState({});
+  const [activeCard, setActiveCard] = useState(null); // '01' | '02' | '03' | '04' | '05' | null
 
   const handleCardMouseMove = (index, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -508,8 +1090,17 @@ export default function LandingPage({ onNavigate }) {
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setActiveCard(null);
+      }
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, []);
 
   const handleDemo = async () => {
@@ -784,7 +1375,7 @@ export default function LandingPage({ onNavigate }) {
             </defs>
           </svg>
 
-          {/* 5 Alchemical Alembic Panels */}
+          {/* 5 Alchemical Alembic Panels — In-Place Anchored Card Expansion */}
           <div className={styles.alembicGrid}>
             {[
               {
@@ -793,6 +1384,9 @@ export default function LandingPage({ onNavigate }) {
                 subtext: 'Webcam Capture | Browser getUserMedia API captures your palm frame',
                 icon: <AlembicIrisIcon />,
                 offsetClass: styles.alembicCardStep1,
+                activeClass: styles.activeCard01,
+                hintText: '✦ DAILY PULSE',
+                renderExp: (onClose) => <DailyPalmPulseExp onClose={onClose} />,
               },
               {
                 step: '02',
@@ -800,6 +1394,9 @@ export default function LandingPage({ onNavigate }) {
                 subtext: 'MediaPipe Topology | 21 hand landmarks extracted and normalized',
                 icon: <AlembicTopologyIcon />,
                 offsetClass: styles.alembicCardStep2,
+                activeClass: styles.activeCard02,
+                hintText: '✦ PALM TWIN',
+                renderExp: (onClose) => <PalmTwinExp onClose={onClose} />,
               },
               {
                 step: '03',
@@ -807,6 +1404,9 @@ export default function LandingPage({ onNavigate }) {
                 subtext: 'ROI Extraction | Palm triangle isolated using landmarks 0, 5 & 17',
                 icon: <AlembicRoiIcon />,
                 offsetClass: styles.alembicCardStep3,
+                activeClass: styles.activeCard03,
+                hintText: '✦ HIDDEN PATTERNS',
+                renderExp: (onClose) => <HiddenPatternsExp onClose={onClose} />,
               },
               {
                 step: '04',
@@ -814,6 +1414,9 @@ export default function LandingPage({ onNavigate }) {
                 subtext: 'Canny Edge Detection | Adaptive thresholding reveals dominant creases',
                 icon: <AlembicCannyIcon />,
                 offsetClass: styles.alembicCardStep4,
+                activeClass: styles.activeCard04,
+                hintText: '✦ PALM EVOLUTION',
+                renderExp: (onClose) => <PalmEvolutionExp onClose={onClose} />,
               },
               {
                 step: '05',
@@ -821,32 +1424,74 @@ export default function LandingPage({ onNavigate }) {
                 subtext: 'Gemini AI Reading | Line features prompt a personalised cosmic narrative',
                 icon: <AlembicOracleIcon />,
                 offsetClass: styles.alembicCardStep5,
+                activeClass: styles.activeCard05,
+                hintText: '✦ ASK ORACLE',
+                renderExp: (onClose) => <CosmicOracleExp onClose={onClose} />,
               },
-            ].map(p => (
-              <div key={p.step} className={`${styles.alembicCardWrap} ${p.offsetClass}`}>
-                {/* Numbered Sigil Circle (Attached on left) */}
-                <div className={styles.alembicSigilCircle}>
-                  <span>{p.step}</span>
-                </div>
+            ].map(p => {
+              const isActive = activeCard === p.step;
+              const isDimmed = activeCard !== null && !isActive;
 
-                {/* Glass Alembic Panel Body */}
-                <div className={styles.alembicGlassPanel}>
-                  <AlembicCardFrame />
-                  {/* Top-Right Icon */}
-                  <div className={styles.alembicCardIconWrap}>{p.icon}</div>
-
-                  {/* Panel Content */}
-                  <div className={styles.alembicCardContent}>
-                    <h3 className={styles.alembicCardTitle}>{p.title}</h3>
-                    <div className={styles.alembicDividerBar} />
-                    <p className={styles.alembicCardSubtext}>{p.subtext}</p>
+              return (
+                <div
+                  key={p.step}
+                  className={`${styles.alembicCardWrap} ${p.offsetClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
+                >
+                  {/* Numbered Sigil Circle (Stays attached on left of card) */}
+                  <div className={`${styles.alembicSigilCircle} ${isActive ? styles.alembicSigilCircleActive : ''}`}>
+                    <span>{p.step}</span>
                   </div>
+
+                  {isActive ? (
+                    /* In-Place Expanded Interactive Card */
+                    <div
+                      className={`${styles.alembicActiveCardPanel} ${p.activeClass}`}
+                      role="region"
+                      aria-label={`${p.title} active experience`}
+                    >
+                      <AlembicCardFrame />
+                      {p.renderExp(() => setActiveCard(null))}
+                    </div>
+                  ) : (
+                    /* Default Glass Alembic Panel Body */
+                    <div
+                      className={styles.alembicGlassPanel}
+                      onClick={() => setActiveCard(p.step)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveCard(p.step);
+                        }
+                      }}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Open ${p.title} interactive experience`}
+                    >
+                      <AlembicCardFrame />
+
+                      {/* Top-Right Icon */}
+                      <div className={styles.alembicCardIconWrap}>{p.icon}</div>
+
+                      {/* Panel Content */}
+                      <div className={styles.alembicCardContent}>
+                        <h3 className={styles.alembicCardTitle}>{p.title}</h3>
+                        <div className={styles.alembicDividerBar} />
+                        <p className={styles.alembicCardSubtext}>{p.subtext}</p>
+                        <div className={styles.cardActionHint}>
+                          <span>{p.hintText}</span>
+                          <span>→</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
+
+
 
       {/* ── Testimonials ── */}
       <section className={`container ${styles.testimonials}`}>
