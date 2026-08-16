@@ -987,23 +987,75 @@
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
 }
 
-/* ── Guided Card-by-Card Discovery State ── */
-.discoveryCardActive {
-  border-color: rgba(253, 230, 138, 0.85) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 18px rgba(56, 189, 248, 0.45), 0 0 12px rgba(253, 230, 138, 0.3), inset 0 0 12px rgba(253, 230, 138, 0.15) !important;
-  cursor: pointer;
-  animation: discoveryCardGlowPulse 2.4s ease-in-out infinite;
+/* ── Guided Card-by-Card Discovery Colors (Unique Per Card) ── */
+.discoveryStep0 {
+  --discovery-color: #FFD166;
+  --discovery-glow-rgb: 255, 209, 102;
 }
 
-@keyframes discoveryCardGlowPulse {
+.discoveryStep1 {
+  --discovery-color: #39D9FF;
+  --discovery-glow-rgb: 57, 217, 255;
+}
+
+.discoveryStep2 {
+  --discovery-color: #A970FF;
+  --discovery-glow-rgb: 169, 112, 255;
+}
+
+.discoveryStep3 {
+  --discovery-color: #FF66C4;
+  --discovery-glow-rgb: 255, 102, 196;
+}
+
+.discoveryStep4 {
+  --discovery-color: #5FFFB0;
+  --discovery-glow-rgb: 95, 255, 176;
+}
+
+/* Atmospheric Cosmic Aura Layer (Placed BEHIND the card, extends 40-70px outward) */
+.discoveryAura {
+  position: absolute;
+  inset: -45px -40px;
+  border-radius: 48px;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.65) 0%,
+    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.38) 40%,
+    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.12) 68%,
+    transparent 84%
+  );
+  filter: blur(24px);
+  opacity: 0;
+  transform: scale(0.92);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.discoveryAuraActive {
+  opacity: 1;
+  transform: scale(1);
+  animation: auraCosmicBreathe 3s ease-in-out infinite;
+}
+
+@keyframes auraCosmicBreathe {
   0%, 100% {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 14px rgba(56, 189, 248, 0.35);
-    border-color: rgba(253, 230, 138, 0.65);
+    opacity: 0.65;
+    transform: scale(0.98);
   }
   50% {
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 22px rgba(56, 189, 248, 0.6), 0 0 14px rgba(253, 230, 138, 0.4);
-    border-color: rgba(253, 230, 138, 0.95);
+    opacity: 0.95;
+    transform: scale(1.04);
   }
+}
+
+/* Active Discovery Card Highlight */
+.discoveryCardActive {
+  border-color: rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.85) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.4), inset 0 0 10px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.15) !important;
+  cursor: pointer;
+  z-index: 3 !important;
 }
 
 /* Floating "CLICK ME" / "TAP ME" Indicator over Card 01 Only */
@@ -1020,13 +1072,13 @@
   background: rgba(10, 8, 32, 0.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 220, 120, 0.75);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 14px rgba(253, 230, 138, 0.35), 0 0 22px rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(255, 209, 102, 0.85);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 209, 102, 0.4), 0 0 24px rgba(255, 209, 102, 0.2);
   font-family: var(--font-display);
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.14em;
-  color: #FDE68A;
+  color: #FFD166;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
   animation: clickMeEntrance 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards, clickMeGlowPulse 2.2s ease-in-out infinite;
 }
@@ -1044,12 +1096,12 @@
 
 @keyframes clickMeGlowPulse {
   0%, 100% {
-    border-color: rgba(255, 220, 120, 0.6);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 12px rgba(253, 230, 138, 0.3);
+    border-color: rgba(255, 209, 102, 0.65);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 209, 102, 0.3);
   }
   50% {
-    border-color: rgba(255, 220, 120, 0.95);
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(253, 230, 138, 0.55), 0 0 28px rgba(56, 189, 248, 0.25);
+    border-color: rgba(255, 209, 102, 0.95);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 209, 102, 0.6), 0 0 28px rgba(255, 209, 102, 0.3);
   }
 }
 
@@ -1062,7 +1114,7 @@
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 6px solid rgba(255, 220, 120, 0.85);
+  border-top: 6px solid rgba(255, 209, 102, 0.85);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.6));
 }
 
@@ -1082,6 +1134,7 @@
     display: inline;
   }
 }
+
 
 .alembicStardustTrailSvg {
   display: none;

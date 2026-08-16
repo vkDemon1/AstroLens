@@ -1693,12 +1693,19 @@ export default function LandingPage({ onNavigate }) {
               const isActive = activeCard === p.step;
               const isDimmed = activeCard !== null && !isActive;
               const isDiscoveryActive = discoveryStep === index && activeCard === null;
+              const stepClass = styles[`discoveryStep${index}`] || '';
 
               return (
                 <div
                   key={p.step}
-                  className={`${styles.alembicCardWrap} ${p.offsetClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
+                  className={`${styles.alembicCardWrap} ${p.offsetClass} ${stepClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
                 >
+                  {/* Soft Atmospheric Colored Cosmic Aura BEHIND Card */}
+                  <div
+                    className={`${styles.discoveryAura} ${isDiscoveryActive ? styles.discoveryAuraActive : ''}`}
+                    aria-hidden="true"
+                  />
+
                   {/* Floating "CLICK ME" / "TAP ME" Indicator over Card 01 only */}
                   {discoveryStep === 0 && index === 0 && !isActive && (
                     <div className={styles.cardDiscoveryClickMe} role="status" aria-label="Click me to explore">
@@ -1707,6 +1714,7 @@ export default function LandingPage({ onNavigate }) {
                       <div className={styles.clickMeArrowDown} aria-hidden="true" />
                     </div>
                   )}
+
 
                   {isActive ? (
                     /* In-Place Expanded Interactive Card */
