@@ -592,8 +592,8 @@ function PalmTwinExp({ onClose }) {
 
   const landmarks = [
     { id: 0, x: 21, y: 34, name: 'Wrist Anchor' },
-    { id: 4, x: 8,  y: 16, name: 'Thumb Tip' },
-    { id: 8, x: 14, y: 8,  name: 'Index Apex' },
+    { id: 4, x: 8, y: 16, name: 'Thumb Tip' },
+    { id: 8, x: 14, y: 8, name: 'Index Apex' },
     { id: 12, x: 21, y: 6, name: 'Middle Apex' },
     { id: 16, x: 28, y: 8, name: 'Ring Apex' },
     { id: 20, x: 35, y: 13, name: 'Pinky Apex' },
@@ -682,9 +682,9 @@ function HiddenPatternsExp({ onClose }) {
 
   const zones = [
     { id: 'heart', name: 'Heart', icon: '❤️', desc: 'Emotional depth & instinctual empathy frequencies.' },
-    { id: 'head',  name: 'Head',  icon: '🧠', desc: 'Strategic clarity & adaptive problem-solving vectors.' },
-    { id: 'life',  name: 'Life',  icon: '⚡', desc: 'Kinetic vitality & grounded physical endurance.' },
-    { id: 'fate',  name: 'Fate',  icon: '🧭', desc: 'Directional synchronicity & pivotal life crossroads.' },
+    { id: 'head', name: 'Head', icon: '🧠', desc: 'Strategic clarity & adaptive problem-solving vectors.' },
+    { id: 'life', name: 'Life', icon: '⚡', desc: 'Kinetic vitality & grounded physical endurance.' },
+    { id: 'fate', name: 'Fate', icon: '🧭', desc: 'Directional synchronicity & pivotal life crossroads.' },
     { id: 'hidden', name: 'Hidden', icon: '✨', desc: 'Metaphysical intuition imprint active under high pressure.' }
   ];
 
@@ -910,11 +910,11 @@ function CosmicOracleExp({ onClose }) {
   const [toast, setToast] = useState(null);
 
   const categories = [
-    { id: 'love',      name: '❤️ LOVE',      reading: 'Your heart crease indicates deep emotional resonance. A harmonious connection arrives when you stay true to your personal sovereignty.' },
-    { id: 'career',    name: '💼 CAREER',    reading: 'Your line geometry reveals a trajectory shaped by strategic perseverance rather than repetition. You thrive when resolving ambiguity.' },
-    { id: 'money',     name: '💰 MONEY',     reading: 'Your destiny arc indicates prosperous expansion through diversified creative endeavors rather than singular rigid channels.' },
+    { id: 'love', name: '❤️ LOVE', reading: 'Your heart crease indicates deep emotional resonance. A harmonious connection arrives when you stay true to your personal sovereignty.' },
+    { id: 'career', name: '💼 CAREER', reading: 'Your line geometry reveals a trajectory shaped by strategic perseverance rather than repetition. You thrive when resolving ambiguity.' },
+    { id: 'money', name: '💰 MONEY', reading: 'Your destiny arc indicates prosperous expansion through diversified creative endeavors rather than singular rigid channels.' },
     { id: 'direction', name: '🧭 DIRECTION', reading: 'The bifurcation on your Head line signals a pivotal decision point. Trust the unconventional road; it aligns with your vital core.' },
-    { id: 'week',      name: '✨ THIS WEEK', reading: 'A high-energy surge initiates mid-week. Channel this kinetic focus into launching what you have hesitated to begin.' },
+    { id: 'week', name: '✨ THIS WEEK', reading: 'A high-energy surge initiates mid-week. Channel this kinetic focus into launching what you have hesitated to begin.' },
   ];
 
   const handleSelectCat = (catId) => {
@@ -1303,8 +1303,7 @@ export default function LandingPage({ onNavigate }) {
   const [scrollY, setScrollY] = useState(0);
   const [cardTilts, setCardTilts] = useState({});
   const [activeCard, setActiveCard] = useState(null); // '01' | '02' | '03' | '04' | '05' | null
-  const [hasEnteredAlembic, setHasEnteredAlembic] = useState(false);
-  const [showDiscoveryHint, setShowDiscoveryHint] = useState(false);
+  const [discoveryStep, setDiscoveryStep] = useState(null); // null | 0 | 1 | 2 | 3 | 4 | 5
 
   const handleCardMouseMove = (index, e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -1344,19 +1343,14 @@ export default function LandingPage({ onNavigate }) {
     };
   }, []);
 
-  /* ── First-Visit Section Discovery Observer ── */
+  /* ── Guided Card-by-Card Discovery Scroll Trigger ── */
   useEffect(() => {
-    if (!alembicRef.current || hasEnteredAlembic) return;
+    if (!alembicRef.current || discoveryStep !== null) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasEnteredAlembic) {
-          setHasEnteredAlembic(true);
-          setShowDiscoveryHint(true);
-          const timer = setTimeout(() => {
-            setShowDiscoveryHint(false);
-          }, 3800);
-          return () => clearTimeout(timer);
+        if (entry.isIntersecting && discoveryStep === null) {
+          setDiscoveryStep(0);
         }
       },
       { threshold: 0.2 }
@@ -1364,7 +1358,8 @@ export default function LandingPage({ onNavigate }) {
 
     observer.observe(alembicRef.current);
     return () => observer.disconnect();
-  }, [hasEnteredAlembic]);
+  }, [discoveryStep]);
+
 
 
   const handleDemo = async () => {
@@ -1620,14 +1615,6 @@ export default function LandingPage({ onNavigate }) {
           {/* Main Title Header Banner */}
           <div className={styles.alembicHeaderWrap}>
             <h2 className={styles.alembicTitle}>THE TECHNOLOGY BEHIND THE MAGIC</h2>
-            <div className={`${styles.discoveryHintWrap} ${showDiscoveryHint ? styles.discoveryHintVisible : styles.discoveryHintHidden}`}>
-              <span className={styles.discoveryHintDesktop}>
-                ✦ EXPLORE THE MAGIC ✦ &nbsp;Click any card to reveal what happens behind the magic
-              </span>
-              <span className={styles.discoveryHintMobile}>
-                ✦ EXPLORE THE MAGIC ✦ &nbsp;Tap any card to explore
-              </span>
-            </div>
           </div>
 
           {/* Background Stardust Trail Connecting All 5 Sigil Circles */}
@@ -1650,7 +1637,7 @@ export default function LandingPage({ onNavigate }) {
           </svg>
 
           {/* 5 Alchemical Alembic Panels — In-Place Anchored Card Expansion */}
-          <div className={`${styles.alembicGrid} ${hasEnteredAlembic ? styles.discoverySequenceActive : ''}`}>
+          <div className={styles.alembicGrid}>
             {[
               {
                 step: '01',
@@ -1702,15 +1689,25 @@ export default function LandingPage({ onNavigate }) {
                 hintText: '✦ ASK ORACLE',
                 renderExp: (onClose) => <CosmicOracleExp onClose={onClose} />,
               },
-            ].map(p => {
+            ].map((p, index) => {
               const isActive = activeCard === p.step;
               const isDimmed = activeCard !== null && !isActive;
+              const isDiscoveryActive = discoveryStep === index && activeCard === null;
 
               return (
                 <div
                   key={p.step}
                   className={`${styles.alembicCardWrap} ${p.offsetClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
                 >
+                  {/* Floating "CLICK ME" / "TAP ME" Indicator over Card 01 only */}
+                  {discoveryStep === 0 && index === 0 && !isActive && (
+                    <div className={styles.cardDiscoveryClickMe} role="status" aria-label="Click me to explore">
+                      <span className={styles.clickMeTextDesktop}>CLICK ME</span>
+                      <span className={styles.clickMeTextMobile}>TAP ME</span>
+                      <div className={styles.clickMeArrowDown} aria-hidden="true" />
+                    </div>
+                  )}
+
                   {isActive ? (
                     /* In-Place Expanded Interactive Card */
                     <div
@@ -1728,16 +1725,20 @@ export default function LandingPage({ onNavigate }) {
                   ) : (
                     /* Default Glass Alembic Panel Body */
                     <div
-                      className={styles.alembicGlassPanel}
+                      className={`${styles.alembicGlassPanel} ${isDiscoveryActive ? styles.discoveryCardActive : ''}`}
                       onClick={() => {
                         setActiveCard(p.step);
-                        setShowDiscoveryHint(false);
+                        if (discoveryStep !== null && discoveryStep === index) {
+                          setDiscoveryStep(index + 1);
+                        }
                       }}
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
                           setActiveCard(p.step);
-                          setShowDiscoveryHint(false);
+                          if (discoveryStep !== null && discoveryStep === index) {
+                            setDiscoveryStep(index + 1);
+                          }
                         }
                       }}
                       role="button"
@@ -1770,6 +1771,7 @@ export default function LandingPage({ onNavigate }) {
               );
             })}
           </div>
+
         </div>
       </section>
 
