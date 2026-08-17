@@ -1013,50 +1013,102 @@
   --discovery-glow-rgb: 95, 255, 176;
 }
 
-/* Atmospheric Cosmic Aura Layer (Placed BEHIND the card, extends 40-70px outward) */
+/* Atmospheric Cosmic Aura Container (Placed BEHIND the card, completely non-intrusive) */
 .discoveryAura {
   position: absolute;
-  inset: -45px -40px;
-  border-radius: 48px;
-  background: radial-gradient(
-    ellipse at 50% 50%,
-    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.65) 0%,
-    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.38) 40%,
-    rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.12) 68%,
-    transparent 84%
-  );
-  filter: blur(24px);
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
   opacity: 0;
   transform: scale(0.92);
   transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 1;
 }
 
 .discoveryAuraActive {
   opacity: 1;
   transform: scale(1);
-  animation: auraCosmicBreathe 3s ease-in-out infinite;
 }
 
-@keyframes auraCosmicBreathe {
-  0%, 100% {
-    opacity: 0.65;
-    transform: scale(0.98);
+/* Layer 1: Large Atmospheric Cosmic Cloud Aura (Extends 80-120px outward) */
+.discoveryAura::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 210%;
+  height: 230%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.82) 0%,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.52) 32%,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.22) 58%,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.06) 78%,
+      transparent 90%);
+  filter: blur(42px);
+  pointer-events: none;
+  animation: cosmicAuraBreatheOuter 2.8s ease-in-out infinite;
+}
+
+/* Layer 2: Saturated Bright Inner Core Aura (Extends 40-60px outward with vibrant intensity) */
+.discoveryAura::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 155%;
+  height: 165%;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  background: radial-gradient(ellipse at center,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.95) 0%,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.72) 35%,
+      rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.3) 60%,
+      transparent 82%);
+  filter: blur(20px);
+  pointer-events: none;
+  animation: cosmicAuraBreatheInner 2.8s ease-in-out infinite;
+}
+
+@keyframes cosmicAuraBreatheOuter {
+
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.96);
   }
+
   50% {
-    opacity: 0.95;
-    transform: scale(1.04);
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1.05);
   }
 }
 
-/* Active Discovery Card Highlight */
+@keyframes cosmicAuraBreatheInner {
+
+  0%,
+  100% {
+    opacity: 0.40;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+
+  50% {
+    opacity: 0.60;
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+}
+
+/* Active Discovery Card Border Highlight */
 .discoveryCardActive {
-  border-color: rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.85) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.75), 0 0 16px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.4), inset 0 0 10px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.15) !important;
+  border-color: rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.55) !important;
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.8),
+    0 0 26px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.6),
+    inset 0 0 14px rgba(var(--discovery-glow-rgb, 255, 209, 102), 0.22) !important;
   cursor: pointer;
   z-index: 3 !important;
 }
+
 
 /* Floating "CLICK ME" / "TAP ME" Indicator over Card 01 Only */
 .cardDiscoveryClickMe {
@@ -1088,6 +1140,7 @@
     opacity: 0;
     transform: translate(-50%, -6px);
   }
+
   100% {
     opacity: 1;
     transform: translate(-50%, 0);
@@ -1095,10 +1148,13 @@
 }
 
 @keyframes clickMeGlowPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(255, 209, 102, 0.65);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 12px rgba(255, 209, 102, 0.3);
   }
+
   50% {
     border-color: rgba(255, 209, 102, 0.95);
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 209, 102, 0.6), 0 0 28px rgba(255, 209, 102, 0.3);
@@ -1130,6 +1186,7 @@
   .clickMeTextDesktop {
     display: none;
   }
+
   .clickMeTextMobile {
     display: inline;
   }
