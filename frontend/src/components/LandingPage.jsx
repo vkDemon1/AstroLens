@@ -1823,20 +1823,12 @@ export default function LandingPage({ onNavigate }) {
         {/* ── THE PORTAL — Cosmic Palm Gateway ── */}
         <div className={styles.gateScene}>
 
-          <div
-            className={styles.portalCircleFrame}
-            onClick={() => onNavigate('scanner')}
-            role="button"
-            tabIndex={0}
-            aria-label="Begin Palm Scan — enter the cosmic portal"
-            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onNavigate('scanner'); }}
-          >
+          <div className={styles.portalWrap}>
             <img
               src="/Portal3.png"
-              alt="Cosmic Palm Gateway Portal"
+              alt="Cosmic Palm Portal"
               className={styles.cosmicPortalImg}
             />
-            <div className={styles.portalCircleRimGlow} aria-hidden="true" />
           </div>
 
           {/* ── BEGIN PALM SCAN CTA Button ── */}
