@@ -1,4 +1,4 @@
-/* LandingPage.module.css */
+﻿/* LandingPage.module.css */
 
 .landing {
   position: relative;
@@ -2800,7 +2800,7 @@
   max-width: 520px;
 }
 
-/* ── Portal Image Container (Visual illustration only) ── */
+/* ── Portal Image Container (Soft Feathered Blend into Background) ── */
 .portalWrap {
   position: relative;
   width: 520px;
@@ -2814,16 +2814,17 @@
   background: transparent;
 }
 
-/* Cosmic Portal Image (Portal3.png - pure image, no effects) */
+/* Cosmic Portal Image (Portal3.png - feathered radial blend, no visible border) */
 .cosmicPortalImg {
   width: 100%;
   height: auto;
   object-fit: contain;
   display: block;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-drag: none;
+  mix-blend-mode: screen;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 45%, transparent 70%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 45%, transparent 70%);
 }
+
 
 /* ══════════════════════════════════════════
    BEGIN PALM SCAN BUTTON
