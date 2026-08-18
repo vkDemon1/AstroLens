@@ -1836,7 +1836,7 @@ export default function LandingPage({ onNavigate }) {
           <div className={styles.gateScene}>
             <div className={styles.portalWrap}>
               <img
-                src="/Portal4.png"
+                src="/Portal5.png"
                 alt="Cosmic Palm Portal"
                 className={styles.cosmicPortalImg}
               />

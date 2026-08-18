@@ -1,4 +1,4 @@
-/* LandingPage.module.css */
+﻿/* LandingPage.module.css */
 
 .landing {
   position: relative;
@@ -2743,7 +2743,7 @@
 .finalCta {
   position: relative;
   overflow: visible;
-  padding: 2.5rem 2rem 1rem;
+  padding: 5rem 2rem 1rem;
   background: transparent;
 }
 
@@ -2813,13 +2813,13 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 520px;
+  max-width: 580px;
 }
 
 /* ── Portal Image Container (Soft Feathered Blend into Background) ── */
 .portalWrap {
   position: relative;
-  width: 520px;
+  width: 580px;
   max-width: 92vw;
   display: flex;
   align-items: center;
@@ -2842,8 +2842,8 @@
 
 
   /* Keep more of the outer vortex solid before fading */
-  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 70%);
-  mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 68%);
+  mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 68%);
 }
 
 
