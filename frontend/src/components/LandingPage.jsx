@@ -1808,22 +1808,50 @@ export default function LandingPage({ onNavigate }) {
         </div>
       </section>
 
-      {/* ── Final CTA ── */}
-      <section className={styles.finalCta}>
-        <div className={styles.finalCtaGlow} aria-hidden="true" />
-        <h2 className="display-title">Ready to Read Your Destiny?</h2>
-        <p className={`muted-text ${styles.finalCtaSub}`}>
-          Open your palm. Let the cosmos speak.
-        </p>
-        <button
-          id="final-scan-btn"
-          className="btn-primary"
-          onClick={() => onNavigate('scanner')}
-          style={{ fontSize: '1rem', padding: '1rem 2.5rem' }}
-        >
-          <span>🔭</span>
-          Begin Palm Scan
-        </button>
+      {/* ── Final CTA — Cosmic Gateway Portal ── */}
+      <section className={styles.finalCta} aria-label="Begin your cosmic journey">
+
+        {/* ── Text header — sits ABOVE the portal ── */}
+        <div className={styles.gateTextBlock}>
+          <p className={styles.gateEyebrow}>✦ YOUR COSMIC JOURNEY AWAITS ✦</p>
+          <h2 className={styles.gateHeading}>
+            Ready to Read<br />Your Destiny?
+          </h2>
+          <p className={styles.gateSubtitle}>Open your palm. Let the cosmos speak.</p>
+        </div>
+
+        {/* ── THE PORTAL — Cosmic Palm Gateway ── */}
+        <div className={styles.gateScene}>
+
+          <div
+            className={styles.portalCircleFrame}
+            onClick={() => onNavigate('scanner')}
+            role="button"
+            tabIndex={0}
+            aria-label="Begin Palm Scan — enter the cosmic portal"
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') onNavigate('scanner'); }}
+          >
+            <img
+              src="/Portal3.png"
+              alt="Cosmic Palm Gateway Portal"
+              className={styles.cosmicPortalImg}
+            />
+            <div className={styles.portalCircleRimGlow} aria-hidden="true" />
+          </div>
+
+          {/* ── BEGIN PALM SCAN CTA Button ── */}
+          <button
+            id="final-scan-btn"
+            className={styles.gateBtn}
+            onClick={() => onNavigate('scanner')}
+            aria-label="Begin Palm Scan — enter the cosmic portal"
+          >
+            <span className={styles.gateBtnShine} aria-hidden="true" />
+            <span className={styles.gateBtnText}>✦ BEGIN PALM SCAN →</span>
+          </button>
+
+        </div>{/* end gateScene */}
+
       </section>
 
       {/* ── Footer ── */}
