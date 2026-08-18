@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
 import { getDemoReading } from '../services/api';
 
@@ -1362,6 +1362,212 @@ export default function LandingPage({ onNavigate }) {
 
 
 
+  // ═════════════════════════════════════════════════════════════════
+  // 3D COSMIC PORTAL GATEWAY: PARALLAX, VORTEX & SKELETAL HOOKS
+  // ═════════════════════════════════════════════════════════════════
+  const portalRootRef = useRef(null);
+  const portalVortexCanvasRef = useRef(null);
+  const portalSkeletonCanvasRef = useRef(null);
+  const portalVideoRef = useRef(null);
+  const portalStreamRef = useRef(null);
+  const portalAnimFrameRef = useRef(null);
+
+  const [isPortalSurge, setIsPortalSurge] = useState(false);
+  const [isPortalScanning, setIsPortalScanning] = useState(false);
+
+
+
+  // 2. Cosmic Particle Vortex (Inward Gravitational Spiral)
+  useEffect(() => {
+    const canvas = portalVortexCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const width = (canvas.width = 520);
+    const height = (canvas.height = 520);
+
+    const PARTICLE_COUNT = isPortalSurge ? 110 : 65;
+    const particles = [];
+
+    class VortexParticle {
+      constructor() {
+        this.reset();
+      }
+
+      reset() {
+        const maxRadius = width * 0.46;
+        this.radius = maxRadius * (0.65 + Math.random() * 0.35);
+        this.angle = Math.random() * Math.PI * 2;
+        this.speed = (0.016 + Math.random() * 0.02) * (isPortalSurge ? 2.5 : 1.0);
+        this.inwardDrift = (0.65 + Math.random() * 1.35) * (isPortalSurge ? 2.8 : 1.0);
+        this.size = Math.random() * 2 + 0.8;
+        this.hue = Math.random() > 0.45 ? 190 + Math.random() * 35 : 280 + Math.random() * 45;
+        this.opacity = 0;
+        this.maxOpacity = 0.4 + Math.random() * 0.55;
+      }
+
+      update() {
+        this.angle += this.speed;
+        this.radius -= this.inwardDrift;
+
+        const maxR = width * 0.46;
+        if (this.radius > maxR * 0.72) {
+          this.opacity = Math.min(this.maxOpacity, this.opacity + 0.04);
+        } else if (this.radius < maxR * 0.22) {
+          this.opacity = Math.max(0, this.opacity - 0.04);
+        }
+
+        if (this.radius <= 10 || this.opacity <= 0) {
+          this.reset();
+        }
+      }
+
+      draw(context, cx, cy) {
+        const x = cx + Math.cos(this.angle) * this.radius;
+        const y = cy + Math.sin(this.angle) * this.radius;
+
+        context.beginPath();
+        context.arc(x, y, this.size, 0, Math.PI * 2);
+        context.fillStyle = `hsla(${this.hue}, 100%, 75%, ${this.opacity})`;
+        context.shadowColor = `hsl(${this.hue}, 100%, 70%)`;
+        context.shadowBlur = isPortalSurge ? 12 : 7;
+        context.fill();
+      }
+    }
+
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push(new VortexParticle());
+    }
+
+    let animationId;
+    const render = () => {
+      ctx.clearRect(0, 0, width, height);
+      const cx = width / 2;
+      const cy = height / 2;
+
+      particles.forEach((p) => {
+        p.update();
+        p.draw(ctx, cx, cy);
+      });
+
+      animationId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [isPortalSurge]);
+
+  // 3. Live Skeletal Tracking & OpenCV/MediaPipe Pipeline Transition
+  const handlePortalScanClick = async () => {
+    setIsPortalScanning(true);
+
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 640 } },
+        audio: false,
+      });
+
+      portalStreamRef.current = stream;
+      if (portalVideoRef.current) {
+        portalVideoRef.current.srcObject = stream;
+        await portalVideoRef.current.play();
+      }
+
+      // MediaPipe 21-Landmark Topology Connections
+      const HAND_CONNECTIONS = [
+        [0, 1], [1, 2], [2, 3], [3, 4],       // Thumb
+        [0, 5], [5, 6], [6, 7], [7, 8],       // Index finger
+        [5, 9], [9, 10], [10, 11], [11, 12],  // Middle finger
+        [9, 13], [13, 14], [14, 15], [15, 16],// Ring finger
+        [13, 17], [17, 18], [18, 19], [19, 20],// Pinky
+        [0, 17], [5, 17]                      // Palm base
+      ];
+
+      // Start high-performance skeleton rendering loop
+      let t = 0;
+      const renderSkeleton = () => {
+        t += 0.045;
+        const canvas = portalSkeletonCanvasRef.current;
+        if (canvas) {
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width;
+          const h = canvas.height;
+          ctx.clearRect(0, 0, w, h);
+
+          // Synthetic 21-keypoint stream matching MediaPipe schema
+          const syntheticLandmarks = Array.from({ length: 21 }, (_, i) => ({
+            x: 0.5 + Math.sin(t + i * 0.28) * 0.11,
+            y: 0.46 + Math.cos(t * 0.85 + i * 0.18) * 0.13,
+          }));
+
+          // 1. Draw Bones
+          ctx.lineWidth = 2.5;
+          ctx.strokeStyle = 'rgba(56, 189, 248, 0.85)';
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 10;
+
+          HAND_CONNECTIONS.forEach(([i, j]) => {
+            const p1 = syntheticLandmarks[i];
+            const p2 = syntheticLandmarks[j];
+            ctx.beginPath();
+            ctx.moveTo((1 - p1.x) * w, p1.y * h);
+            ctx.lineTo((1 - p2.x) * w, p2.y * h);
+            ctx.stroke();
+          });
+
+          // 2. Draw Landmark Joints & Tips
+          syntheticLandmarks.forEach((pt, index) => {
+            const x = (1 - pt.x) * w;
+            const y = pt.y * h;
+            const isTip = [4, 8, 12, 16, 20].includes(index);
+
+            ctx.beginPath();
+            ctx.arc(x, y, isTip ? 5.5 : 3.5, 0, Math.PI * 2);
+            ctx.fillStyle = isTip ? '#fcd34d' : '#38bdf8';
+            ctx.shadowColor = isTip ? '#fbbf24' : '#0ea5e9';
+            ctx.shadowBlur = 12;
+            ctx.fill();
+          });
+
+          // 3. Draw Celestial Palm Centroid Star
+          const palmX = ((1 - (syntheticLandmarks[0].x + syntheticLandmarks[5].x + syntheticLandmarks[17].x) / 3)) * w;
+          const palmY = ((syntheticLandmarks[0].y + syntheticLandmarks[5].y + syntheticLandmarks[17].y) / 3) * h;
+
+          ctx.beginPath();
+          ctx.arc(palmX, palmY, 8, 0, Math.PI * 2);
+          ctx.fillStyle = '#fbbf24';
+          ctx.shadowColor = '#f59e0b';
+          ctx.shadowBlur = 18;
+          ctx.fill();
+        }
+
+        portalAnimFrameRef.current = requestAnimationFrame(renderSkeleton);
+      };
+      renderSkeleton();
+
+      // Handover to full scanner screen after sequence
+      setTimeout(() => {
+        onNavigate('scanner');
+      }, 3400);
+    } catch (err) {
+      console.warn('Camera access unavailable, navigating to full scanner:', err);
+      onNavigate('scanner');
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (portalStreamRef.current) {
+        portalStreamRef.current.getTracks().forEach((track) => track.stop());
+      }
+      if (portalAnimFrameRef.current) {
+        cancelAnimationFrame(portalAnimFrameRef.current);
+      }
+    };
+  }, []);
+
   const handleDemo = async () => {
     try {
       const data = await getDemoReading();
@@ -1812,7 +2018,7 @@ export default function LandingPage({ onNavigate }) {
       <section className={styles.finalCta} aria-label="Begin your cosmic journey">
         <div className={styles.finalCtaContainer}>
 
-          {/* ── Left Side: Text header + CTA Button ── */}
+          {/* ── Left Side: Text header + Coupled CTA Button ── */}
           <div className={styles.gateTextBlock}>
             <p className={styles.gateEyebrow}>✦ YOUR COSMIC JOURNEY AWAITS ✦</p>
             <h2 className={styles.gateHeading}>
@@ -1820,26 +2026,99 @@ export default function LandingPage({ onNavigate }) {
             </h2>
             <p className={styles.gateSubtitle}>Open your palm. Let the cosmos speak.</p>
 
-            {/* ── BEGIN PALM SCAN CTA Button ── */}
+            {/* ── BEGIN PALM SCAN CTA Button (Coupled to Portal Surge) ── */}
             <button
               id="final-scan-btn"
-              className={styles.gateBtn}
-              onClick={() => onNavigate('scanner')}
+              className={`${styles.gateBtn} ${isPortalSurge ? styles.gateBtnSurge : ''}`}
+              onMouseEnter={() => setIsPortalSurge(true)}
+              onMouseLeave={() => setIsPortalSurge(false)}
+              onClick={handlePortalScanClick}
               aria-label="Begin Palm Scan — enter the cosmic portal"
             >
               <span className={styles.gateBtnShine} aria-hidden="true" />
-              <span className={styles.gateBtnText}>✦ BEGIN PALM SCAN →</span>
+              <span className={styles.gateBtnText}>
+                {isPortalScanning ? '✦ INITIALIZING SCANNER... ✦' : '✦ BEGIN PALM SCAN →'}
+              </span>
             </button>
           </div>
 
-          {/* ── Right Side: THE PORTAL — Cosmic Palm Gateway ── */}
+          {/* ── Right Side: THE 3D LAYERED COSMIC PORTAL ── */}
           <div className={styles.gateScene}>
-            <div className={styles.portalWrap}>
-              <img
-                src="/Portal5.png"
-                alt="Cosmic Palm Portal"
-                className={styles.cosmicPortalImg}
-              />
+            <div
+              ref={portalRootRef}
+              className={`${styles.portalRoot} ${isPortalSurge ? styles.portalSurge : ''} ${
+                isPortalScanning ? styles.portalScanning : ''
+              }`}
+            >
+              <div className={styles.parallaxWrapper}>
+                {/* Layer 1: Nebula Backing */}
+                <div className={`${styles.portalLayer} ${styles.layerNebula}`} />
+
+                {/* Layer 2: Outer Rune Ring (Clockwise Rotation - 60s) */}
+                <div className={`${styles.portalLayer} ${styles.layerOuterRunes}`}>
+                  <svg viewBox="0 0 500 500" className={styles.svgRune}>
+                    <circle cx="250" cy="250" r="236" stroke="rgba(56, 189, 248, 0.45)" strokeWidth="1.5" fill="none" strokeDasharray="5 7" />
+                    <circle cx="250" cy="250" r="216" stroke="rgba(251, 191, 36, 0.6)" strokeWidth="1.2" fill="none" />
+                    <text fontSize="10.5" fill="#fde68a" letterSpacing="8.5">
+                      <textPath href="#zodiacOrbitLanding">
+                        ✦ ARIES ✦ TAURUS ✦ GEMINI ✦ CANCER ✦ LEO ✦ VIRGO ✦ LIBRA ✦ SCORPIO ✦ SAGITTARIUS ✦ CAPRICORN ✦
+                      </textPath>
+                    </text>
+                    <defs>
+                      <path id="zodiacOrbitLanding" d="M 250,250 m -226,0 a 226,226 0 1,1 452,0 a 226,226 0 1,1 -452,0" />
+                    </defs>
+                  </svg>
+                </div>
+
+                {/* Layer 3: Inner Rune Ring (Counter-Clockwise Rotation - 45s) */}
+                <div className={`${styles.portalLayer} ${styles.layerInnerRunes}`}>
+                  <svg viewBox="0 0 500 500" className={styles.svgRune}>
+                    <circle cx="250" cy="250" r="172" stroke="rgba(192, 132, 252, 0.65)" strokeWidth="1.5" fill="none" strokeDasharray="12 6" />
+                    <circle cx="250" cy="250" r="152" stroke="rgba(56, 189, 248, 0.55)" strokeWidth="1" fill="none" />
+                    <text fontSize="10" fill="#38bdf8" letterSpacing="7">
+                      <textPath href="#runicOrbitLanding">
+                        ᚛ ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛋ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛟ ᛞ ᚜
+                      </textPath>
+                    </text>
+                    <defs>
+                      <path id="runicOrbitLanding" d="M 250,250 m -162,0 a 162,162 0 1,0 324,0 a 162,162 0 1,0 -324,0" />
+                    </defs>
+                  </svg>
+                </div>
+
+                {/* Layer 4: Live Video Stream (Fades in on Live Scan) */}
+                <video
+                  ref={portalVideoRef}
+                  playsInline
+                  muted
+                  className={`${styles.portalLayer} ${styles.liveVideoLayer}`}
+                />
+
+                {/* Layer 5: Static Palm Center Art (Fades out on Live Scan) */}
+                <div className={`${styles.portalLayer} ${styles.layerCenterHand}`}>
+                  <img
+                    src="/Portal5.png"
+                    alt="Cosmic Palm Portal"
+                    className={styles.cosmicPortalImg}
+                  />
+                </div>
+
+                {/* Layer 6: Inward Particle Vortex Canvas */}
+                <canvas
+                  ref={portalVortexCanvasRef}
+                  width={520}
+                  height={520}
+                  className={`${styles.portalLayer} ${styles.vortexCanvas}`}
+                />
+
+                {/* Layer 7: Skeletal Landmarks Overlay Canvas */}
+                <canvas
+                  ref={portalSkeletonCanvasRef}
+                  width={520}
+                  height={520}
+                  className={`${styles.portalLayer} ${styles.skeletonCanvas}`}
+                />
+              </div>
             </div>
           </div>
 
