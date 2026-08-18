@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
 import { getDemoReading } from '../services/api';
 
@@ -1810,40 +1810,40 @@ export default function LandingPage({ onNavigate }) {
 
       {/* ── Final CTA — Cosmic Gateway Portal ── */}
       <section className={styles.finalCta} aria-label="Begin your cosmic journey">
+        <div className={styles.finalCtaContainer}>
 
-        {/* ── Text header — sits ABOVE the portal ── */}
-        <div className={styles.gateTextBlock}>
-          <p className={styles.gateEyebrow}>✦ YOUR COSMIC JOURNEY AWAITS ✦</p>
-          <h2 className={styles.gateHeading}>
-            Ready to Read<br />Your Destiny?
-          </h2>
-          <p className={styles.gateSubtitle}>Open your palm. Let the cosmos speak.</p>
-        </div>
+          {/* ── Left Side: Text header + CTA Button ── */}
+          <div className={styles.gateTextBlock}>
+            <p className={styles.gateEyebrow}>✦ YOUR COSMIC JOURNEY AWAITS ✦</p>
+            <h2 className={styles.gateHeading}>
+              Ready to Read<br />Your Destiny?
+            </h2>
+            <p className={styles.gateSubtitle}>Open your palm. Let the cosmos speak.</p>
 
-        {/* ── THE PORTAL — Cosmic Palm Gateway ── */}
-        <div className={styles.gateScene}>
-
-          <div className={styles.portalWrap}>
-            <img
-              src="/Portal3.png"
-              alt="Cosmic Palm Portal"
-              className={styles.cosmicPortalImg}
-            />
+            {/* ── BEGIN PALM SCAN CTA Button ── */}
+            <button
+              id="final-scan-btn"
+              className={styles.gateBtn}
+              onClick={() => onNavigate('scanner')}
+              aria-label="Begin Palm Scan — enter the cosmic portal"
+            >
+              <span className={styles.gateBtnShine} aria-hidden="true" />
+              <span className={styles.gateBtnText}>✦ BEGIN PALM SCAN →</span>
+            </button>
           </div>
 
-          {/* ── BEGIN PALM SCAN CTA Button ── */}
-          <button
-            id="final-scan-btn"
-            className={styles.gateBtn}
-            onClick={() => onNavigate('scanner')}
-            aria-label="Begin Palm Scan — enter the cosmic portal"
-          >
-            <span className={styles.gateBtnShine} aria-hidden="true" />
-            <span className={styles.gateBtnText}>✦ BEGIN PALM SCAN →</span>
-          </button>
+          {/* ── Right Side: THE PORTAL — Cosmic Palm Gateway ── */}
+          <div className={styles.gateScene}>
+            <div className={styles.portalWrap}>
+              <img
+                src="/Portal4.png"
+                alt="Cosmic Palm Portal"
+                className={styles.cosmicPortalImg}
+              />
+            </div>
+          </div>
 
-        </div>{/* end gateScene */}
-
+        </div>{/* end finalCtaContainer */}
       </section>
 
       {/* ── Footer ── */}
