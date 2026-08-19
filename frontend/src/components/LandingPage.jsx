@@ -612,8 +612,9 @@ function DailyPalmPulseExp({ onClose, result }) {
       )}
 
       {scanState === 'done' && m && (
+        <>
         <div className={styles.pulseExpGrid}>
-          {/* Column 1: Progress / Metrics / Theme */}
+          {/* Column 1: Progress / Metrics */}
           <div className={styles.pulseCol1}>
             {/* Milestone Progress Bar */}
             <div className={styles.pulseMilestoneWrap}>
@@ -653,10 +654,6 @@ function DailyPalmPulseExp({ onClose, result }) {
                 </div>
                 <span className={styles.pulseMetricVal}>{m.emotion}%</span>
               </div>
-            </div>
-
-            <div className={styles.pulseThemeBox}>
-              <strong>Today's Theme:</strong> "{m.theme}"
             </div>
           </div>
 
@@ -720,7 +717,14 @@ function DailyPalmPulseExp({ onClose, result }) {
             </div>
           </div>
         </div>
-      )}
+
+        {/* Full-Length Extended Theme Box */}
+        <div className={styles.pulseThemeBox}>
+          <span style={{ color: '#FDE68A', fontWeight: '700', fontStyle: 'normal' }}>Today's Theme:</span>
+          <span>"{m.theme}"</span>
+        </div>
+      </>
+    )}
 
       {toast && <div className={styles.expToastMsg}>{toast}</div>}
     </div>
@@ -1940,7 +1944,6 @@ export default function LandingPage({ onNavigate, result }) {
                         <div className={styles.alembicSigilCircle}>
                           <span>01</span>
                         </div>
-                        <AlembicCardFrame />
                         {p.renderExp(() => setActiveCard(null))}
                       </div>
                     ) : (
