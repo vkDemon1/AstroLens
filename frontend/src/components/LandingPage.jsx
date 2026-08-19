@@ -612,103 +612,112 @@ function DailyPalmPulseExp({ onClose, result }) {
       )}
 
       {scanState === 'done' && m && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
-          {/* Milestone Progress Bar */}
-          <div className={styles.pulseMilestoneWrap}>
-            <div className={styles.pulseMilestoneHeader}>
-              <span className={styles.pulseMilestoneBadge}>
-                {milestone.currentMilestone ? `${milestone.currentMilestone.icon} ${milestone.currentMilestone.title}` : '✦ Initiate Orbit'}
-              </span>
-              <span className={styles.pulseMilestoneTarget}>
-                {milestone.nextMilestone ? `${milestone.daysRemaining}d to ${milestone.nextMilestone.title}` : 'Max Tier Unlocked 👑'}
-              </span>
-            </div>
-            <div className={styles.pulseMilestoneBar}>
-              <div className={styles.pulseMilestoneProgress} style={{ width: `${milestone.progressPct}%` }} />
-            </div>
-          </div>
-
-          {/* Metric Rows */}
-          <div>
-            <div className={styles.pulseMetricRow}>
-              <span className={styles.pulseMetricLabel}>Energy</span>
-              <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: `${m.energy}%`, background: 'linear-gradient(90deg, #38BDF8, #818CF8)' }} />
+        <div className={styles.pulseExpGrid}>
+          {/* Column 1: Progress / Metrics / Theme */}
+          <div className={styles.pulseCol1}>
+            {/* Milestone Progress Bar */}
+            <div className={styles.pulseMilestoneWrap}>
+              <div className={styles.pulseMilestoneHeader}>
+                <span className={styles.pulseMilestoneBadge}>
+                  {milestone.currentMilestone ? `${milestone.currentMilestone.icon} ${milestone.currentMilestone.title}` : '✦ Initiate Orbit'}
+                </span>
+                <span className={styles.pulseMilestoneTarget}>
+                  {milestone.nextMilestone ? `${milestone.daysRemaining}d to ${milestone.nextMilestone.title}` : 'Max Tier 👑'}
+                </span>
               </div>
-              <span className={styles.pulseMetricVal}>{m.energy}%</span>
-            </div>
-            <div className={styles.pulseMetricRow}>
-              <span className={styles.pulseMetricLabel}>Focus</span>
-              <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: `${m.focus}%`, background: 'linear-gradient(90deg, #FDE68A, #D97706)' }} />
+              <div className={styles.pulseMilestoneBar}>
+                <div className={styles.pulseMilestoneProgress} style={{ width: `${milestone.progressPct}%` }} />
               </div>
-              <span className={styles.pulseMetricVal}>{m.focus}%</span>
             </div>
-            <div className={styles.pulseMetricRow}>
-              <span className={styles.pulseMetricLabel}>Emotion</span>
-              <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: `${m.emotion}%`, background: 'linear-gradient(90deg, #F472B6, #C084FC)' }} />
+
+            {/* Metric Rows */}
+            <div className={styles.pulseMetricRowsBox}>
+              <div className={styles.pulseMetricRow}>
+                <span className={styles.pulseMetricLabel}>Energy</span>
+                <div className={styles.pulseMetricTrack}>
+                  <div className={styles.pulseMetricFill} style={{ width: `${m.energy}%`, background: 'linear-gradient(90deg, #38BDF8, #818CF8)' }} />
+                </div>
+                <span className={styles.pulseMetricVal}>{m.energy}%</span>
               </div>
-              <span className={styles.pulseMetricVal}>{m.emotion}%</span>
+              <div className={styles.pulseMetricRow}>
+                <span className={styles.pulseMetricLabel}>Focus</span>
+                <div className={styles.pulseMetricTrack}>
+                  <div className={styles.pulseMetricFill} style={{ width: `${m.focus}%`, background: 'linear-gradient(90deg, #FDE68A, #D97706)' }} />
+                </div>
+                <span className={styles.pulseMetricVal}>{m.focus}%</span>
+              </div>
+              <div className={styles.pulseMetricRow}>
+                <span className={styles.pulseMetricLabel}>Emotion</span>
+                <div className={styles.pulseMetricTrack}>
+                  <div className={styles.pulseMetricFill} style={{ width: `${m.emotion}%`, background: 'linear-gradient(90deg, #F472B6, #C084FC)' }} />
+                </div>
+                <span className={styles.pulseMetricVal}>{m.emotion}%</span>
+              </div>
+            </div>
+
+            <div className={styles.pulseThemeBox}>
+              <strong>Today's Theme:</strong> "{m.theme}"
             </div>
           </div>
 
-          <div className={styles.pulseThemeBox}>
-            <strong>Today's Theme:</strong> "{m.theme}"
-          </div>
+          {/* Column 2: Alignment & Reflection Focus */}
+          <div className={styles.pulseCol2}>
+            {/* Interactive Mood Section */}
+            <div className={styles.pulseInteractiveSection}>
+              <span className={styles.pulseSectionLabel}>✦ Energy Alignment</span>
+              <div className={styles.pulseChipRow}>
+                {MOOD_OPTIONS.map(mOpt => (
+                  <button
+                    key={mOpt.id}
+                    className={`${styles.pulseMoodChip} ${pulseState?.mood === mOpt.id ? styles.pulseChipActive : ''}`}
+                    onClick={() => handleSelectMood(mOpt.id, mOpt.icon, mOpt.label)}
+                  >
+                    <span>{mOpt.icon}</span> {mOpt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
-          {/* Interactive Mood Section */}
-          <div className={styles.pulseInteractiveSection}>
-            <span className={styles.pulseSectionLabel}>✦ Energy Alignment Today</span>
-            <div className={styles.pulseChipRow}>
-              {MOOD_OPTIONS.map(mOpt => (
-                <button
-                  key={mOpt.id}
-                  className={`${styles.pulseMoodChip} ${pulseState?.mood === mOpt.id ? styles.pulseChipActive : ''}`}
-                  onClick={() => handleSelectMood(mOpt.id, mOpt.icon, mOpt.label)}
-                >
-                  <span>{mOpt.icon}</span> {mOpt.label}
-                </button>
-              ))}
+            {/* Interactive Reflection Section */}
+            <div className={styles.pulseInteractiveSection}>
+              <span className={styles.pulseSectionLabel}>✦ Today's Reflection</span>
+              <div className={styles.pulseChipRow}>
+                {REFLECTION_OPTIONS.map(rOpt => (
+                  <button
+                    key={rOpt.id}
+                    className={`${styles.pulseReflectionChip} ${pulseState?.reflection === rOpt.id ? styles.pulseChipActive : ''}`}
+                    onClick={() => handleSelectReflection(rOpt.id, rOpt.label)}
+                  >
+                    <span>{rOpt.icon}</span> {rOpt.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Interactive Reflection Section */}
-          <div className={styles.pulseInteractiveSection}>
-            <span className={styles.pulseSectionLabel}>✦ Today's Reflection Focus</span>
-            <div className={styles.pulseChipRow}>
-              {REFLECTION_OPTIONS.map(rOpt => (
-                <button
-                  key={rOpt.id}
-                  className={`${styles.pulseReflectionChip} ${pulseState?.reflection === rOpt.id ? styles.pulseChipActive : ''}`}
-                  onClick={() => handleSelectReflection(rOpt.id, rOpt.label)}
-                >
-                  <span>{rOpt.icon}</span> {rOpt.label}
-                </button>
-              ))}
+          {/* Column 3: Tomorrow's Signal & Actions */}
+          <div className={styles.pulseCol3}>
+            {/* Tomorrow Preview Teaser */}
+            <div className={styles.pulseTomorrowBox}>
+              <div className={styles.pulseTomorrowTitle}>
+                <span>🔮</span> Tomorrow's Signal
+              </div>
+              <p className={styles.pulseTomorrowText}>
+                "{tomorrowTeaser}"
+              </p>
             </div>
-          </div>
 
-          {/* Tomorrow Preview Teaser */}
-          <div className={styles.pulseTomorrowBox}>
-            <div className={styles.pulseTomorrowTitle}>
-              <span>🔮</span> Tomorrow's Cosmic Signal
+            <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.15rem' }}>
+              <button className={styles.expActionBtn} onClick={handleShare} style={{ flex: 1 }}>
+                <span>↗</span> SHARE TODAY'S SIGNAL
+              </button>
             </div>
-            <p className={styles.pulseTomorrowText}>
-              "{tomorrowTeaser}"
-            </p>
-          </div>
 
-          <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.15rem' }}>
-            <button className={styles.expActionBtn} onClick={handleShare} style={{ flex: 2 }}>
-              <span>↗</span> SHARE TODAY'S SIGNAL
-            </button>
-          </div>
-
-          <div className={styles.pulseNextReminder}>
-            {alreadyDoneToday
-              ? `✦ Streak: ${pulseState.streak} day${pulseState.streak === 1 ? '' : 's'} · Come back tomorrow to continue it`
-              : '✦ Next pulse available tomorrow'}
+            <div className={styles.pulseNextReminder}>
+              {alreadyDoneToday
+                ? `✦ Streak: ${pulseState.streak} day${pulseState.streak === 1 ? '' : 's'} · Return tomorrow`
+                : '✦ Next pulse available tomorrow'}
+            </div>
           </div>
         </div>
       )}
@@ -1838,7 +1847,7 @@ export default function LandingPage({ onNavigate, result }) {
           </svg>
 
           {/* 5 Alchemical Alembic Panels — CSS Grid Accordion */}
-          <div className={`${styles.alembicGrid} ${activeCard === '01' ? styles.alembicGridStep1Active : ''}`}>
+          <div className={styles.alembicGrid}>
             {[
               {
                 step: '01',
@@ -1896,10 +1905,14 @@ export default function LandingPage({ onNavigate, result }) {
               const isDiscoveryActive = discoveryStep === index && activeCard === null;
               const stepClass = styles[`discoveryStep${index}`] || '';
 
+              // Card 01: span 3 columns when expanded; Cards 02 and 03: hidden when Card 01 is expanded
+              const card01ExpandedClass = (p.step === '01' && isActive) ? styles.alembicCardStep1Expanded : '';
+              const card02Or03HiddenClass = (activeCard === '01' && (p.step === '02' || p.step === '03')) ? styles.alembicCardStep2Hidden : '';
+
               return (
                 <div
                   key={p.step}
-                  className={`${styles.alembicCardWrap} ${p.offsetClass} ${stepClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''}`}
+                  className={`${styles.alembicCardWrap} ${p.offsetClass} ${stepClass} ${isActive ? styles.cardWrapActive : ''} ${isDimmed ? styles.cardWrapDimmed : ''} ${card01ExpandedClass} ${card02Or03HiddenClass}`}
                 >
                   {/* Soft Atmospheric Colored Cosmic Aura BEHIND Card */}
                   <div
@@ -1916,52 +1929,49 @@ export default function LandingPage({ onNavigate, result }) {
                     </div>
                   )}
 
-
                   {p.step === '01' ? (
-                    /* ── STEP 01 ONLY: CSS Grid Accordion Card (Isolated Absolute Content) ── */
-                    <div
-                      className={`${styles.alembicGlassPanel} ${styles.alembicGlassPanelStep1} ${isDiscoveryActive ? styles.discoveryCardActive : ''} ${isActive ? styles.alembicGlassPanelStep1Expanded : ''}`}
-                      onClick={() => {
-                        if (isActive) {
-                          setActiveCard(null);
-                        } else {
+                    isActive ? (
+                      /* ── CARD 01 EXPANDED: Natural height, 2-column grid, no scrollbar ── */
+                      <div
+                        className={styles.alembicActiveCardPanel01}
+                        role="region"
+                        aria-label="Daily Palm Pulse expanded experience"
+                      >
+                        <div className={styles.alembicSigilCircle}>
+                          <span>01</span>
+                        </div>
+                        <AlembicCardFrame />
+                        {p.renderExp(() => setActiveCard(null))}
+                      </div>
+                    ) : (
+                      /* ── CARD 01 COLLAPSED: standard glass panel ── */
+                      <div
+                        className={`${styles.alembicGlassPanel} ${styles.alembicGlassPanelStep1} ${isDiscoveryActive ? styles.discoveryCardActive : ''}`}
+                        onClick={() => {
                           setActiveCard('01');
                           if (discoveryStep !== null && discoveryStep === index) {
                             setDiscoveryStep(index + 1);
                           }
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          if (isActive) {
-                            setActiveCard(null);
-                          } else {
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
                             setActiveCard('01');
                             if (discoveryStep !== null && discoveryStep === index) {
                               setDiscoveryStep(index + 1);
                             }
                           }
-                        }
-                      }}
-                      role="button"
-                      tabIndex={0}
-                      aria-expanded={isActive}
-                      aria-label={`${p.title} interactive experience`}
-                    >
-                      {/* Numbered Sigil Circle */}
-                      <div className={styles.alembicSigilCircle}>
-                        <span>{p.step}</span>
-                      </div>
-
-                      <AlembicCardFrame />
-
-                      {/* Default Collapsed Content (fades out when active) */}
-                      <div className={`${styles.pulseDefaultContent} ${isActive ? styles.pulseDefaultContentHidden : ''}`}>
-                        {/* Top-Right Icon */}
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-expanded={false}
+                        aria-label={`${p.title} — open Daily Palm Pulse`}
+                      >
+                        <div className={styles.alembicSigilCircle}>
+                          <span>{p.step}</span>
+                        </div>
+                        <AlembicCardFrame />
                         <div className={styles.alembicCardIconWrap}>{p.icon}</div>
-
-                        {/* Panel Content */}
                         <div className={styles.alembicCardContent}>
                           <h3 className={styles.alembicCardTitle}>{p.title}</h3>
                           <div className={styles.alembicDividerBar} />
@@ -1972,12 +1982,7 @@ export default function LandingPage({ onNavigate, result }) {
                           </div>
                         </div>
                       </div>
-
-                      {/* Absolute Isolated Expanded Pulse Content (Never stretches card height) */}
-                      <div className={`${styles.pulseExpandedOverlay} ${isActive ? styles.pulseExpandedOverlayVisible : ''}`}>
-                        {p.renderExp(() => setActiveCard(null))}
-                      </div>
-                    </div>
+                    )
                   ) : (
                     /* ── STEPS 02–05: Original In-Place Expanded Interactive Card ── */
                     isActive ? (
@@ -1986,7 +1991,6 @@ export default function LandingPage({ onNavigate, result }) {
                         role="region"
                         aria-label={`${p.title} active experience`}
                       >
-                        {/* Numbered Sigil Circle (Attached on outer left edge of active card) */}
                         <div className={styles.alembicSigilCircle}>
                           <span>{p.step}</span>
                         </div>
@@ -2015,14 +2019,12 @@ export default function LandingPage({ onNavigate, result }) {
                         tabIndex={0}
                         aria-label={`Open ${p.title} interactive experience`}
                       >
-                        {/* Numbered Sigil Circle (Attached on outer left edge of card) */}
                         <div className={styles.alembicSigilCircle}>
                           <span>{p.step}</span>
                         </div>
 
                         <AlembicCardFrame />
 
-                        {/* Top-Right Icon */}
                         <div className={styles.alembicCardIconWrap}>{p.icon}</div>
 
                         {/* Panel Content */}

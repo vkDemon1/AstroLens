@@ -1,4 +1,4 @@
-﻿/* LandingPage.module.css */
+/* LandingPage.module.css */
 
 .landing {
   position: relative;
@@ -890,8 +890,8 @@
   /* Increase degrees (e.g., 6deg) to tilt it higher, or decrease to lower it */
   transform: rotate(0deg);
 
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 85%, transparent 100%);
 }
 
 /* Hide any old static CSS elements */
@@ -1197,30 +1197,45 @@
   display: none;
 }
 
-/* 5-Card Grid Track (CSS Grid Accordion) */
+/* 5-Card Alembic Track — CSS Grid, natural height with Card 01 spanning 2 columns */
 .alembicGrid {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1.25rem;
   position: relative;
   z-index: 5;
-  min-height: 180px;
-  height: 180px;
-  transition: grid-template-columns 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  align-items: start;
+  transition: grid-template-columns 0.5s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.alembicGridStep1Active {
-  grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+/* Card 01 expanded: spans 3 grid columns, locks height, maintains staggered baseline */
+.alembicCardStep1Expanded {
+  grid-column: span 3 !important;
+  position: relative !important;
+  height: 175px !important;
+  min-height: 175px !important;
+  transform: translateY(20px) !important;
+  transition: transform 0.4s ease !important;
+  z-index: 50;
+}
+
+.alembicCardStep1Expanded:hover {
+  transform: translateY(20px) !important;
+}
+
+/* Card 02 hidden while Card 01 is expanded (its grid slot absorbed by Card 01 span) */
+.alembicCardStep2Hidden {
+  display: none !important;
 }
 
 .alembicCardWrap {
   position: relative;
   width: 100%;
-  height: 100%;
   min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   transition: transform 0.35s var(--ease-out);
+  overflow: visible;
 }
 
 /* ── EXACT STAGGERED "WAVE" LAYOUT ── */
@@ -1502,90 +1517,76 @@
 }
 
 /* ──────────────────────────────────────────────────────────
-   STEP 01 ONLY: CSS GRID ACCORDION & ISOLATED OVERLAY
+   CARD 01 — 3-COLUMN EXPANDED PANEL (LOCKED HEIGHT, ZERO OVERFLOW)
    ────────────────────────────────────────────────────────── */
-.alembicGlassPanelStep1 {
-  position: relative !important;
-  overflow: visible !important;
-  height: 100% !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.alembicGlassPanelStep1Expanded {
-  border-color: #FDE68A !important;
-  box-shadow: 0 0 20px rgba(253, 230, 138, 0.45), 0 0 35px rgba(56, 189, 248, 0.3) !important;
-  background: rgba(12, 10, 40, 0.96) !important;
-}
-
-.pulseDefaultContent {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.35s ease;
-}
-
-.pulseDefaultContentHidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Isolated Absolute Overlay (Never stretches card or page height, internal scroll) */
-.pulseExpandedOverlay {
+.alembicActiveCardPanel01 {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  min-height: 100%;
   box-sizing: border-box;
-  padding: 0.85rem 1rem 0.85rem 2.3rem;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(253, 230, 138, 0.45) transparent;
+  z-index: 50;
+  background: #0C0A28;
+  border: 1.5px solid rgba(253, 230, 138, 0.6);
+  border-radius: 14px;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.95),
+    0 0 28px rgba(253, 230, 138, 0.22),
+    0 0 55px rgba(56, 189, 248, 0.10);
+  padding: 0.85rem 1.1rem 0.85rem 2.3rem;
   display: flex;
   flex-direction: column;
-  border-radius: 14px;
+  justify-content: space-between;
+  overflow: visible;
+  -webkit-font-smoothing: antialiased;
+  animation: card01FadeIn 0.3s ease forwards;
 }
 
-.pulseExpandedOverlay::-webkit-scrollbar {
-  width: 4px;
+@keyframes card01FadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.pulseExpandedOverlay::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.pulseExpandedOverlay::-webkit-scrollbar-thumb {
-  background: rgba(253, 230, 138, 0.45);
-  border-radius: 4px;
-}
-
-.pulseExpandedOverlayVisible {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.pulseContentGrid {
+/* 3-Column Grid Layout */
+.pulseExpGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   align-items: start;
+  width: 100%;
   margin-top: 0.25rem;
 }
 
-.pulseColumnLeft,
-.pulseColumnRight {
+.pulseCol1,
+.pulseCol2,
+.pulseCol3 {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.pulseMetricRowsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.1rem 0;
+}
+
+/* Collapsed Card 01 glass panel (standard, same as other cards) */
+.alembicGlassPanelStep1 {
+  position: relative;
+  overflow: visible;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .alembicGlassPanelActiveTrigger {
@@ -1795,15 +1796,16 @@
 }
 
 .pulseThemeBox {
-  background: rgba(253, 230, 138, 0.08);
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(253, 230, 138, 0.18);
   border-left: 3px solid #FDE68A;
-  padding: 0.55rem 0.75rem;
-  border-radius: 0 8px 8px 0;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
   font-size: 0.74rem;
   color: #FEF08A;
   font-style: italic;
-  line-height: 1.4;
-  margin: 0.2rem 0;
+  line-height: 1.45;
+  margin: 0.1rem 0;
 }
 
 .pulseNextReminder {
@@ -1883,12 +1885,12 @@
   border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 99px;
   color: #E2E8F0;
-  font-size: 0.72rem;
-  padding: 0.25rem 0.55rem;
+  font-size: 0.68rem;
+  padding: 0.22rem 0.48rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.28rem;
   transition: all 0.2s ease;
 }
 
@@ -2289,14 +2291,27 @@
 
 @media (max-width: 1100px) {
   .alembicGrid {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.75rem 1.2rem;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 1.75rem;
+  }
+
+  /* Disable horizontal span on tablet — Card 01 expands vertically */
+  .alembicCardStep1Expanded {
+    grid-column: span 1 !important;
+  }
+
+  /* Unhide Card 02 on tablet */
+  .alembicCardStep2Hidden {
+    display: flex !important;
+  }
+
+  /* Stack the two-column layout vertically on tablet */
+  .pulseExpGrid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 
   .alembicCardWrap {
-    flex: 0 0 calc(33.33% - 1rem);
-    max-width: 280px;
     transform: none !important;
   }
 
@@ -2353,20 +2368,32 @@
     gap: 1.5rem !important;
   }
 
-  .alembicGlassPanelStep1 {
+  /* No horizontal span on mobile; natural vertical flow */
+  .alembicCardStep1Expanded {
+    grid-column: span 1 !important;
+    display: flex !important;
     height: auto !important;
-    min-height: 145px !important;
+    min-height: auto !important;
   }
 
-  .pulseExpandedOverlay {
+  /* Card 02 always visible on mobile */
+  .alembicCardStep2Hidden {
+    display: flex !important;
+  }
+
+  .alembicActiveCardPanel01 {
     position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    animation: none;
+    clip-path: none !important;
+    min-height: auto;
     height: auto !important;
-    max-height: 520px !important;
-    padding: 0.85rem 1rem 0.85rem 2.2rem !important;
   }
 
-  .pulseContentGrid {
-    grid-template-columns: 1fr !important;
+  .pulseExpGrid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
   }
 
   .alembicActiveCardPanel:not(.dailyPulseActivePanel) {
