@@ -1,7 +1,8 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import styles from './ResultCard.module.css';
 import ShareCard from './ShareCard';
+import { syncProfileFromReading } from '../utils/profileStorage';
 
 const LINE_ICONS = { life: '❤️', head: '🧠', heart: '💜' };
 const LINE_NAMES = { life: 'Life Line', head: 'Head Line', heart: 'Heart Line' };
@@ -85,6 +86,13 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
           lucky_element, cta_teaser,
           life, head, heart } = result;
 
+  // Sync profile data on mount and update
+  useEffect(() => {
+    if (result) {
+      syncProfileFromReading(result);
+    }
+  }, [result]);
+
   // Save to localStorage history
   const saveToHistory = () => {
     const history = JSON.parse(localStorage.getItem('astrolens_history') || '[]');
@@ -102,6 +110,7 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
       lucky_element,
     });
     localStorage.setItem('astrolens_history', JSON.stringify(history.slice(0, 20)));
+    syncProfileFromReading(result);
   };
 
   // Download share card as PNG
@@ -158,9 +167,14 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
       <div className={styles.header}>
         <button className="btn-ghost" id="result-back-btn" onClick={onRescan}>← Scan Again</button>
         <h1 className={styles.pageTitle}>Your Reading</h1>
-        <button className="btn-ghost" id="result-history-btn" onClick={() => onNavigate('history')}>
-          History
-        </button>
+        <div style={{ display: 'flex', gap: '0.5rem' }}>
+          <button className="btn-ghost" id="result-universe-btn" onClick={() => onNavigate('universe')}>
+            My Universe
+          </button>
+          <button className="btn-ghost" id="result-history-btn" onClick={() => onNavigate('history')}>
+            History
+          </button>
+        </div>
       </div>
 
       <div className={styles.grid}>
@@ -280,6 +294,27 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
                   <span>↗️</span> Share
                 </button>
               )}
+            </div>
+          </div>
+
+          {/* My Universe Gateway Card */}
+          <div className={`glass-card ${styles.universeGatewayCard}`}>
+            <div className={styles.universeGatewayContent}>
+              <div>
+                <span className={styles.universeGatewayEyebrow}>✦ COSMIC IDENTITY ARCHIVED ✦</span>
+                <h4 className={styles.universeGatewayTitle}>Your Personal Universe is Ready</h4>
+                <p className={styles.universeGatewayText}>
+                  This palm reading and your archetype harmonics have been woven into your evolving cosmic sanctuary.
+                </p>
+              </div>
+              <button
+                id="enter-universe-btn"
+                className="btn-primary"
+                onClick={() => onNavigate('universe')}
+                style={{ whiteSpace: 'nowrap' }}
+              >
+                <span>🌌</span> Enter My Universe →
+              </button>
             </div>
           </div>
 

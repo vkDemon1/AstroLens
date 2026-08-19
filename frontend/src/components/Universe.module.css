@@ -1,0 +1,808 @@
+/* Universe.module.css — My Universe Personal Cosmic Space */
+
+.universePage {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.6s var(--ease-out);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(253, 230, 138, 0.15);
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(201, 162, 39, 0.3);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.editNameBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: var(--radius-full);
+  color: #fde68a;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.65rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.editNameBtn:hover {
+  background: rgba(253, 230, 138, 0.15);
+  border-color: #fde68a;
+  transform: translateY(-1px);
+}
+
+.subtitle {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* ── Name Prompt Modal / Card ── */
+.namePromptOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 0, 15, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.3s var(--ease-out);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.namePromptCard {
+  width: 100%;
+  max-width: 440px;
+  background: radial-gradient(circle at 50% 0%, rgba(123, 47, 255, 0.22), rgba(13, 0, 32, 0.95) 75%);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.8), 0 0 30px rgba(123, 47, 255, 0.25);
+  text-align: center;
+  position: relative;
+}
+
+.namePromptIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+  animation: float 4s ease-in-out infinite;
+}
+
+.namePromptTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+}
+
+.namePromptSub {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.nameInput {
+  width: 100%;
+  padding: 0.85rem 1.2rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(253, 230, 138, 0.3);
+  border-radius: var(--radius-full);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  outline: none;
+  text-align: center;
+  letter-spacing: 0.04em;
+  margin-bottom: 1.25rem;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.nameInput:focus {
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 20px rgba(201, 162, 39, 0.35);
+}
+
+.nameInput::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.namePromptActions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+/* ── Empty State ── */
+.emptyState {
+  background: radial-gradient(circle at 50% 30%, rgba(123, 47, 255, 0.15), rgba(6, 0, 15, 0.85) 75%);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: var(--radius-lg);
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+  position: relative;
+  overflow: hidden;
+}
+
+.emptyOrbGlow {
+  position: absolute;
+  top: 20%;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(123, 47, 255, 0.25) 0%, rgba(56, 189, 248, 0.1) 50%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.emptyIcon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 0 28px rgba(253, 230, 138, 0.25);
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
+}
+
+.emptyText {
+  max-width: 520px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.emptyActions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── Active Universe Layout ── */
+.universeGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ── Hero Identity Card ── */
+.identityCard {
+  background: radial-gradient(circle at 20% 20%, rgba(123, 47, 255, 0.18), rgba(6, 0, 15, 0.8) 80%);
+  border: 1px solid rgba(201, 162, 39, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.identityCardGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(50px);
+  opacity: 0.6;
+}
+
+.identityTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.archetypeBadge {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+.archetypeHero {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.readingTitleExcerpt {
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  font-style: italic;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+.auraOrbWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid;
+  flex-shrink: 0;
+  position: relative;
+  background: rgba(10, 5, 25, 0.6);
+}
+
+.auraScoreNumber {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.auraScoreLabel {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.identityFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-top: 1rem;
+}
+
+.lastActiveBadge {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* ── Metrics Panel ── */
+.metricsCard {
+  background: rgba(15, 8, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cardSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.cardSectionTitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.metricsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.metricRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.metricMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.metricLabel {
+  color: #e2e8f0;
+}
+
+.metricValue {
+  color: #ffd700;
+}
+
+.metricTrack {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  position: relative;
+}
+
+.metricFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 1s var(--ease-out);
+}
+
+/* ── Secondary Grid (Streak & History Summary) ── */
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.summaryCard {
+  background: rgba(15, 8, 30, 0.6);
+  border: 1px solid rgba(201, 162, 39, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.summaryCard:hover {
+  border-color: rgba(201, 162, 39, 0.45);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.summaryCardTop {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.summaryIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.summaryStat {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.summarySub {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.themeSnippet {
+  font-size: 0.8rem;
+  color: #fde68a;
+  font-style: italic;
+  line-height: 1.4;
+  margin: 0 0 1rem 0;
+  padding: 0.6rem 0.8rem;
+  background: rgba(253, 230, 138, 0.06);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--gold);
+}
+
+.cardActionLink {
+  background: none;
+  border: none;
+  color: var(--gold);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.cardActionLink:hover {
+  color: #ffffff;
+  transform: translateX(3px);
+}
+
+/* ── Actions Footer Bar ── */
+.actionsBar {
+  background: rgba(13, 0, 32, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.actionsBarTitle {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.actionsBtnGroup {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* ── Daily Pulse Hub (Phase 3 Retention Engine) ── */
+.dailyPulseHub {
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.22), rgba(15, 8, 35, 0.9) 75%);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 24px rgba(123, 47, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.dailyPulseHubHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.dailyPulseHubTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dailyPulseEyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.dailyPulseTitle {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.pulseStatusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.pulseStatusBadgeDone {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  color: #4ade80;
+  box-shadow: 0 0 12px rgba(34, 197, 94, 0.25);
+}
+
+.pulseStatusBadgeWaiting {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+  animation: glow-pulse 3s infinite;
+}
+
+.hubGrid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.hubThemeBox {
+  background: rgba(253, 230, 138, 0.08);
+  border-left: 3px solid var(--gold);
+  padding: 0.75rem 1rem;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  color: #fef08a;
+  font-style: italic;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+.milestoneCard {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.milestoneCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.78rem;
+}
+
+.milestoneTitleBadge {
+  color: #fde68a;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.milestoneNextTarget {
+  color: #94a3b8;
+  font-size: 0.72rem;
+}
+
+.milestoneProgressBar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.milestoneProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #fde68a, #38bdf8);
+  border-radius: var(--radius-full);
+  transition: width 0.8s var(--ease-out);
+}
+
+.hubInteractiveGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hubSectionTitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.hubChipsRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.hubChip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-full);
+  color: #e2e8f0;
+  font-size: 0.76rem;
+  padding: 0.3rem 0.7rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.hubChip:hover {
+  background: rgba(253, 230, 138, 0.15);
+  border-color: rgba(253, 230, 138, 0.4);
+  color: #ffffff;
+}
+
+.hubChipActive {
+  background: rgba(56, 189, 248, 0.22) !important;
+  border-color: #38bdf8 !important;
+  color: #38bdf8 !important;
+  font-weight: 700;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.35);
+}
+
+.tomorrowSignalCard {
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.2), rgba(15, 23, 42, 0.8) 85%);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.tomorrowSignalLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c084fc;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tomorrowSignalText {
+  font-size: 0.8rem;
+  color: #f8fafc;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.hubActionFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.hubToastMsg {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: rgba(13, 0, 32, 0.95);
+  border: 1px solid #38bdf8;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.4);
+  z-index: 300;
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* ── Responsive ── */
+@media (max-width: 860px) {
+  .universeGrid {
+    grid-template-columns: 1fr;
+  }
+  .secondaryGrid {
+    grid-template-columns: 1fr;
+  }
+  .hubGrid {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .actionsBar {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .actionsBtnGroup {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .universePage {
+    padding: 1rem 1rem 4rem;
+  }
+  .identityCard {
+    padding: 1.5rem;
+  }
+  .dailyPulseHub {
+    padding: 1.25rem 1.25rem;
+  }
+  .identityTop {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+}
+

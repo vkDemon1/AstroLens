@@ -535,9 +535,18 @@ button {
    Responsive
    ============================================================ */
 @media (max-width: 768px) {
-  .nav { padding: var(--space-sm) var(--space-md); }
-  .nav-tab { display: none; }
-  .nav-tab.active { display: flex; }
+  .nav { padding: var(--space-sm) var(--space-md); gap: 0.5rem; }
+  .nav-logo { font-size: 1.15rem; }
+  .nav-tabs { gap: 2px; }
+  .nav-tab { padding: 4px 10px; font-size: 0.78rem; }
   .container { padding: 0 var(--space-md); }
   .glass-card { padding: var(--space-lg); }
 }
+
+@media (max-width: 480px) {
+  .nav { padding: 0.4rem 0.6rem; }
+  .nav-logo { font-size: 1rem; }
+  .nav-logo .logo-icon { font-size: 1.1rem; }
+  .nav-tab { padding: 4px 7px; font-size: 0.72rem; }
+}
+

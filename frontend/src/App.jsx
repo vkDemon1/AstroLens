@@ -4,6 +4,7 @@ import LandingPage from './components/LandingPage';
 import Scanner     from './components/Scanner';
 import ResultCard  from './components/ResultCard';
 import History     from './components/History';
+import Universe    from './components/Universe';
 import { getDemoReading } from './services/api';
 
 const DEMO_FALLBACK = {
@@ -27,9 +28,9 @@ const DEMO_FALLBACK = {
  * AstroLens — Root Application
  *
  * Manages global screen state:
- *   landing → scanner → result
+ *   landing → scanner → result → universe
  *              ↑_________↓ (rescan)
- *   Any screen → history → landing
+ *   Any screen → universe / history → landing
  *
  * URL ?demo=true skips the camera and loads a pre-baked reading.
  */
@@ -65,6 +66,11 @@ export default function App() {
       <LandingPage
         onNavigate={navigate}
         result={result}
+      />
+    ),
+    universe: (
+      <Universe
+        onNavigate={navigate}
       />
     ),
     scanner: (
@@ -106,9 +112,10 @@ export default function App() {
 
         <div className="nav-tabs" role="tablist">
           {[
-            { id: 'nav-home',    label: 'Home',    to: 'landing'  },
-            { id: 'nav-scan',    label: 'Scan',    to: 'scanner'  },
-            { id: 'nav-history', label: 'History', to: 'history'  },
+            { id: 'nav-home',     label: 'Home',     to: 'landing'  },
+            { id: 'nav-universe', label: 'Universe', to: 'universe' },
+            { id: 'nav-scan',     label: 'Scan',     to: 'scanner'  },
+            { id: 'nav-history',  label: 'History',  to: 'history'  },
           ].map(tab => (
             <button
               key={tab.to}

@@ -5,6 +5,12 @@ import {
   loadPulseState,
   hasCompletedToday,
   completeTodaysPulse,
+  saveMoodToday,
+  saveReflectionToday,
+  getPulseMilestoneProgress,
+  getTomorrowTeaser,
+  MOOD_OPTIONS,
+  REFLECTION_OPTIONS,
 } from '../utils/pulseStorage';
 
 // Inline fallback — works with no backend running
@@ -471,8 +477,8 @@ function computeTwinBreakdown(result) {
   const toPct = (v) => Math.round((v / total) * 100);
 
   const items = [
-    { label: 'Life',  pct: toPct(life),  color: '#FDE68A' },
-    { label: 'Head',  pct: toPct(head),  color: '#38BDF8' },
+    { label: 'Life', pct: toPct(life), color: '#FDE68A' },
+    { label: 'Head', pct: toPct(head), color: '#38BDF8' },
     { label: 'Heart', pct: toPct(heart), color: '#C084FC' },
   ].sort((a, b) => b.pct - a.pct);
 
@@ -503,11 +509,30 @@ function DailyPalmPulseExp({ onClose, result }) {
     }, 1500);
   };
 
+  const handleSelectMood = (moodId, moodIcon, moodLabel) => {
+    const next = saveMoodToday(moodId);
+    setPulseState(next);
+    setToast(`Energy set: ${moodIcon} ${moodLabel}`);
+    setTimeout(() => setToast(null), 2000);
+  };
+
+  const handleSelectReflection = (refId, refLabel) => {
+    const next = saveReflectionToday(refId);
+    setPulseState(next);
+    setToast(`Focus aligned on: ${refLabel}`);
+    setTimeout(() => setToast(null), 2000);
+  };
+
   const handleShare = async () => {
     const m = pulseState?.metrics;
     const streak = pulseState?.streak ?? 1;
+    const moodObj = MOOD_OPTIONS.find(o => o.id === pulseState?.mood);
+    const refObj = REFLECTION_OPTIONS.find(o => o.id === pulseState?.reflection);
+    const moodStr = moodObj ? ` | Mood: ${moodObj.icon} ${moodObj.label}` : '';
+    const refStr = refObj ? ` | Focus: ${refObj.icon} ${refObj.label}` : '';
+
     const text = m
-      ? `✦ My Daily Cosmic Pulse (Day ${streak} streak): Energy ${m.energy}% | Focus ${m.focus}% | Emotion ${m.emotion}% — "${m.theme}" Discover yours on AstroLens! ✨`
+      ? `✦ My Daily Cosmic Pulse (Day ${streak} streak): Energy ${m.energy}% | Focus ${m.focus}% | Emotion ${m.emotion}%${moodStr}${refStr} — "${m.theme}" Discover yours on AstroLens! ✨`
       : `✦ Check your Daily Cosmic Pulse on AstroLens! ✨`;
 
     if (navigator.share) {
@@ -527,6 +552,8 @@ function DailyPalmPulseExp({ onClose, result }) {
 
   const alreadyDoneToday = hasCompletedToday(pulseState);
   const m = pulseState?.metrics;
+  const milestone = getPulseMilestoneProgress(pulseState?.streak || (alreadyDoneToday ? 1 : 0));
+  const tomorrowTeaser = pulseState?.tomorrowTeaser || getTomorrowTeaser(result?.aura_score ?? 'guest');
 
   return (
     <div className={styles.expContainer}>
@@ -534,11 +561,13 @@ function DailyPalmPulseExp({ onClose, result }) {
         <div className={styles.expTitleGroup}>
           <h4 className={styles.expTitle}>TODAY'S PALM PULSE</h4>
           <span className={styles.expSubtitle}>
-            {pulseState ? `Day ${pulseState.streak} Streak` : 'Daily Habit & Cosmic Resonance'}
+            {pulseState ? `Day ${pulseState.streak} Streak · ${milestone.currentMilestone ? milestone.currentMilestone.title : 'Initiate Orbit'}` : 'Daily Habit & Cosmic Resonance'}
           </span>
         </div>
         <div className={styles.expHeaderRight}>
-          <span className={`${styles.expBadge} ${styles.expBadgeCyan}`}>DAILY PULSE</span>
+          <span className={`${styles.expBadge} ${alreadyDoneToday ? styles.expBadgePurple : styles.expBadgeCyan}`}>
+            {alreadyDoneToday ? '✓ COMPLETED TODAY' : 'DAILY PULSE'}
+          </span>
           <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
         </div>
       </div>
@@ -583,7 +612,23 @@ function DailyPalmPulseExp({ onClose, result }) {
       )}
 
       {scanState === 'done' && m && (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+          {/* Milestone Progress Bar */}
+          <div className={styles.pulseMilestoneWrap}>
+            <div className={styles.pulseMilestoneHeader}>
+              <span className={styles.pulseMilestoneBadge}>
+                {milestone.currentMilestone ? `${milestone.currentMilestone.icon} ${milestone.currentMilestone.title}` : '✦ Initiate Orbit'}
+              </span>
+              <span className={styles.pulseMilestoneTarget}>
+                {milestone.nextMilestone ? `${milestone.daysRemaining}d to ${milestone.nextMilestone.title}` : 'Max Tier Unlocked 👑'}
+              </span>
+            </div>
+            <div className={styles.pulseMilestoneBar}>
+              <div className={styles.pulseMilestoneProgress} style={{ width: `${milestone.progressPct}%` }} />
+            </div>
+          </div>
+
+          {/* Metric Rows */}
           <div>
             <div className={styles.pulseMetricRow}>
               <span className={styles.pulseMetricLabel}>Energy</span>
@@ -612,9 +657,51 @@ function DailyPalmPulseExp({ onClose, result }) {
             <strong>Today's Theme:</strong> "{m.theme}"
           </div>
 
+          {/* Interactive Mood Section */}
+          <div className={styles.pulseInteractiveSection}>
+            <span className={styles.pulseSectionLabel}>✦ Energy Alignment Today</span>
+            <div className={styles.pulseChipRow}>
+              {MOOD_OPTIONS.map(mOpt => (
+                <button
+                  key={mOpt.id}
+                  className={`${styles.pulseMoodChip} ${pulseState?.mood === mOpt.id ? styles.pulseChipActive : ''}`}
+                  onClick={() => handleSelectMood(mOpt.id, mOpt.icon, mOpt.label)}
+                >
+                  <span>{mOpt.icon}</span> {mOpt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Interactive Reflection Section */}
+          <div className={styles.pulseInteractiveSection}>
+            <span className={styles.pulseSectionLabel}>✦ Today's Reflection Focus</span>
+            <div className={styles.pulseChipRow}>
+              {REFLECTION_OPTIONS.map(rOpt => (
+                <button
+                  key={rOpt.id}
+                  className={`${styles.pulseReflectionChip} ${pulseState?.reflection === rOpt.id ? styles.pulseChipActive : ''}`}
+                  onClick={() => handleSelectReflection(rOpt.id, rOpt.label)}
+                >
+                  <span>{rOpt.icon}</span> {rOpt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Tomorrow Preview Teaser */}
+          <div className={styles.pulseTomorrowBox}>
+            <div className={styles.pulseTomorrowTitle}>
+              <span>🔮</span> Tomorrow's Cosmic Signal
+            </div>
+            <p className={styles.pulseTomorrowText}>
+              "{tomorrowTeaser}"
+            </p>
+          </div>
+
           <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.15rem' }}>
             <button className={styles.expActionBtn} onClick={handleShare} style={{ flex: 2 }}>
-              <span>↗</span> SHARE TODAY'S PULSE
+              <span>↗</span> SHARE TODAY'S SIGNAL
             </button>
           </div>
 
@@ -638,9 +725,9 @@ function PalmTwinExp({ onClose, result, onNavigate }) {
   const breakdown = hasReal ? computeTwinBreakdown(result) : null;
 
   const demoItems = [
-    { label: 'Explorer',   pct: 73, color: '#38BDF8' },
-    { label: 'Visionary',  pct: 18, color: '#FDE68A' },
-    { label: 'Strategist', pct: 9,  color: '#C084FC' },
+    { label: 'Explorer', pct: 73, color: '#38BDF8' },
+    { label: 'Visionary', pct: 18, color: '#FDE68A' },
+    { label: 'Strategist', pct: 9, color: '#C084FC' },
   ];
   const items = hasReal ? breakdown : demoItems;
 
@@ -715,8 +802,10 @@ function PalmTwinExp({ onClose, result, onNavigate }) {
             <div>Scan your palm to see your real Palm Twin breakdown.</div>
             <button
               className={styles.expActionBtn}
-              style={{ marginTop: '0.6rem' }}
-              onClick={() => { onClose(); onNavigate && onNavigate('scanner'); }}
+              onClick={() => {
+                onClose();
+                if (onNavigate) onNavigate('scanner');
+              }}
             >
               <span>🔭</span> SCAN MY PALM
             </button>
@@ -979,10 +1068,10 @@ function CosmicOracleExp({ onClose, result }) {
 
   const scores = result
     ? {
-        life: result.life?.score ?? 0.6,
-        head: result.head?.score ?? 0.6,
-        heart: result.heart?.score ?? 0.6,
-      }
+      life: result.life?.score ?? 0.6,
+      head: result.head?.score ?? 0.6,
+      heart: result.heart?.score ?? 0.6,
+    }
     : { life: 0.65, head: 0.6, heart: 0.55 };
 
   const fetchReading = async (catId) => {
@@ -1385,7 +1474,7 @@ function CosmicInfinityBg() {
 export default function LandingPage({ onNavigate, result }) {
   const heroRef = useRef(null);
   const alembicRef = useRef(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [_scrollY, setScrollY] = useState(0);
   const [cardTilts, setCardTilts] = useState({});
   const [activeCard, setActiveCard] = useState(null); // '01' | '02' | '03' | '04' | '05' | null
   const [discoveryStep, setDiscoveryStep] = useState(null); // null | 0 | 1 | 2 | 3 | 4 | 5
@@ -1748,8 +1837,8 @@ export default function LandingPage({ onNavigate, result }) {
             </defs>
           </svg>
 
-          {/* 5 Alchemical Alembic Panels — In-Place Anchored Card Expansion */}
-          <div className={styles.alembicGrid}>
+          {/* 5 Alchemical Alembic Panels — CSS Grid Accordion */}
+          <div className={`${styles.alembicGrid} ${activeCard === '01' ? styles.alembicGridStep1Active : ''}`}>
             {[
               {
                 step: '01',
@@ -1828,64 +1917,126 @@ export default function LandingPage({ onNavigate, result }) {
                   )}
 
 
-                  {isActive ? (
-                    /* In-Place Expanded Interactive Card */
+                  {p.step === '01' ? (
+                    /* ── STEP 01 ONLY: CSS Grid Accordion Card (Isolated Absolute Content) ── */
                     <div
-                      className={`${styles.alembicActiveCardPanel} ${p.activeClass}`}
-                      role="region"
-                      aria-label={`${p.title} active experience`}
-                    >
-                      {/* Numbered Sigil Circle (Attached on outer left edge of active card) */}
-                      <div className={styles.alembicSigilCircle}>
-                        <span>{p.step}</span>
-                      </div>
-
-                      {p.renderExp(() => setActiveCard(null))}
-                    </div>
-                  ) : (
-                    /* Default Glass Alembic Panel Body */
-                    <div
-                      className={`${styles.alembicGlassPanel} ${isDiscoveryActive ? styles.discoveryCardActive : ''}`}
+                      className={`${styles.alembicGlassPanel} ${styles.alembicGlassPanelStep1} ${isDiscoveryActive ? styles.discoveryCardActive : ''} ${isActive ? styles.alembicGlassPanelStep1Expanded : ''}`}
                       onClick={() => {
-                        setActiveCard(p.step);
-                        if (discoveryStep !== null && discoveryStep === index) {
-                          setDiscoveryStep(index + 1);
-                        }
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          setActiveCard(p.step);
+                        if (isActive) {
+                          setActiveCard(null);
+                        } else {
+                          setActiveCard('01');
                           if (discoveryStep !== null && discoveryStep === index) {
                             setDiscoveryStep(index + 1);
                           }
                         }
                       }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          if (isActive) {
+                            setActiveCard(null);
+                          } else {
+                            setActiveCard('01');
+                            if (discoveryStep !== null && discoveryStep === index) {
+                              setDiscoveryStep(index + 1);
+                            }
+                          }
+                        }
+                      }}
                       role="button"
                       tabIndex={0}
-                      aria-label={`Open ${p.title} interactive experience`}
+                      aria-expanded={isActive}
+                      aria-label={`${p.title} interactive experience`}
                     >
-                      {/* Numbered Sigil Circle (Attached on outer left edge of default card) */}
+                      {/* Numbered Sigil Circle */}
                       <div className={styles.alembicSigilCircle}>
                         <span>{p.step}</span>
                       </div>
 
                       <AlembicCardFrame />
 
-                      {/* Top-Right Icon */}
-                      <div className={styles.alembicCardIconWrap}>{p.icon}</div>
+                      {/* Default Collapsed Content (fades out when active) */}
+                      <div className={`${styles.pulseDefaultContent} ${isActive ? styles.pulseDefaultContentHidden : ''}`}>
+                        {/* Top-Right Icon */}
+                        <div className={styles.alembicCardIconWrap}>{p.icon}</div>
 
-                      {/* Panel Content */}
-                      <div className={styles.alembicCardContent}>
-                        <h3 className={styles.alembicCardTitle}>{p.title}</h3>
-                        <div className={styles.alembicDividerBar} />
-                        <p className={styles.alembicCardSubtext}>{p.subtext}</p>
-                        <div className={styles.cardActionHint}>
-                          <span>{p.hintText}</span>
-                          <span className={styles.cardActionHintArrow}>→</span>
+                        {/* Panel Content */}
+                        <div className={styles.alembicCardContent}>
+                          <h3 className={styles.alembicCardTitle}>{p.title}</h3>
+                          <div className={styles.alembicDividerBar} />
+                          <p className={styles.alembicCardSubtext}>{p.subtext}</p>
+                          <div className={styles.cardActionHint}>
+                            <span>{p.hintText}</span>
+                            <span className={styles.cardActionHintArrow}>→</span>
+                          </div>
                         </div>
                       </div>
+
+                      {/* Absolute Isolated Expanded Pulse Content (Never stretches card height) */}
+                      <div className={`${styles.pulseExpandedOverlay} ${isActive ? styles.pulseExpandedOverlayVisible : ''}`}>
+                        {p.renderExp(() => setActiveCard(null))}
+                      </div>
                     </div>
+                  ) : (
+                    /* ── STEPS 02–05: Original In-Place Expanded Interactive Card ── */
+                    isActive ? (
+                      <div
+                        className={`${styles.alembicActiveCardPanel} ${p.activeClass}`}
+                        role="region"
+                        aria-label={`${p.title} active experience`}
+                      >
+                        {/* Numbered Sigil Circle (Attached on outer left edge of active card) */}
+                        <div className={styles.alembicSigilCircle}>
+                          <span>{p.step}</span>
+                        </div>
+
+                        {p.renderExp(() => setActiveCard(null))}
+                      </div>
+                    ) : (
+                      <div
+                        className={`${styles.alembicGlassPanel} ${isDiscoveryActive ? styles.discoveryCardActive : ''}`}
+                        onClick={() => {
+                          setActiveCard(p.step);
+                          if (discoveryStep !== null && discoveryStep === index) {
+                            setDiscoveryStep(index + 1);
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActiveCard(p.step);
+                            if (discoveryStep !== null && discoveryStep === index) {
+                              setDiscoveryStep(index + 1);
+                            }
+                          }
+                        }}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Open ${p.title} interactive experience`}
+                      >
+                        {/* Numbered Sigil Circle (Attached on outer left edge of card) */}
+                        <div className={styles.alembicSigilCircle}>
+                          <span>{p.step}</span>
+                        </div>
+
+                        <AlembicCardFrame />
+
+                        {/* Top-Right Icon */}
+                        <div className={styles.alembicCardIconWrap}>{p.icon}</div>
+
+                        {/* Panel Content */}
+                        <div className={styles.alembicCardContent}>
+                          <h3 className={styles.alembicCardTitle}>{p.title}</h3>
+                          <div className={styles.alembicDividerBar} />
+                          <p className={styles.alembicCardSubtext}>{p.subtext}</p>
+                          <div className={styles.cardActionHint}>
+                            <span>{p.hintText}</span>
+                            <span className={styles.cardActionHintArrow}>→</span>
+                          </div>
+                        </div>
+                      </div>
+                    )
                   )}
                 </div>
               );

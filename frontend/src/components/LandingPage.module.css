@@ -1,4 +1,4 @@
-/* LandingPage.module.css */
+﻿/* LandingPage.module.css */
 
 .landing {
   position: relative;
@@ -1197,20 +1197,26 @@
   display: none;
 }
 
-/* 5-Card Grid */
+/* 5-Card Grid Track (CSS Grid Accordion) */
 .alembicGrid {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.25rem;
   position: relative;
   z-index: 5;
+  min-height: 180px;
+  height: 180px;
+  transition: grid-template-columns 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.alembicGridStep1Active {
+  grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
 }
 
 .alembicCardWrap {
   position: relative;
-  flex: 1 1 0;
-  max-width: 250px;
+  width: 100%;
+  height: 100%;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -1430,7 +1436,7 @@
 
 
 /* ──────────────────────────────────────────────────────────
-   IN-PLACE EXPANDED ACTIVE CARD PANEL (RAZOR SHARP, PIXEL ALIGNED)
+   IN-PLACE EXPANDED ACTIVE CARD PANEL (STEPS 02–05 ORIGINAL BEHAVIOR)
    ────────────────────────────────────────────────────────── */
 .alembicActiveCardPanel {
   position: absolute;
@@ -1452,7 +1458,6 @@
   filter: none !important;
 }
 
-
 @keyframes cardFadeIn {
   from {
     opacity: 0;
@@ -1463,11 +1468,19 @@
   }
 }
 
-/* Card-Specific Expansion Anchors (Pixel-Aligned, Zero Fractional Blur) */
-.activeCard01 {
-  left: 0;
+@keyframes cardUnfoldRight {
+  from {
+    opacity: 0;
+    transform: translateX(16px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
 }
 
+/* Steps 02–05 Original Card Expansion Anchors */
 .activeCard02 {
   left: -20px;
   width: 445px;
@@ -1486,6 +1499,99 @@
 .activeCard05 {
   right: 0;
   width: 440px;
+}
+
+/* ──────────────────────────────────────────────────────────
+   STEP 01 ONLY: CSS GRID ACCORDION & ISOLATED OVERLAY
+   ────────────────────────────────────────────────────────── */
+.alembicGlassPanelStep1 {
+  position: relative !important;
+  overflow: visible !important;
+  height: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.alembicGlassPanelStep1Expanded {
+  border-color: #FDE68A !important;
+  box-shadow: 0 0 20px rgba(253, 230, 138, 0.45), 0 0 35px rgba(56, 189, 248, 0.3) !important;
+  background: rgba(12, 10, 40, 0.96) !important;
+}
+
+.pulseDefaultContent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 0.35s ease;
+}
+
+.pulseDefaultContentHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Isolated Absolute Overlay (Never stretches card or page height, internal scroll) */
+.pulseExpandedOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  padding: 0.85rem 1rem 0.85rem 2.3rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(253, 230, 138, 0.45) transparent;
+  display: flex;
+  flex-direction: column;
+  border-radius: 14px;
+}
+
+.pulseExpandedOverlay::-webkit-scrollbar {
+  width: 4px;
+}
+
+.pulseExpandedOverlay::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pulseExpandedOverlay::-webkit-scrollbar-thumb {
+  background: rgba(253, 230, 138, 0.45);
+  border-radius: 4px;
+}
+
+.pulseExpandedOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.pulseContentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  align-items: start;
+  margin-top: 0.25rem;
+}
+
+.pulseColumnLeft,
+.pulseColumnRight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.alembicGlassPanelActiveTrigger {
+  border-color: #FDE68A !important;
+  box-shadow: 0 0 20px rgba(253, 230, 138, 0.45), 0 0 35px rgba(56, 189, 248, 0.3) !important;
+  background: rgba(22, 16, 52, 0.95) !important;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -1704,6 +1810,128 @@
   font-size: 0.64rem;
   color: #94A3B8;
   text-align: center;
+}
+
+/* Phase 3: Daily Pulse Retention Enhancements */
+.pulseMilestoneWrap {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(253, 230, 138, 0.2);
+  border-radius: 8px;
+  padding: 0.55rem 0.75rem;
+  margin: 0.2rem 0;
+}
+
+.pulseMilestoneHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  font-size: 0.72rem;
+}
+
+.pulseMilestoneBadge {
+  color: #FDE68A;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.pulseMilestoneTarget {
+  color: #94A3B8;
+  font-size: 0.66rem;
+}
+
+.pulseMilestoneBar {
+  height: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.pulseMilestoneProgress {
+  height: 100%;
+  background: linear-gradient(90deg, #FDE68A, #38BDF8);
+  border-radius: 99px;
+  transition: width 0.6s ease-out;
+}
+
+.pulseInteractiveSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.35rem 0;
+}
+
+.pulseSectionLabel {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #CBD5E1;
+}
+
+.pulseChipRow {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pulseMoodChip,
+.pulseReflectionChip {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 99px;
+  color: #E2E8F0;
+  font-size: 0.72rem;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  transition: all 0.2s ease;
+}
+
+.pulseMoodChip:hover,
+.pulseReflectionChip:hover {
+  background: rgba(253, 230, 138, 0.15);
+  border-color: rgba(253, 230, 138, 0.4);
+  color: #FFF;
+}
+
+.pulseChipActive {
+  background: rgba(56, 189, 248, 0.2) !important;
+  border-color: #38BDF8 !important;
+  color: #38BDF8 !important;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.pulseTomorrowBox {
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.15), rgba(15, 23, 42, 0.7) 80%);
+  border: 1px solid rgba(192, 132, 252, 0.3);
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  margin: 0.35rem 0;
+}
+
+.pulseTomorrowTitle {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #C084FC;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-bottom: 0.25rem;
+}
+
+.pulseTomorrowText {
+  font-size: 0.72rem;
+  color: #F1F5F9;
+  line-height: 1.4;
+  margin: 0;
 }
 
 /* ──────────────────────────────────────────────────────────
@@ -2080,7 +2308,7 @@
     transform: translateY(-8px) scale(1.03) !important;
   }
 
-  .alembicActiveCardPanel {
+  .alembicActiveCardPanel:not(.dailyPulseActivePanel) {
     width: min(92vw, 420px);
     left: 50% !important;
     right: auto !important;
@@ -2116,7 +2344,32 @@
     letter-spacing: 0.1em;
   }
 
-  .alembicActiveCardPanel {
+  .alembicGrid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    min-height: auto !important;
+    gap: 1.5rem !important;
+  }
+
+  .alembicGlassPanelStep1 {
+    height: auto !important;
+    min-height: 145px !important;
+  }
+
+  .pulseExpandedOverlay {
+    position: relative !important;
+    height: auto !important;
+    max-height: 520px !important;
+    padding: 0.85rem 1rem 0.85rem 2.2rem !important;
+  }
+
+  .pulseContentGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .alembicActiveCardPanel:not(.dailyPulseActivePanel) {
     position: relative;
     top: 0;
     left: 0 !important;
@@ -2132,8 +2385,10 @@
   }
 
   .alembicCardWrap {
-    flex: 0 0 100%;
-    max-width: 320px;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 340px !important;
+    height: auto !important;
   }
 
   .alembicGlassPanel {
@@ -2875,12 +3130,15 @@
   0% {
     transform: scale(1) rotate(0deg);
   }
+
   30% {
     transform: scale(2.2) rotate(25deg);
   }
+
   60% {
     transform: scale(9) rotate(70deg);
   }
+
   100% {
     transform: scale(50) rotate(140deg);
   }
@@ -2938,6 +3196,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -2947,6 +3206,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }
@@ -3039,6 +3299,7 @@
     transform: scale(1);
     filter: brightness(1);
   }
+
   100% {
     transform: scale(1.04);
     filter: brightness(1.35);
