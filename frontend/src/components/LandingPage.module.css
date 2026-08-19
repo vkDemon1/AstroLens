@@ -2836,7 +2836,8 @@
 
 /* Hover State Surge: Power Surge triggered by button coupling */
 .portalSurge {
-  --speed-outer: 12s; /* 5x acceleration */
+  --speed-outer: 12s;
+  /* 5x acceleration */
   --speed-inner: 9s;
   --portal-brightness: 1.35;
   --portal-saturate: 1.45;
@@ -2850,6 +2851,48 @@
   border-radius: 50%;
 }
 
+/* ══════════════════════════════════════════
+   ANCHORED PORTAL DIVE TRANSITION STYLES
+══════════════════════════════════════════ */
+.gateTextFading {
+  opacity: 0 !important;
+  transform: translateY(-16px) !important;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  pointer-events: none !important;
+}
+
+/* Feature 2: Anchored Expansion (Scales from original position on right side) */
+.portalDiving {
+  position: relative !important;
+  z-index: 9999 !important;
+  transform-origin: center center !important;
+  animation: portalAnchoredDive 1.5s cubic-bezier(0.5, 0, 0.15, 1) forwards !important;
+  pointer-events: none !important;
+  will-change: transform;
+}
+
+@keyframes portalAnchoredDive {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  30% {
+    transform: scale(2.2) rotate(25deg);
+  }
+  60% {
+    transform: scale(9) rotate(70deg);
+  }
+  100% {
+    transform: scale(50) rotate(140deg);
+  }
+}
+
+.portalDiving .layerCenterHand {
+  opacity: 0 !important;
+  transform: scale(0.5) !important;
+  filter: blur(12px) !important;
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out, filter 0.65s ease-out !important;
+}
+
 .portalLayer {
   position: absolute;
   inset: 0;
@@ -2858,21 +2901,31 @@
   user-select: none;
 }
 
-/* Layer 1: Nebula Backing */
+/* Layer 1: Nebula Backing (Acts as the dark cosmic void expanding during Dive) */
 .layerNebula {
-  background: radial-gradient(circle at center, rgba(30, 10, 60, 0.7) 0%, rgba(5, 2, 18, 0.95) 60%, transparent 72%);
+  background: radial-gradient(circle at center, #02000a 0%, #030014 55%, #050218 72%, transparent 74%);
 }
 
-/* Layer 2: Outer Rune Ring (Clockwise Rotation) */
+/* Layer 2: Outer Rune Ring (Accelerates Rotation on Dive initialization) */
 .layerOuterRunes {
   animation: rotateOuterClockwise var(--speed-outer) linear infinite;
-  transition: animation-duration 0.6s ease;
+  transition: animation-duration 0.5s ease;
+  transform-origin: center center;
 }
 
-/* Layer 3: Inner Rune Ring (Counter-Clockwise Rotation) */
+.portalAccelerating .layerOuterRunes {
+  animation: rotateOuterClockwise 0.8s linear infinite !important;
+}
+
+/* Layer 3: Inner Rune Ring (Accelerates Counter-Rotation on Dive initialization) */
 .layerInnerRunes {
   animation: rotateInnerCounterClockwise var(--speed-inner) linear infinite;
-  transition: animation-duration 0.6s ease;
+  transition: animation-duration 0.5s ease;
+  transform-origin: center center;
+}
+
+.portalAccelerating .layerInnerRunes {
+  animation: rotateInnerCounterClockwise 0.6s linear infinite !important;
 }
 
 .svgRune {
@@ -2882,44 +2935,31 @@
 }
 
 @keyframes rotateOuterClockwise {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes rotateInnerCounterClockwise {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
 }
 
-/* Layer 4: Live Video Stream */
-.liveVideoLayer {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scaleX(-1) scale(0.92);
-  opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  border-radius: 50%;
-  -webkit-mask-image: radial-gradient(circle at center, black 48%, transparent 68%);
-  mask-image: radial-gradient(circle at center, black 48%, transparent 68%);
-  z-index: 5;
-}
-
-.portalScanning .liveVideoLayer {
-  opacity: 1;
-}
-
-/* Layer 5: Static Center Hand Art (Fades out smoothly on live scan) */
+/* Layer 4: Static Center Hand Art (Pristine Original Golden Portal Hand) */
 .layerCenterHand {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(25px);
   z-index: 6;
-}
-
-.portalScanning .layerCenterHand {
-  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease, filter 0.6s ease;
 }
 
 .cosmicPortalImg {
@@ -2930,22 +2970,6 @@
   mix-blend-mode: screen;
   -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 68%);
   mask-image: radial-gradient(circle at 50% 50%, #000 62%, transparent 68%);
-}
-
-/* Layer 6: Inward Particle Vortex Canvas */
-.vortexCanvas {
-  transform: translateZ(55px);
-  width: 100%;
-  height: 100%;
-  z-index: 7;
-}
-
-/* Layer 7: Skeletal Landmarks Overlay Canvas */
-.skeletonCanvas {
-  transform: translateZ(65px);
-  width: 100%;
-  height: 100%;
-  z-index: 8;
 }
 
 /* ══════════════════════════════════════════
@@ -2995,6 +3019,30 @@
     0 12px 30px rgba(0, 0, 0, 0.9),
     inset 0 1px 0 rgba(255, 255, 255, 0.8),
     inset 0 0 25px rgba(56, 189, 248, 0.6);
+}
+
+/* Feature 1: Button Loading State with Pulsing Glow */
+.gateBtnLoading {
+  animation: btnLoadingPulse 0.8s ease-in-out infinite alternate !important;
+  pointer-events: none;
+  border-color: #fde68a !important;
+  box-shadow:
+    0 0 45px rgba(251, 191, 36, 0.95),
+    0 0 90px rgba(168, 85, 247, 0.8),
+    0 0 120px rgba(56, 189, 248, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 25px rgba(56, 189, 248, 0.8) !important;
+}
+
+@keyframes btnLoadingPulse {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  100% {
+    transform: scale(1.04);
+    filter: brightness(1.35);
+  }
 }
 
 .gateBtn:active {

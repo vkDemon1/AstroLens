@@ -56,7 +56,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scaleX(-1); /* Mirror for natural feel */
+  transform: scaleX(-1);
+  /* Mirror for natural feel */
 }
 
 /* Init / Error overlay */
@@ -94,10 +95,33 @@
   opacity: 0.8;
 }
 
-.cornerTL { top: 16px; left: 16px;  border-width: 2px 0 0 2px; border-radius: 4px 0 0 0; }
-.cornerTR { top: 16px; right: 16px; border-width: 2px 2px 0 0; border-radius: 0 4px 0 0; }
-.cornerBL { bottom: 16px; left: 16px;  border-width: 0 0 2px 2px; border-radius: 0 0 0 4px; }
-.cornerBR { bottom: 16px; right: 16px; border-width: 0 2px 2px 0; border-radius: 0 0 4px 0; }
+.cornerTL {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+  border-radius: 4px 0 0 0;
+}
+
+.cornerTR {
+  top: 16px;
+  right: 16px;
+  border-width: 2px 2px 0 0;
+  border-radius: 0 4px 0 0;
+}
+
+.cornerBL {
+  bottom: 16px;
+  left: 16px;
+  border-width: 0 0 2px 2px;
+  border-radius: 0 0 0 4px;
+}
+
+.cornerBR {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+  border-radius: 0 0 4px 0;
+}
 
 /* Crosshair */
 .crosshair {
@@ -252,10 +276,10 @@
 .progressBarWrap {
   width: 100%;
   height: 8px;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255, 255, 255, 0.07);
   border-radius: var(--radius-full);
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .progressBarFill {
@@ -263,7 +287,7 @@
   background: linear-gradient(90deg, var(--purple), var(--gold));
   border-radius: var(--radius-full);
   transition: width 0.5s ease;
-  box-shadow: 0 0 10px rgba(212,175,55,0.4);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
 }
 
 .progressPct {
@@ -291,8 +315,13 @@
   padding: 0.35rem 0;
 }
 
-.stepItem.stepActive { color: var(--text-primary); }
-.stepItem.stepDone   { color: var(--gold); }
+.stepItem.stepActive {
+  color: var(--text-primary);
+}
+
+.stepItem.stepDone {
+  color: var(--gold);
+}
 
 .stepDot {
   flex-shrink: 0;
@@ -306,12 +335,19 @@
   font-size: 0.65rem;
   font-weight: 700;
   color: var(--gold);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   transition: all 0.3s;
 }
 
-.stepItem.stepDone .stepDot   { background: rgba(212,175,55,0.15); border-color: var(--gold); }
-.stepItem.stepActive .stepDot { border-color: var(--purple-light); background: var(--purple-dim); }
+.stepItem.stepDone .stepDot {
+  background: rgba(212, 175, 55, 0.15);
+  border-color: var(--gold);
+}
+
+.stepItem.stepActive .stepDot {
+  border-color: var(--purple-light);
+  background: var(--purple-dim);
+}
 
 .stepPulse {
   display: block;
@@ -323,12 +359,27 @@
 }
 
 @keyframes pulse-dot {
-  0%, 100% { transform: scale(1);   opacity: 1;   }
-  50%       { transform: scale(1.5); opacity: 0.6; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.5);
+    opacity: 0.6;
+  }
 }
 
-.stepIcon  { font-size: 0.9rem; flex-shrink: 0; }
-.stepLabel { flex: 1; }
+.stepIcon {
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.stepLabel {
+  flex: 1;
+}
 
 .privacyNote {
   font-size: 0.75rem;
@@ -343,6 +394,7 @@
   .main {
     grid-template-columns: 1fr;
   }
+
   .sidebar {
     order: -1;
   }
