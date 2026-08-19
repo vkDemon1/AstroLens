@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import styles from './LandingPage.module.css';
-import { getDemoReading } from '../services/api';
+import { getDemoReading, getOracleReading } from '../services/api';
+import {
+  loadPulseState,
+  hasCompletedToday,
+  completeTodaysPulse,
+} from '../utils/pulseStorage';
 
 // Inline fallback — works with no backend running
 const DEMO_FALLBACK = {
@@ -456,20 +461,55 @@ function AlembicOracleIcon() {
    5 MINI PRODUCT EXPERIENCES COMPONENTS
    ══════════════════════════════════════════════════════════ */
 
-/* ── CARD 01: DAILY PALM PULSE (HABIT / RETENTION) ── */
-function DailyPalmPulseExp({ onClose }) {
-  const [scanState, setScanState] = useState('idle'); // 'idle' | 'scanning' | 'done'
+function computeTwinBreakdown(result) {
+  if (!result) return null;
+  const life = result.life?.score ?? 0;
+  const head = result.head?.score ?? 0;
+  const heart = result.heart?.score ?? 0;
+  const total = life + head + heart || 1;
+
+  const toPct = (v) => Math.round((v / total) * 100);
+
+  const items = [
+    { label: 'Life',  pct: toPct(life),  color: '#FDE68A' },
+    { label: 'Head',  pct: toPct(head),  color: '#38BDF8' },
+    { label: 'Heart', pct: toPct(heart), color: '#C084FC' },
+  ].sort((a, b) => b.pct - a.pct);
+
+  const sum = items.reduce((s, i) => s + i.pct, 0);
+  items[0].pct += 100 - sum;
+
+  return items;
+}
+
+function DailyPalmPulseExp({ onClose, result }) {
+  const [pulseState, setPulseState] = useState(() => loadPulseState());
+  const [scanState, setScanState] = useState(() =>
+    hasCompletedToday(loadPulseState()) ? 'done' : 'idle'
+  );
   const [toast, setToast] = useState(null);
 
   const handleStartScan = () => {
+    if (hasCompletedToday(pulseState)) {
+      setScanState('done');
+      return;
+    }
     setScanState('scanning');
     setTimeout(() => {
+      const seed = result?.aura_score ?? 'guest';
+      const next = completeTodaysPulse(seed);
+      setPulseState(next);
       setScanState('done');
     }, 1500);
   };
 
   const handleShare = async () => {
-    const text = "✦ My Daily Cosmic Pulse: Energy 82% | Focus 64% | Emotion 91% — 'Trust your instincts.' Discover yours on AstroLens! ✨";
+    const m = pulseState?.metrics;
+    const streak = pulseState?.streak ?? 1;
+    const text = m
+      ? `✦ My Daily Cosmic Pulse (Day ${streak} streak): Energy ${m.energy}% | Focus ${m.focus}% | Emotion ${m.emotion}% — "${m.theme}" Discover yours on AstroLens! ✨`
+      : `✦ Check your Daily Cosmic Pulse on AstroLens! ✨`;
+
     if (navigator.share) {
       try {
         await navigator.share({ title: "Today's Cosmic Pulse", text, url: window.location.href });
@@ -485,12 +525,17 @@ function DailyPalmPulseExp({ onClose }) {
     setTimeout(() => setToast(null), 2500);
   };
 
+  const alreadyDoneToday = hasCompletedToday(pulseState);
+  const m = pulseState?.metrics;
+
   return (
     <div className={styles.expContainer}>
       <div className={styles.expHeaderRow}>
         <div className={styles.expTitleGroup}>
           <h4 className={styles.expTitle}>TODAY'S PALM PULSE</h4>
-          <span className={styles.expSubtitle}>Daily Habit &amp; Cosmic Resonance</span>
+          <span className={styles.expSubtitle}>
+            {pulseState ? `Day ${pulseState.streak} Streak` : 'Daily Habit & Cosmic Resonance'}
+          </span>
         </div>
         <div className={styles.expHeaderRight}>
           <span className={`${styles.expBadge} ${styles.expBadgeCyan}`}>DAILY PULSE</span>
@@ -509,7 +554,9 @@ function DailyPalmPulseExp({ onClose }) {
             </svg>
           </div>
           <p style={{ fontSize: '0.78rem', color: '#E2E8F0', margin: '0 0 0.85rem', lineHeight: '1.4' }}>
-            Check in with your cosmic energy and vital alignment.
+            {pulseState
+              ? `You're on a ${pulseState.streak}-day streak. Check in with today's energy.`
+              : 'Check in with your cosmic energy and vital alignment.'}
           </p>
           <button className={styles.expActionBtn} onClick={handleStartScan}>
             <span>📡</span> SCAN TODAY'S PULSE
@@ -535,47 +582,46 @@ function DailyPalmPulseExp({ onClose }) {
         </div>
       )}
 
-      {scanState === 'done' && (
+      {scanState === 'done' && m && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           <div>
             <div className={styles.pulseMetricRow}>
               <span className={styles.pulseMetricLabel}>Energy</span>
               <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: '82%', background: 'linear-gradient(90deg, #38BDF8, #818CF8)' }} />
+                <div className={styles.pulseMetricFill} style={{ width: `${m.energy}%`, background: 'linear-gradient(90deg, #38BDF8, #818CF8)' }} />
               </div>
-              <span className={styles.pulseMetricVal}>82%</span>
+              <span className={styles.pulseMetricVal}>{m.energy}%</span>
             </div>
             <div className={styles.pulseMetricRow}>
               <span className={styles.pulseMetricLabel}>Focus</span>
               <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: '64%', background: 'linear-gradient(90deg, #FDE68A, #D97706)' }} />
+                <div className={styles.pulseMetricFill} style={{ width: `${m.focus}%`, background: 'linear-gradient(90deg, #FDE68A, #D97706)' }} />
               </div>
-              <span className={styles.pulseMetricVal}>64%</span>
+              <span className={styles.pulseMetricVal}>{m.focus}%</span>
             </div>
             <div className={styles.pulseMetricRow}>
               <span className={styles.pulseMetricLabel}>Emotion</span>
               <div className={styles.pulseMetricTrack}>
-                <div className={styles.pulseMetricFill} style={{ width: '91%', background: 'linear-gradient(90deg, #F472B6, #C084FC)' }} />
+                <div className={styles.pulseMetricFill} style={{ width: `${m.emotion}%`, background: 'linear-gradient(90deg, #F472B6, #C084FC)' }} />
               </div>
-              <span className={styles.pulseMetricVal}>91%</span>
+              <span className={styles.pulseMetricVal}>{m.emotion}%</span>
             </div>
           </div>
 
           <div className={styles.pulseThemeBox}>
-            <strong>Today's Theme:</strong> "Trust your instincts. A rare alignment fuels bold decisions."
+            <strong>Today's Theme:</strong> "{m.theme}"
           </div>
 
           <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.15rem' }}>
             <button className={styles.expActionBtn} onClick={handleShare} style={{ flex: 2 }}>
               <span>↗</span> SHARE TODAY'S PULSE
             </button>
-            <button className={`${styles.expActionBtn} ${styles.expActionBtnSecondary}`} onClick={handleStartScan} style={{ flex: 1 }}>
-              <span>↺</span> Rescan
-            </button>
           </div>
 
           <div className={styles.pulseNextReminder}>
-            ✦ Next pulse available tomorrow at 06:00 UTC · Demo Insight
+            {alreadyDoneToday
+              ? `✦ Streak: ${pulseState.streak} day${pulseState.streak === 1 ? '' : 's'} · Come back tomorrow to continue it`
+              : '✦ Next pulse available tomorrow'}
           </div>
         </div>
       )}
@@ -585,26 +631,27 @@ function DailyPalmPulseExp({ onClose }) {
   );
 }
 
-/* ── CARD 02: PALM TWIN (STRUCTURAL VIRALITY) ── */
-function PalmTwinExp({ onClose }) {
-  const [activeNode, setActiveNode] = useState(null);
+function PalmTwinExp({ onClose, result, onNavigate }) {
   const [toast, setToast] = useState(null);
 
-  const landmarks = [
-    { id: 0, x: 21, y: 34, name: 'Wrist Anchor' },
-    { id: 4, x: 8, y: 16, name: 'Thumb Tip' },
-    { id: 8, x: 14, y: 8, name: 'Index Apex' },
-    { id: 12, x: 21, y: 6, name: 'Middle Apex' },
-    { id: 16, x: 28, y: 8, name: 'Ring Apex' },
-    { id: 20, x: 35, y: 13, name: 'Pinky Apex' },
-    { id: 9, x: 21, y: 20, name: 'Palm Center' }
+  const hasReal = Boolean(result);
+  const breakdown = hasReal ? computeTwinBreakdown(result) : null;
+
+  const demoItems = [
+    { label: 'Explorer',   pct: 73, color: '#38BDF8' },
+    { label: 'Visionary',  pct: 18, color: '#FDE68A' },
+    { label: 'Strategist', pct: 9,  color: '#C084FC' },
   ];
+  const items = hasReal ? breakdown : demoItems;
 
   const handleChallengeFriend = async () => {
-    const text = "✦ My Palm Archetype is 73% Explorer! What's yours? Discover your Palm Twin on AstroLens: https://astrolens.app ✨";
+    const text = hasReal
+      ? `✦ My Palm Twin is "${result.archetype_name}" — Aura Score ${result.aura_score}/100! What's yours? Scan your palm on AstroLens: ${window.location.origin}`
+      : `✦ Curious what your Palm Twin archetype is? Scan your palm on AstroLens: ${window.location.origin}`;
+
     if (navigator.share) {
       try {
-        await navigator.share({ title: "My Palm Twin Archetype", text, url: window.location.href });
+        await navigator.share({ title: 'My Palm Twin Archetype', text, url: window.location.href });
         setToast('Challenge sent!');
       } catch {
         navigator.clipboard?.writeText(text);
@@ -622,10 +669,12 @@ function PalmTwinExp({ onClose }) {
       <div className={styles.expHeaderRow}>
         <div className={styles.expTitleGroup}>
           <h4 className={styles.expTitle}>PALM TWIN ARCHETYPE</h4>
-          <span className={styles.expSubtitle}>Viral Personality Discovery</span>
+          <span className={styles.expSubtitle}>
+            {hasReal ? 'Based On Your Real Scan' : 'Viral Personality Discovery (Demo)'}
+          </span>
         </div>
         <div className={styles.expHeaderRight}>
-          <span className={styles.expBadge}>VIRAL MATCH</span>
+          <span className={styles.expBadge}>{hasReal ? 'YOUR RESULT' : 'PREVIEW'}</span>
           <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
         </div>
       </div>
@@ -633,36 +682,46 @@ function PalmTwinExp({ onClose }) {
       <div className={styles.twinArchetypeBox}>
         <div className={styles.twinNameHeader}>
           <div>
-            <span style={{ fontSize: '0.66rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Palm Twin</span>
-            <div className={styles.twinHeroName}>THE EXPLORER 🧭</div>
+            <span style={{ fontSize: '0.66rem', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              {hasReal ? 'Your Palm Twin' : 'Example Palm Twin'}
+            </span>
+            <div className={styles.twinHeroName} style={hasReal ? { color: result.aura_color } : undefined}>
+              {hasReal ? result.archetype_name : 'THE EXPLORER 🧭'}
+            </div>
           </div>
           <div style={{ width: 48, height: 48, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <AstrolabeIcon width={48} height={48} />
           </div>
         </div>
 
-        {/* Breakdown percentages */}
         <div className={styles.twinPercGrid}>
-          <div className={styles.twinPercItem} style={{ borderColor: 'rgba(56, 189, 248, 0.35)', background: 'rgba(56, 189, 248, 0.08)' }}>
-            <div className={styles.twinPercVal} style={{ color: '#38BDF8' }}>73%</div>
-            <div className={styles.twinPercLabel}>Explorer</div>
-          </div>
-          <div className={styles.twinPercItem}>
-            <div className={styles.twinPercVal} style={{ color: '#FDE68A' }}>18%</div>
-            <div className={styles.twinPercLabel}>Visionary</div>
-          </div>
-          <div className={styles.twinPercItem}>
-            <div className={styles.twinPercVal} style={{ color: '#C084FC' }}>9%</div>
-            <div className={styles.twinPercLabel}>Strategist</div>
-          </div>
+          {items.map((it) => (
+            <div
+              key={it.label}
+              className={styles.twinPercItem}
+              style={{ borderColor: `${it.color}59`, background: `${it.color}14` }}
+            >
+              <div className={styles.twinPercVal} style={{ color: it.color }}>{it.pct}%</div>
+              <div className={styles.twinPercLabel}>{it.label}</div>
+            </div>
+          ))}
         </div>
 
-        {/* Shareable Card Preview Box */}
-        <div className={styles.twinShareCardPreview}>
-          <div style={{ fontWeight: '800', color: '#FDE68A', marginBottom: '0.2rem', letterSpacing: '0.05em' }}>✦ MY PALM ARCHETYPE ✦</div>
-          <div>"Driven by curiosity and kinetic vital momentum."</div>
-          <div style={{ fontSize: '0.64rem', color: '#94A3B8', marginTop: '0.25rem' }}>Who is your cosmic palm twin? Challenge them below:</div>
-        </div>
+        {!hasReal && (
+          <div className={styles.twinShareCardPreview}>
+            <div style={{ fontWeight: '800', color: '#FDE68A', marginBottom: '0.2rem', letterSpacing: '0.05em' }}>
+              ✦ THIS IS A DEMO ✦
+            </div>
+            <div>Scan your palm to see your real Palm Twin breakdown.</div>
+            <button
+              className={styles.expActionBtn}
+              style={{ marginTop: '0.6rem' }}
+              onClick={() => { onClose(); onNavigate && onNavigate('scanner'); }}
+            >
+              <span>🔭</span> SCAN MY PALM
+            </button>
+          </div>
+        )}
 
         <button className={styles.expActionBtn} onClick={handleChallengeFriend}>
           <span>⚡</span> CHALLENGE A FRIEND
@@ -903,26 +962,52 @@ function PalmEvolutionExp({ onClose }) {
   );
 }
 
-/* ── CARD 05: ASK THE COSMIC ORACLE (MONETIZATION FUNNEL) ── */
-function CosmicOracleExp({ onClose }) {
+function CosmicOracleExp({ onClose, result }) {
   const [selectedCat, setSelectedCat] = useState('career');
+  const [reading, setReading] = useState('');
   const [isSynthesizing, setIsSynthesizing] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
   const [toast, setToast] = useState(null);
 
   const categories = [
-    { id: 'love', name: '❤️ LOVE', reading: 'Your heart crease indicates deep emotional resonance. A harmonious connection arrives when you stay true to your personal sovereignty.' },
-    { id: 'career', name: '💼 CAREER', reading: 'Your line geometry reveals a trajectory shaped by strategic perseverance rather than repetition. You thrive when resolving ambiguity.' },
-    { id: 'money', name: '💰 MONEY', reading: 'Your destiny arc indicates prosperous expansion through diversified creative endeavors rather than singular rigid channels.' },
-    { id: 'direction', name: '🧭 DIRECTION', reading: 'The bifurcation on your Head line signals a pivotal decision point. Trust the unconventional road; it aligns with your vital core.' },
-    { id: 'week', name: '✨ THIS WEEK', reading: 'A high-energy surge initiates mid-week. Channel this kinetic focus into launching what you have hesitated to begin.' },
+    { id: 'love', name: '❤️ LOVE' },
+    { id: 'career', name: '💼 CAREER' },
+    { id: 'money', name: '💰 MONEY' },
+    { id: 'direction', name: '🧭 DIRECTION' },
+    { id: 'week', name: '✨ THIS WEEK' },
   ];
 
-  const handleSelectCat = (catId) => {
+  const scores = result
+    ? {
+        life: result.life?.score ?? 0.6,
+        head: result.head?.score ?? 0.6,
+        heart: result.heart?.score ?? 0.6,
+      }
+    : { life: 0.65, head: 0.6, heart: 0.55 };
+
+  const fetchReading = async (catId) => {
     setIsSynthesizing(true);
-    setSelectedCat(catId);
-    setTimeout(() => {
+    setIsOffline(false);
+    try {
+      const data = await getOracleReading(catId, scores, result?.archetype_name);
+      setReading(data.reading);
+      setIsOffline(data.source === 'fallback');
+    } catch {
+      setIsOffline(true);
+      setReading('The cosmic signal is faint right now — please try again in a moment.');
+    } finally {
       setIsSynthesizing(false);
-    }, 900);
+    }
+  };
+
+  useEffect(() => {
+    fetchReading(selectedCat);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const handleSelectCat = (catId) => {
+    setSelectedCat(catId);
+    fetchReading(catId);
   };
 
   const handleFunnelAction = (tierName) => {
@@ -934,35 +1019,36 @@ function CosmicOracleExp({ onClose }) {
     setTimeout(() => setToast(null), 2500);
   };
 
-  const currentReading = categories.find(c => c.id === selectedCat);
+  const currentCatMeta = categories.find(c => c.id === selectedCat);
 
   return (
     <div className={styles.expContainer}>
       <div className={styles.expHeaderRow}>
         <div className={styles.expTitleGroup}>
           <h4 className={styles.expTitle}>ASK THE COSMIC ORACLE</h4>
-          <span className={styles.expSubtitle}>Gemini AI Divination Funnel</span>
+          <span className={styles.expSubtitle}>Live Gemini AI Divination</span>
         </div>
         <div className={styles.expHeaderRight}>
-          <span className={`${styles.expBadge} ${styles.expBadgePurple}`}>AI ORACLE</span>
+          <span className={`${styles.expBadge} ${styles.expBadgePurple}`}>
+            {isOffline ? 'OFFLINE DEMO' : 'LIVE AI'}
+          </span>
           <button className={styles.expCloseBtn} onClick={onClose} aria-label="Close experience">✕</button>
         </div>
       </div>
 
-      {/* Category selector */}
       <div className={styles.oracleCategoryGrid}>
         {categories.map(c => (
           <button
             key={c.id}
             className={`${styles.oracleCategoryBtn} ${selectedCat === c.id ? styles.oracleCategoryBtnActive : ''}`}
             onClick={() => handleSelectCat(c.id)}
+            disabled={isSynthesizing}
           >
             {c.name}
           </button>
         ))}
       </div>
 
-      {/* Reading container */}
       <div className={styles.oracleReadingBox}>
         {isSynthesizing ? (
           <div style={{ textAlign: 'center', padding: '0.6rem 0.2rem' }}>
@@ -972,16 +1058,15 @@ function CosmicOracleExp({ onClose }) {
         ) : (
           <div>
             <div style={{ fontSize: '0.64rem', color: '#FDE68A', fontWeight: '800', textTransform: 'uppercase', marginBottom: '0.25rem', letterSpacing: '0.04em' }}>
-              DEMO ORACLE READING · {currentReading?.name}
+              {isOffline ? 'OFFLINE READING · ' : 'LIVE ORACLE READING · '}{currentCatMeta?.name}
             </div>
             <p style={{ margin: '0', fontSize: '0.74rem', color: '#F8FAFC', lineHeight: '1.45' }}>
-              "{currentReading?.reading}"
+              "{reading}"
             </p>
           </div>
         )}
       </div>
 
-      {/* 3-Tier Monetization Funnel */}
       <div>
         <div style={{ fontSize: '0.6rem', color: '#94A3B8', textTransform: 'uppercase', textAlign: 'center', marginBottom: '0.35rem', letterSpacing: '0.04em' }}>
           Explore Full Consultation Funnel:
@@ -1297,7 +1382,7 @@ function CosmicInfinityBg() {
   );
 }
 
-export default function LandingPage({ onNavigate }) {
+export default function LandingPage({ onNavigate, result }) {
   const heroRef = useRef(null);
   const alembicRef = useRef(null);
   const [scrollY, setScrollY] = useState(0);
@@ -1674,7 +1759,7 @@ export default function LandingPage({ onNavigate }) {
                 offsetClass: styles.alembicCardStep1,
                 activeClass: styles.activeCard01,
                 hintText: '✦ DAILY PULSE',
-                renderExp: (onClose) => <DailyPalmPulseExp onClose={onClose} />,
+                renderExp: (onClose) => <DailyPalmPulseExp onClose={onClose} result={result} />,
               },
               {
                 step: '02',
@@ -1684,7 +1769,7 @@ export default function LandingPage({ onNavigate }) {
                 offsetClass: styles.alembicCardStep2,
                 activeClass: styles.activeCard02,
                 hintText: '✦ PALM TWIN',
-                renderExp: (onClose) => <PalmTwinExp onClose={onClose} />,
+                renderExp: (onClose) => <PalmTwinExp onClose={onClose} result={result} onNavigate={onNavigate} />,
               },
               {
                 step: '03',
@@ -1714,7 +1799,7 @@ export default function LandingPage({ onNavigate }) {
                 offsetClass: styles.alembicCardStep5,
                 activeClass: styles.activeCard05,
                 hintText: '✦ ASK ORACLE',
-                renderExp: (onClose) => <CosmicOracleExp onClose={onClose} />,
+                renderExp: (onClose) => <CosmicOracleExp onClose={onClose} result={result} />,
               },
             ].map((p, index) => {
               const isActive = activeCard === p.step;

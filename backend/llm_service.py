@@ -11,7 +11,7 @@ The prompt is carefully structured so the model returns valid JSON every time
 import json
 import os
 import random
-from typing import Optional
+from typing import Optional, Tuple
 
 import google.generativeai as genai
 from dotenv import load_dotenv
@@ -191,3 +191,62 @@ def generate_reading(
     fallback["archetype_name"] = archetype_name
     fallback["aura_hex_name"]  = archetype_data["hex_name"]
     return fallback
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# ORACLE — live Cosmic Oracle feature (POST /api/oracle)
+# ═══════════════════════════════════════════════════════════════════════════
+
+_ORACLE_CATEGORY_TOPICS = {
+    "love":      "romantic connection and emotional compatibility",
+    "career":    "professional trajectory and career decisions",
+    "money":     "financial prosperity and material abundance",
+    "direction": "life direction and an upcoming major decision",
+    "week":      "the energy and opportunities of the week ahead",
+}
+
+_ORACLE_FALLBACKS = {
+    "love":      "Your heart line points toward a bond built on honesty rather than intensity. Let this one unfold at its own pace rather than forcing the timeline.",
+    "career":    "Your head line favors deliberate strategy over speed right now. The slower, more careful path is the one that compounds into something lasting.",
+    "money":     "Diversified effort serves you better than a single big bet this season. Small, steady moves quietly outperform the dramatic ones.",
+    "direction": "A fork in your path is closer than it feels. Trust the option that unsettles you slightly — that's usually the real one.",
+    "week":      "Momentum builds in the middle of this week. Use the early days to prepare quietly rather than push loudly.",
+}
+
+
+def _build_oracle_prompt(category, life_score, head_score, heart_score, archetype_name):
+    topic = _ORACLE_CATEGORY_TOPICS.get(category, category)
+    archetype_line = f" Their aura archetype is {archetype_name}." if archetype_name else ""
+    return f"""You are AstroLens's Cosmic Oracle. A user is asking about {topic}.
+Their palm scan measured: Life line {life_score:.2f}, Head line {head_score:.2f}, Heart line {heart_score:.2f} (each 0-1).{archetype_line}
+
+Write EXACTLY 2 sentences. Reference whichever line score is highest and connect
+it specifically to {topic} — be concrete, not generic. Mystical but useful tone,
+like a sharp friend who happens to read palms. No preamble, no markdown, no
+quotation marks — output just the 2 sentences of prose."""
+
+
+def generate_oracle_reading(category, life_score, head_score, heart_score, archetype_name=None) -> Tuple[str, str]:
+    """Returns (reading_text, source) where source is 'gemini' or 'fallback'."""
+    if _API_KEY:
+        try:
+            model = genai.GenerativeModel(
+                model_name=_MODEL,
+                generation_config=genai.GenerationConfig(
+                    temperature=0.9,
+                    max_output_tokens=120,
+                ),
+            )
+            prompt = _build_oracle_prompt(category, life_score, head_score, heart_score, archetype_name)
+            response = model.generate_content(prompt)
+            text = (response.text or "").strip()
+            if text:
+                return text, "gemini"
+        except Exception as exc:
+            print(f"[llm_service] Oracle generation error: {exc}. Using fallback.")
+
+    return _ORACLE_FALLBACKS.get(
+        category,
+        "The cosmic signal is faint right now — try again in a moment.",
+    ), "fallback"
+

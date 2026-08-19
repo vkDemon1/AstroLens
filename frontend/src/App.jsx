@@ -64,6 +64,7 @@ export default function App() {
     landing: (
       <LandingPage
         onNavigate={navigate}
+        result={result}
       />
     ),
     scanner: (
