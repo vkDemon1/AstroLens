@@ -557,6 +557,35 @@ export default function Universe({ onNavigate }) {
                 <span>✦ View Complete Reading History</span> →
               </button>
             </div>
+
+            {/* Cosmic Compatibility Card (Phase 4A) */}
+            <div className={styles.summaryCard}>
+              <div>
+                <div className={styles.summaryCardTop}>
+                  <div className={styles.summaryIcon}>💫</div>
+                  <div>
+                    <div className={styles.summaryStat} style={{ fontSize: '1.25rem' }}>
+                      Cosmic Compatibility
+                    </div>
+                    <div className={styles.summarySub}>
+                      Compare your universe with a partner's sign
+                    </div>
+                  </div>
+                </div>
+
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 1rem', lineHeight: '1.4' }}>
+                  Align your biometric aura with a partner's astrological sign to reveal your harmonic resonance across energy, mind, and heart.
+                </p>
+              </div>
+
+              <button
+                className={styles.cardActionLink}
+                id="universe-compat-link"
+                onClick={() => onNavigate('compatibility')}
+              >
+                <span>✦ Explore Compatibility</span> →
+              </button>
+            </div>
           </div>
 
           {/* ── Quick Actions Footer ── */}

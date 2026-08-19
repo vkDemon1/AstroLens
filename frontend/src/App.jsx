@@ -5,6 +5,7 @@ import Scanner     from './components/Scanner';
 import ResultCard  from './components/ResultCard';
 import History     from './components/History';
 import Universe    from './components/Universe';
+import Compatibility from './components/Compatibility';
 import { getDemoReading } from './services/api';
 
 const DEMO_FALLBACK = {
@@ -88,6 +89,11 @@ export default function App() {
     ) : null,
     history: (
       <History
+        onNavigate={navigate}
+      />
+    ),
+    compatibility: (
+      <Compatibility
         onNavigate={navigate}
       />
     ),

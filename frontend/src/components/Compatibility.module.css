@@ -1,0 +1,535 @@
+/* ═════════════════════════════════════════════════════════════════════
+   AstroLens — Cosmic Compatibility Styles (Phase 4A)
+   Theme: Two Cosmic Worlds Meeting · Celestial Glassmorphism
+   ═════════════════════════════════════════════════════════════════════ */
+
+.compatPage {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 5rem;
+  box-sizing: border-box;
+  animation: compatFadeIn 0.4s ease forwards;
+}
+
+@keyframes compatFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.headerLeft {
+  flex: 1;
+  min-width: 280px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #FDE68A;
+  margin-bottom: 0.4rem;
+}
+
+.pageTitle {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.4rem 0;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDE68A 50%, #38BDF8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 0.88rem;
+  color: #94A3B8;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── Dual Cosmic Orbs Fusion Visual ── */
+.worldsMeetingStage {
+  position: relative;
+  background: rgba(12, 10, 40, 0.7);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: 16px;
+  padding: 1.8rem 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(253, 230, 138, 0.04);
+  overflow: hidden;
+}
+
+.orbsWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.cosmicOrbNode {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.6rem;
+  flex: 1;
+  max-width: 220px;
+}
+
+.orbSphere {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  position: relative;
+  border: 2px solid #FDE68A;
+  box-shadow: 0 0 25px rgba(253, 230, 138, 0.4);
+  transition: all 0.4s ease;
+}
+
+.orbSphere::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(253, 230, 138, 0.4);
+  animation: orbOrbitSpin 12s linear infinite;
+}
+
+@keyframes orbOrbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.orbNodeName {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #FFF;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.orbNodeTag {
+  font-size: 0.68rem;
+  color: #FDE68A;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(253, 230, 138, 0.12);
+  padding: 0.15rem 0.5rem;
+  border-radius: 99px;
+  border: 1px solid rgba(253, 230, 138, 0.25);
+}
+
+/* Central Resonance Beam */
+.resonanceBeam {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  position: relative;
+  z-index: 2;
+}
+
+.resonanceBeamLine {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, #38BDF8, #FDE68A, #C084FC);
+  box-shadow: 0 0 10px #FDE68A;
+  position: relative;
+}
+
+.resonanceSparkIcon {
+  font-size: 1.3rem;
+  color: #FDE68A;
+  filter: drop-shadow(0 0 8px #FDE68A);
+  animation: sparkPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes sparkPulse {
+  0%   { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 14px #FFFBEB); }
+}
+
+/* ── Partner Input Card ── */
+.inputSectionCard {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: 14px;
+  padding: 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.sectionHeader {
+  margin-bottom: 1.25rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #FFF;
+  margin: 0 0 0.3rem 0;
+  letter-spacing: 0.03em;
+}
+
+.sectionDesc {
+  font-size: 0.82rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.formGroup {
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #CBD5E1;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.45rem;
+}
+
+.textInput {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(12, 10, 40, 0.8);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  border-radius: 8px;
+  padding: 0.65rem 0.95rem;
+  font-size: 0.88rem;
+  color: #FFF;
+  outline: none;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.textInput:focus {
+  border-color: #FDE68A;
+  box-shadow: 0 0 12px rgba(253, 230, 138, 0.3);
+}
+
+/* 12-Zodiac Interactive Grid */
+.zodiacGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.zodiacChip {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.6rem 0.75rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: left;
+  transition: all 0.2s ease;
+  color: #E2E8F0;
+}
+
+.zodiacChip:hover {
+  background: rgba(253, 230, 138, 0.12);
+  border-color: rgba(253, 230, 138, 0.45);
+  transform: translateY(-2px);
+}
+
+.zodiacChipSelected {
+  background: rgba(253, 230, 138, 0.2) !important;
+  border-color: #FDE68A !important;
+  color: #FFF !important;
+  box-shadow: 0 0 14px rgba(253, 230, 138, 0.35);
+}
+
+.zodiacSymbol {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.zodiacInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.zodiacName {
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.zodiacMeta {
+  font-size: 0.62rem;
+  color: #94A3B8;
+  margin-top: 0.1rem;
+}
+
+.actionRow {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* ── Results Container ── */
+.resultContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: resultSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes resultSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Score Card */
+.heroScoreCard {
+  background: rgba(12, 10, 40, 0.85);
+  border: 1.6px solid #FDE68A;
+  border-radius: 16px;
+  padding: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.8),
+    0 0 25px rgba(253, 230, 138, 0.22),
+    0 0 50px rgba(56, 189, 248, 0.10);
+  flex-wrap: wrap;
+}
+
+.heroLeft {
+  flex: 1;
+  min-width: 250px;
+}
+
+.bondTitle {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #FFF;
+  letter-spacing: 0.04em;
+  margin: 0.2rem 0 0.5rem 0;
+}
+
+.bondNames {
+  font-size: 0.85rem;
+  color: #FDE68A;
+  font-weight: 600;
+}
+
+.scoreOrbWrap {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  border: 3px solid #FDE68A;
+  box-shadow: 0 0 30px rgba(253, 230, 138, 0.4), inset 0 0 16px rgba(253, 230, 138, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.9);
+  flex-shrink: 0;
+}
+
+.scoreNumber {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.85rem;
+  font-weight: 900;
+  color: #FFF;
+  line-height: 1;
+}
+
+.scoreLabel {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #FDE68A;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+/* 4 Sub-Scores Grid */
+.subScoresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.subScoreCard {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(253, 230, 138, 0.22);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.subScoreTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subScoreLabel {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: #E2E8F0;
+}
+
+.subScoreVal {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #FFF;
+}
+
+.subScoreTrack {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.subScoreFill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.subScoreDesc {
+  font-size: 0.68rem;
+  color: #94A3B8;
+  line-height: 1.35;
+  margin: 0;
+}
+
+/* Narrative Card */
+.narrativeCard {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(253, 230, 138, 0.22);
+  border-left: 3.5px solid #FDE68A;
+  border-radius: 10px;
+  padding: 1.2rem 1.4rem;
+}
+
+.narrativeTitle {
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #FDE68A;
+  margin-bottom: 0.45rem;
+}
+
+.narrativeText {
+  font-size: 0.84rem;
+  color: #F1F5F9;
+  line-height: 1.55;
+  margin: 0 0 0.85rem 0;
+}
+
+.sparkTipBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: rgba(253, 230, 138, 0.08);
+  border: 1px dashed rgba(253, 230, 138, 0.3);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.76rem;
+  color: #FEF08A;
+  line-height: 1.4;
+}
+
+/* Actions */
+.resultActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-start;
+  margin-top: 0.5rem;
+}
+
+/* Empty Profile Notice */
+.emptyNoticeCard {
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: 14px;
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+  max-width: 550px;
+  margin: 2rem auto;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 768px) {
+  .compatPage {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .orbsWrapper {
+    gap: 1rem;
+  }
+
+  .resonanceBeamLine {
+    width: 40px;
+  }
+
+  .orbSphere {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .heroScoreCard {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
