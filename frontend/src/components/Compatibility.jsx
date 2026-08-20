@@ -2,16 +2,31 @@ import { useState, useEffect } from 'react';
 import styles from './Compatibility.module.css';
 import { getProfile } from '../utils/profileStorage';
 import { ZODIAC_SIGNS, calculateCosmicCompatibility } from '../utils/compatibilityEngine';
+import {
+  buildInviteUrl,
+  formatShareMessage,
+  saveLatestInvite,
+  trackCompatEvent,
+} from '../utils/compatibilityInvite';
 
 export default function Compatibility({ onNavigate }) {
   const [profile, setProfile] = useState(() => getProfile());
   const [partnerName, setPartnerName] = useState('');
   const [selectedZodiacId, setSelectedZodiacId] = useState('leo');
   const [report, setReport] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [inviteData, setInviteData] = useState(null);
 
   useEffect(() => {
     setProfile(getProfile());
   }, []);
+
+  useEffect(() => {
+    if (toast) {
+      const t = setTimeout(() => setToast(null), 3000);
+      return () => clearTimeout(t);
+    }
+  }, [toast]);
 
   const selectedZodiac = ZODIAC_SIGNS.find(z => z.id === selectedZodiacId) || ZODIAC_SIGNS[0];
   const hasHistory = profile?.hasHistory;
@@ -23,10 +38,63 @@ export default function Compatibility({ onNavigate }) {
       zodiacId: selectedZodiacId,
     });
     setReport(res);
+
+    const url = buildInviteUrl(profile, partnerName, res.overallScore);
+    const shareMsg = formatShareMessage(profile, partnerName, res.overallScore, url);
+    const inviteRecord = {
+      inviteUrl: url,
+      shareMessage: shareMsg,
+      partnerName: partnerName.trim() || selectedZodiac.name,
+      compatibilityScore: res.overallScore,
+      createdAt: Date.now(),
+    };
+    setInviteData(inviteRecord);
+    saveLatestInvite(inviteRecord);
+    trackCompatEvent('compatibility_result_viewed', { score: res.overallScore, partner: partnerName });
+    trackCompatEvent('compatibility_invite_generated', { score: res.overallScore });
+  };
+
+  const copyToClipboard = (text) => {
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text);
+      setToast('✓ Invite copied to clipboard!');
+    } else {
+      setToast('✓ Invite link ready to share!');
+    }
+  };
+
+  const handleShareInvite = async () => {
+    if (!inviteData) return;
+    trackCompatEvent('compatibility_invite_shared', { channel: 'native_or_clipboard' });
+
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Our Cosmic Compatibility · AstroLens',
+          text: inviteData.shareMessage,
+          url: inviteData.inviteUrl,
+        });
+        setToast('✓ Shared successfully!');
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          copyToClipboard(inviteData.shareMessage);
+        }
+      }
+    } else {
+      copyToClipboard(inviteData.shareMessage);
+    }
+  };
+
+  const handleWhatsAppShare = () => {
+    if (!inviteData) return;
+    trackCompatEvent('compatibility_invite_shared', { channel: 'whatsapp' });
+    const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(inviteData.shareMessage)}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
   };
 
   const handleReset = () => {
     setReport(null);
+    setInviteData(null);
   };
 
   return (
@@ -230,6 +298,54 @@ export default function Compatibility({ onNavigate }) {
                 </div>
               </div>
 
+              {/* ── Phase 4B-1 Viral Invite / Share Section ── */}
+              <div className={styles.inviteSection}>
+                <div className={styles.inviteCard}>
+                  <div className={styles.inviteHeader}>
+                    <span className={styles.inviteEyebrow}>✦ TWO UNIVERSES · ONE CONNECTION ✦</span>
+                    <h3 className={styles.inviteTitle}>Share Your Cosmic Match</h3>
+                    <p className={styles.inviteSub}>
+                      Your cosmic match is only half the story. Invite them to discover the connection.
+                    </p>
+                  </div>
+
+                  {/* Visual Match Preview */}
+                  <div className={styles.invitePreviewPill}>
+                    <div className={styles.previewUserGroup}>
+                      <span className={styles.previewDot} style={{ background: profile.auraColor || '#FDE68A' }} />
+                      <span className={styles.previewName}>{profile.name || 'Your Universe'}</span>
+                    </div>
+                    <span className={styles.previewSpark}>✦</span>
+                    <div className={styles.previewUserGroup}>
+                      <span className={styles.previewDot} style={{ background: selectedZodiac.color }} />
+                      <span className={styles.previewName}>{partnerName.trim() || selectedZodiac.name}</span>
+                    </div>
+                    <span className={styles.previewScore}>{report.overallScore}% Resonance</span>
+                  </div>
+
+                  {/* Share Action CTAs */}
+                  <div className={styles.inviteActions}>
+                    <button
+                      type="button"
+                      id="compat-invite-main-btn"
+                      className={styles.btnInvitePrimary}
+                      onClick={handleShareInvite}
+                    >
+                      <span>✦</span> Invite Them to AstroLens
+                    </button>
+
+                    <button
+                      type="button"
+                      id="compat-whatsapp-btn"
+                      className={styles.btnWhatsApp}
+                      onClick={handleWhatsAppShare}
+                    >
+                      <span>💬</span> Share on WhatsApp
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {/* Actions */}
               <div className={styles.resultActions}>
                 <button
@@ -251,6 +367,9 @@ export default function Compatibility({ onNavigate }) {
           )}
         </>
       )}
+
+      {/* Toast Feedback */}
+      {toast && <div className={styles.toastNotice}>{toast}</div>}
     </div>
   );
 }

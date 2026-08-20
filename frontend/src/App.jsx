@@ -6,7 +6,9 @@ import ResultCard  from './components/ResultCard';
 import History     from './components/History';
 import Universe    from './components/Universe';
 import Compatibility from './components/Compatibility';
+import InviteLanding from './components/InviteLanding';
 import { getDemoReading } from './services/api';
+import { decodeInvitePayload } from './utils/compatibilityInvite';
 
 const DEMO_FALLBACK = {
   hand_detected: true,
@@ -33,15 +35,30 @@ const DEMO_FALLBACK = {
  *              ↑_________↓ (rescan)
  *   Any screen → universe / history → landing
  *
+ * URL ?compare=ENCODED loads the recipient invite experience (Phase 4B-2).
  * URL ?demo=true skips the camera and loads a pre-baked reading.
  */
 export default function App() {
   const [screen, setScreen]   = useState('landing');
   const [result, setResult]   = useState(null);
+  const [inviterData, setInviterData] = useState(null);
 
-  // Handle ?demo=true query param
+  // Handle URL query parameters (?compare=... and ?demo=true)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
+    // 1. Detect viral invite link (?compare=...)
+    const compareParam = params.get('compare');
+    if (compareParam) {
+      const decoded = decodeInvitePayload(compareParam);
+      if (decoded && decoded.name) {
+        setInviterData(decoded);
+        setScreen('invite');
+        return;
+      }
+    }
+
+    // 2. Detect demo mode (?demo=true)
     if (params.get('demo') === 'true') {
       getDemoReading()
         .then(r => {
@@ -95,6 +112,17 @@ export default function App() {
     compatibility: (
       <Compatibility
         onNavigate={navigate}
+      />
+    ),
+    invite: inviterData ? (
+      <InviteLanding
+        inviterData={inviterData}
+        onNavigate={navigate}
+      />
+    ) : (
+      <LandingPage
+        onNavigate={navigate}
+        result={result}
       />
     ),
   };
