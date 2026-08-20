@@ -252,6 +252,30 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
             </div>
           </div>
 
+          {/* ── Phase 5A: Cosmic Blueprint Premium Gateway ── */}
+          <div className={`glass-card ${styles.blueprintGatewayCard}`}>
+            <div className={styles.blueprintGatewayBadge}>
+              <span>✦ 12-PAGE PERSONALIZED DOSSIER · $4.99 ✦</span>
+            </div>
+            <h3 className={styles.blueprintGatewayTitle}>The Cosmic Blueprint</h3>
+            <p className={styles.blueprintGatewayDesc}>
+              Your palm reveals patterns. Your Cosmic Blueprint explains them. Explore your complete career windows, love cycles, energy rhythms, and hidden palm markings.
+            </p>
+            <div className={styles.blueprintGatewayPills}>
+              <span>✓ Career Windows</span>
+              <span>✓ Love Cycles</span>
+              <span>✓ Hidden Marks</span>
+              <span>✓ 90-Day Forecast</span>
+            </div>
+            <button
+              id="view-blueprint-btn"
+              className={`btn-primary ${styles.blueprintBtn}`}
+              onClick={() => onNavigate('blueprint', result)}
+            >
+              <span>📜</span> View Cosmic Blueprint →
+            </button>
+          </div>
+
           {/* AstroLive CTA */}
           <div className={`glass-card ${styles.ctaCard}`}>
             <div className={styles.ctaGlow} aria-hidden="true" />

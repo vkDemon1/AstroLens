@@ -261,6 +261,88 @@
   line-height: 1.5;
 }
 
+/* ── Phase 5A: Cosmic Blueprint Gateway Card ── */
+.blueprintGatewayCard {
+  background: linear-gradient(135deg, rgba(22, 16, 50, 0.85) 0%, rgba(12, 8, 30, 0.95) 100%);
+  border: 1.5px solid rgba(253, 230, 138, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 1.6rem 1.4rem;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(253, 230, 138, 0.05);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.blueprintGatewayCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(253, 230, 138, 0.55);
+}
+
+.blueprintGatewayBadge {
+  margin-bottom: 0.6rem;
+}
+
+.blueprintGatewayBadge span {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #FDE68A;
+  background: rgba(253, 230, 138, 0.12);
+  border: 1px solid rgba(253, 230, 138, 0.3);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+.blueprintGatewayTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.4rem 0;
+}
+
+.blueprintGatewayDesc {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0 0 0.8rem 0;
+}
+
+.blueprintGatewayPills {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.blueprintGatewayPills span {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #38BDF8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.blueprintBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #FDE68A 0%, #D97706 100%);
+  color: #0F172A;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  box-shadow: 0 4px 18px rgba(253, 230, 138, 0.35);
+  transition: all 0.2s ease;
+}
+
+.blueprintBtn:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 24px rgba(253, 230, 138, 0.55);
+}
+
 /* CTA card */
 .ctaCard {
   position: relative;

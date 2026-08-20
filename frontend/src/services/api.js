@@ -3,6 +3,8 @@
  * Wraps all calls to the FastAPI backend.
  */
 
+import { generateCosmicBlueprint } from '../utils/blueprintEngine';
+
 // In production, VITE_API_URL should point to your Railway/Render backend.
 // In development, the Vite proxy handles /api -> localhost:8000.
 const BASE_URL = import.meta.env.VITE_API_URL
@@ -67,5 +69,16 @@ export async function getOracleReading(category, scores, archetypeName) {
   }
 
   return response.json();
+}
+
+/**
+ * Generates the complete 12-section personalized Cosmic Blueprint (Phase 5A).
+ * Fully deterministic & client-side, ensuring 100% offline compatibility.
+ *
+ * @param {object} readingData - Palm reading data
+ * @returns {object} Full structured 12-section Blueprint
+ */
+export async function getBlueprintData(readingData) {
+  return generateCosmicBlueprint(readingData);
 }
 

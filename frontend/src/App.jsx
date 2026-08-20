@@ -7,6 +7,7 @@ import History     from './components/History';
 import Universe    from './components/Universe';
 import Compatibility from './components/Compatibility';
 import InviteLanding from './components/InviteLanding';
+import PremiumBlueprint from './components/PremiumBlueprint';
 import { getDemoReading } from './services/api';
 import { decodeInvitePayload } from './utils/compatibilityInvite';
 
@@ -111,6 +112,12 @@ export default function App() {
     ),
     compatibility: (
       <Compatibility
+        onNavigate={navigate}
+      />
+    ),
+    blueprint: (
+      <PremiumBlueprint
+        result={result}
         onNavigate={navigate}
       />
     ),
