@@ -763,6 +763,753 @@
   animation: fadeIn 0.25s ease-out;
 }
 
+/* ══════════════════════════════════════════════════════════
+   PHASE 6A: COSMIC TIMELINE & LONGITUDINAL UNIVERSE
+   ══════════════════════════════════════════════════════════ */
+.timelineSection {
+  background: radial-gradient(circle at 50% 0%, rgba(123, 47, 255, 0.16), rgba(10, 3, 25, 0.85) 75%);
+  border: 1px solid rgba(253, 230, 138, 0.28);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 0 28px rgba(123, 47, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.timelineSectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-wrap: wrap;
+}
+
+.timelineEyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(201, 162, 39, 0.35);
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.timelineTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.4rem 0;
+  line-height: 1.2;
+}
+
+.timelineSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 600px;
+  line-height: 1.45;
+}
+
+.timelineCountBadge {
+  background: rgba(253, 230, 138, 0.08);
+  border: 1px solid rgba(253, 230, 138, 0.3);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.85rem;
+  color: #fde68a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+/* 0 Readings Empty State */
+.timelineEmptyCard {
+  background: rgba(15, 8, 30, 0.6);
+  border: 1px dashed rgba(253, 230, 138, 0.3);
+  border-radius: var(--radius-md);
+  padding: 3rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.timelineEmptyIcon {
+  font-size: 2.2rem;
+  color: var(--gold);
+  animation: float 4s ease-in-out infinite;
+}
+
+.timelineEmptyTitle {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.timelineEmptyDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+/* 1 Reading State */
+.timelineSingleInfoCard {
+  background: rgba(15, 8, 30, 0.7);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.timelineSingleHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.timelineSingleBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #38bdf8;
+}
+
+.timelineSingleDate {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.timelineSingleBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.timelineSingleAuraPill {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 0.3rem 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.timelineSingleText {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.timelineSingleActions {
+  margin-top: 0.5rem;
+}
+
+/* 2+ Readings Evolution Hub */
+.evolutionHub {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.evolutionCard {
+  background: rgba(15, 8, 30, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.evolutionCard:hover {
+  border-color: rgba(253, 230, 138, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.evolutionCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.evolutionCardEyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.evolutionSubtag {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Trend Pill */
+.trendPill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.trendPill--rising {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+}
+
+.trendPill--calibrating {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+}
+
+.trendPill--harmonized {
+  background: rgba(253, 230, 138, 0.15);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  color: #fde68a;
+}
+
+/* Aura Evolution Visual */
+.auraEvoFlowRow {
+  padding: 0.5rem 0;
+  overflow-x: auto;
+}
+
+.auraEvoFlowSequence {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: max-content;
+}
+
+.auraEvoStep {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.auraEvoDot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auraEvoDateLabel {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+}
+
+.auraEvoArrow {
+  color: var(--gold);
+  font-size: 0.85rem;
+  margin-left: 0.2rem;
+}
+
+.auraEvoStats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.auraEvoStatBox {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.statLabel {
+  font-size: 0.66rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Line Trajectory Card */
+.lineEvoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lineEvoRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+}
+
+.lineEvoMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.lineEvoDelta {
+  color: var(--gold);
+  font-size: 0.74rem;
+}
+
+.lineEvoFlowText {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+}
+
+/* Cosmic Shift Card */
+.cosmicShiftCard {
+  grid-column: 1 / -1;
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.25), rgba(15, 8, 32, 0.8) 85%);
+  border-color: rgba(253, 230, 138, 0.3);
+}
+
+.shiftComparisonTag {
+  font-size: 0.74rem;
+  color: #fde68a;
+  font-weight: 600;
+  background: rgba(253, 230, 138, 0.08);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+}
+
+.shiftGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.shiftMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.shiftLabel {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shiftValue {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.shiftArrow {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+.shiftCurrentVal {
+  color: #ffffff;
+}
+
+.shiftDeltaBadge {
+  font-size: 0.72rem;
+  color: var(--gold);
+  background: rgba(201, 162, 39, 0.15);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+  margin-left: auto;
+}
+
+.shiftNarrativeBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: rgba(253, 230, 138, 0.06);
+  border-left: 3px solid var(--gold);
+  padding: 0.85rem 1.1rem;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-top: 0.5rem;
+}
+
+.shiftNarrativeIcon {
+  color: var(--gold);
+  font-size: 1.1rem;
+  line-height: 1.2;
+}
+
+.shiftNarrativeText {
+  font-size: 0.84rem;
+  color: #fef08a;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Milestones Bar ── */
+.timelineMilestonesBar {
+  background: rgba(13, 0, 32, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.milestonesBarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.milestonesBarEyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.milestonesBarStreak {
+  font-size: 0.74rem;
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+.milestonesTrack {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+}
+
+.milestoneBadgeItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius-sm);
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.milestoneUnlocked {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #ffffff;
+}
+
+.milestoneLocked {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  opacity: 0.5;
+}
+
+.milestoneBadgeIcon {
+  font-size: 1.25rem;
+}
+
+.milestoneBadgeInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.milestoneBadgeTitle {
+  font-size: 0.74rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.milestoneBadgeDays {
+  font-size: 0.66rem;
+  color: var(--text-muted);
+}
+
+/* ── Vertical Cosmic Timeline Spine ── */
+.timelineSpineContainer {
+  position: relative;
+  padding-left: 2.2rem;
+  margin-top: 1rem;
+}
+
+.timelineSpineLine {
+  position: absolute;
+  top: 15px;
+  bottom: 15px;
+  left: 20px;
+  width: 2px;
+  background: linear-gradient(to bottom, #fde68a, #818cf8, #c084fc, #38bdf8);
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.4);
+  pointer-events: none;
+}
+
+.timelineItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.timelineNodeRow {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+}
+
+.timelineMarkerBtn {
+  position: absolute;
+  left: -2.2rem;
+  top: 1.25rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #0d0020;
+  border: 2px solid;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all var(--dur-fast) var(--ease-out);
+  padding: 0;
+}
+
+.timelineMarkerBtn:hover {
+  transform: scale(1.1);
+}
+
+.markerScore {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.timelineNodeCard {
+  flex: 1;
+  background: rgba(15, 8, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 3px solid;
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.timelineNodeCard:hover {
+  border-color: rgba(253, 230, 138, 0.35);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
+.timelineCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.timelineCardTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.timelineCardMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.timelineNodeDate {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.latestTag {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.initialTag {
+  background: rgba(253, 230, 138, 0.15);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  color: #fde68a;
+  font-size: 0.66rem;
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.timelineArchetype {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 0.15rem 0 0;
+}
+
+.timelineReadingTitle {
+  font-size: 0.8rem;
+  color: #cbd5e1;
+  font-style: italic;
+}
+
+.timelineCardExpandToggle {
+  flex-shrink: 0;
+}
+
+.expandChevron {
+  font-size: 0.72rem;
+  color: var(--gold);
+  background: rgba(253, 230, 138, 0.08);
+  border: 1px solid rgba(253, 230, 138, 0.25);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+
+/* Pills row */
+.timelinePillRow {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-top: 0.85rem;
+}
+
+.timelinePill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.72rem;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.timelinePillGold {
+  background: rgba(201, 162, 39, 0.12);
+  border-color: rgba(201, 162, 39, 0.35);
+  color: #fde68a;
+}
+
+/* Detail Panel */
+.timelineDetailPanel {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  animation: fadeIn 0.25s ease-out;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.timelineFullReadingText {
+  font-size: 0.86rem;
+  color: #e2e8f0;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-sm);
+  border-left: 2px solid var(--gold);
+}
+
+.timelineBarsDetailed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.detailBarRow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.detailBarMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.detailBarTrack {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.detailBarFill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  transition: width 0.6s var(--ease-out);
+}
+
+.timelineDetailActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.25rem;
+}
+
 /* ── Responsive ── */
 @media (max-width: 860px) {
   .universeGrid {
@@ -772,6 +1519,9 @@
     grid-template-columns: 1fr;
   }
   .hubGrid {
+    grid-template-columns: 1fr;
+  }
+  .evolutionHub {
     grid-template-columns: 1fr;
   }
   .header {
@@ -804,5 +1554,33 @@
     gap: 1rem;
     align-items: flex-start;
   }
+  .timelineSection {
+    padding: 1.25rem 1rem;
+  }
+  .timelineSpineContainer {
+    padding-left: 1.8rem;
+  }
+  .timelineSpineLine {
+    left: 15px;
+  }
+  .timelineMarkerBtn {
+    left: -1.8rem;
+    width: 34px;
+    height: 34px;
+    top: 1rem;
+  }
+  .markerScore {
+    font-size: 0.72rem;
+  }
+  .timelineNodeCard {
+    padding: 1rem;
+  }
+  .shiftGrid {
+    grid-template-columns: 1fr;
+  }
+  .milestonesTrack {
+    grid-template-columns: 1fr;
+  }
 }
+
 

@@ -12,6 +12,16 @@ import {
   MOOD_OPTIONS,
   REFLECTION_OPTIONS,
 } from '../utils/pulseStorage';
+import {
+  loadTimelineHistory,
+  computeAuraEvolution,
+  computeLineEvolution,
+  computeCosmicShift,
+  getTimelineMilestoneData,
+  mapEntryToReadingResult,
+  formatTimelineDate,
+  formatFullTimelineDate,
+} from '../utils/timelineEngine';
 
 /**
  * Format ISO timestamp into a friendly cosmic date.
@@ -37,11 +47,17 @@ export default function Universe({ onNavigate }) {
   const [inputName, setInputName] = useState('');
   const [toast, setToast] = useState(null);
 
-  // Reload profile & pulse state on mount
+  // Timeline State
+  const [timelineHistory, setTimelineHistory] = useState(() => loadTimelineHistory());
+  const [expandedEntryId, setExpandedEntryId] = useState(null);
+
+  // Reload profile, pulse state, and timeline history on mount
   useEffect(() => {
     const current = getProfile();
     setProfile(current);
     setPulseState(loadPulseState());
+    const hist = loadTimelineHistory();
+    setTimelineHistory(hist);
     // If user has a reading but hasn't established a name yet, prompt gracefully
     if (current.hasHistory && !current.name) {
       setShowNameModal(true);
@@ -112,12 +128,29 @@ export default function Universe({ onNavigate }) {
     setTimeout(() => setToast(null), 2500);
   };
 
+  const toggleExpandTimelineItem = (id) => {
+    setExpandedEntryId(prev => (prev === id ? null : id));
+  };
+
+  const handleViewFullReading = (entry) => {
+    const fullResult = mapEntryToReadingResult(entry);
+    if (fullResult && onNavigate) {
+      onNavigate('result', fullResult);
+    }
+  };
+
   const displayName = profile.name || 'Seeker';
   const isPulseDoneToday = hasCompletedToday(pulseState);
   const pulseMetrics = pulseState?.metrics;
   const streakCount = pulseState?.streak || 0;
   const milestone = getPulseMilestoneProgress(streakCount);
   const tomorrowTeaser = pulseState?.tomorrowTeaser || getTomorrowTeaser(profile.auraScore || 'guest');
+
+  // Computed Timeline Calculations (Deterministic)
+  const auraEvo = computeAuraEvolution(timelineHistory);
+  const lineEvo = computeLineEvolution(timelineHistory);
+  const cosmicShift = computeCosmicShift(timelineHistory);
+  const milestoneData = getTimelineMilestoneData();
 
   return (
     <div className={styles.universePage}>
@@ -490,6 +523,434 @@ export default function Universe({ onNavigate }) {
               </div>
             </div>
           </div>
+
+          {/* ══════════════════════════════════════════════════════════
+              PHASE 6A: COSMIC TIMELINE & LONGITUDINAL UNIVERSE
+              ══════════════════════════════════════════════════════════ */}
+          <section className={styles.timelineSection} id="cosmic-timeline-section">
+            <div className={styles.timelineSectionHeader}>
+              <div>
+                <span className={styles.timelineEyebrow}>✦ YOUR COSMIC TIMELINE ✦</span>
+                <h2 className={styles.timelineTitle}>Astral Evolution Chronicle</h2>
+                <p className={styles.timelineSubtitle}>
+                  Track how your universe, aura resonance, and palm interpretations evolve over time.
+                </p>
+              </div>
+              <div className={styles.timelineCountBadge}>
+                <span>✦</span> {timelineHistory.length} {timelineHistory.length === 1 ? 'Recorded Reading' : 'Recorded Readings'}
+              </div>
+            </div>
+
+            {/* 0 READINGS EMPTY STATE */}
+            {timelineHistory.length === 0 ? (
+              <div className={styles.timelineEmptyCard}>
+                <div className={styles.timelineEmptyIcon}>✦</div>
+                <h3 className={styles.timelineEmptyTitle}>Your story starts with your first reading</h3>
+                <p className={styles.timelineEmptyDesc}>
+                  Every palm reading creates an enduring coordinate in your celestial universe. Scan now to begin your chronicle.
+                </p>
+                <button
+                  className="btn-primary"
+                  id="timeline-reveal-btn"
+                  onClick={() => onNavigate('scanner')}
+                >
+                  <span>🔭</span> Reveal My Universe
+                </button>
+              </div>
+            ) : (
+              <>
+                {/* ── 1 READING OR 2+ READINGS EVOLUTION HUB ── */}
+                {timelineHistory.length === 1 ? (
+                  <div className={styles.timelineSingleInfoCard}>
+                    <div className={styles.timelineSingleHeader}>
+                      <span className={styles.timelineSingleBadge}>✦ CURRENT COSMIC IDENTITY</span>
+                      <span className={styles.timelineSingleDate}>{formatFullTimelineDate(timelineHistory[0]?.timestamp)}</span>
+                    </div>
+                    <div className={styles.timelineSingleBody}>
+                      <div
+                        className={styles.timelineSingleAuraPill}
+                        style={{
+                          borderColor: timelineHistory[0]?.aura_color || '#7b2fff',
+                          color: timelineHistory[0]?.aura_color || '#7b2fff',
+                        }}
+                      >
+                        Aura {timelineHistory[0]?.aura_score ?? 75} · {timelineHistory[0]?.archetype_name || 'Cosmic Seeker'}
+                      </div>
+                      <p className={styles.timelineSingleText}>
+                        "Return after another reading to reveal your evolution, aura trajectory, and before/after cosmic shifts."
+                      </p>
+                    </div>
+                    <div className={styles.timelineSingleActions}>
+                      <button
+                        className="btn-primary"
+                        id="timeline-second-scan-btn"
+                        onClick={() => onNavigate('scanner')}
+                      >
+                        <span>🔮</span> Scan Palm for Second Reading
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* ── 2+ READINGS: AURA EVOLUTION + LINE EVOLUTION + COSMIC SHIFT ── */
+                  <div className={styles.evolutionHub}>
+                    {/* 1. Aura Evolution Card */}
+                    <div className={styles.evolutionCard}>
+                      <div className={styles.evolutionCardHeader}>
+                        <span className={styles.evolutionCardEyebrow}>✦ AURA EVOLUTION</span>
+                        <span className={`${styles.trendPill} ${styles[`trendPill--${auraEvo.trendDirection}`]}`}>
+                          {auraEvo.trendLabel}
+                        </span>
+                      </div>
+
+                      <div className={styles.auraEvoFlowRow}>
+                        <div className={styles.auraEvoFlowSequence}>
+                          {auraEvo.series.map((pt, idx) => (
+                            <div key={idx} className={styles.auraEvoStep}>
+                              <div
+                                className={styles.auraEvoDot}
+                                style={{
+                                  backgroundColor: pt.color,
+                                  boxShadow: `0 0 10px ${pt.color}88`,
+                                }}
+                              >
+                                {pt.score}
+                              </div>
+                              <span className={styles.auraEvoDateLabel}>{pt.date}</span>
+                              {idx < auraEvo.series.length - 1 && (
+                                <span className={styles.auraEvoArrow}>→</span>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className={styles.auraEvoStats}>
+                        <div className={styles.auraEvoStatBox}>
+                          <span className={styles.statLabel}>Current Aura</span>
+                          <span className={styles.statValue} style={{ color: auraEvo.series[auraEvo.series.length - 1]?.color }}>
+                            {auraEvo.current}
+                          </span>
+                        </div>
+                        <div className={styles.auraEvoStatBox}>
+                          <span className={styles.statLabel}>Total Shift</span>
+                          <span className={styles.statValue}>
+                            {auraEvo.delta > 0 ? `+${auraEvo.delta}` : auraEvo.delta}
+                          </span>
+                        </div>
+                        <div className={styles.auraEvoStatBox}>
+                          <span className={styles.statLabel}>Initial Aura</span>
+                          <span className={styles.statValue} style={{ color: 'var(--text-secondary)' }}>
+                            {auraEvo.initial}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2. Line Evolution Card */}
+                    <div className={styles.evolutionCard}>
+                      <div className={styles.evolutionCardHeader}>
+                        <span className={styles.evolutionCardEyebrow}>✦ PALM LINE TRAJECTORY</span>
+                        <span className={styles.evolutionSubtag}>Reading score trends</span>
+                      </div>
+
+                      <div className={styles.lineEvoList}>
+                        {/* Life */}
+                        <div className={styles.lineEvoRow}>
+                          <div className={styles.lineEvoMeta}>
+                            <span className={styles.lineEvoName}>❤️ Life (Vitality)</span>
+                            <span className={styles.lineEvoDelta}>
+                              {lineEvo.life?.delta >= 0 ? `+${lineEvo.life?.delta}%` : `${lineEvo.life?.delta}%`}
+                            </span>
+                          </div>
+                          <div className={styles.lineEvoFlowText}>
+                            {lineEvo.life?.flowString}
+                          </div>
+                        </div>
+
+                        {/* Head */}
+                        <div className={styles.lineEvoRow}>
+                          <div className={styles.lineEvoMeta}>
+                            <span className={styles.lineEvoName}>🧠 Head (Focus)</span>
+                            <span className={styles.lineEvoDelta}>
+                              {lineEvo.head?.delta >= 0 ? `+${lineEvo.head?.delta}%` : `${lineEvo.head?.delta}%`}
+                            </span>
+                          </div>
+                          <div className={styles.lineEvoFlowText}>
+                            {lineEvo.head?.flowString}
+                          </div>
+                        </div>
+
+                        {/* Heart */}
+                        <div className={styles.lineEvoRow}>
+                          <div className={styles.lineEvoMeta}>
+                            <span className={styles.lineEvoName}>💜 Heart (Emotion)</span>
+                            <span className={styles.lineEvoDelta}>
+                              {lineEvo.heart?.delta >= 0 ? `+${lineEvo.heart?.delta}%` : `${lineEvo.heart?.delta}%`}
+                            </span>
+                          </div>
+                          <div className={styles.lineEvoFlowText}>
+                            {lineEvo.heart?.flowString}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 3. Cosmic Shift Insight Card (Before vs Now) */}
+                    {cosmicShift && (
+                      <div className={`${styles.evolutionCard} ${styles.cosmicShiftCard}`}>
+                        <div className={styles.evolutionCardHeader}>
+                          <span className={styles.evolutionCardEyebrow}>✦ YOUR COSMIC SHIFT</span>
+                          <span className={styles.shiftComparisonTag}>
+                            {cosmicShift.earliest.compactDate} → {cosmicShift.latest.compactDate}
+                          </span>
+                        </div>
+
+                        <div className={styles.shiftGrid}>
+                          <div className={styles.shiftMetric}>
+                            <span className={styles.shiftLabel}>Aura Shift</span>
+                            <div className={styles.shiftValue}>
+                              <span>{cosmicShift.earliest.aura}</span>
+                              <span className={styles.shiftArrow}>→</span>
+                              <span className={styles.shiftCurrentVal} style={{ color: cosmicShift.latest.color }}>
+                                {cosmicShift.latest.aura}
+                              </span>
+                              <span className={styles.shiftDeltaBadge}>
+                                {cosmicShift.diffs.aura >= 0 ? `+${cosmicShift.diffs.aura}` : cosmicShift.diffs.aura}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.shiftMetric}>
+                            <span className={styles.shiftLabel}>Life Pattern</span>
+                            <div className={styles.shiftValue}>
+                              <span>{(cosmicShift.earliest.life / 100).toFixed(2)}</span>
+                              <span className={styles.shiftArrow}>→</span>
+                              <span className={styles.shiftCurrentVal}>
+                                {(cosmicShift.latest.life / 100).toFixed(2)}
+                              </span>
+                              <span className={styles.shiftDeltaBadge}>
+                                {cosmicShift.diffs.life >= 0 ? `+${cosmicShift.diffs.life}%` : `${cosmicShift.diffs.life}%`}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.shiftMetric}>
+                            <span className={styles.shiftLabel}>Mental Focus</span>
+                            <div className={styles.shiftValue}>
+                              <span>{(cosmicShift.earliest.head / 100).toFixed(2)}</span>
+                              <span className={styles.shiftArrow}>→</span>
+                              <span className={styles.shiftCurrentVal}>
+                                {(cosmicShift.latest.head / 100).toFixed(2)}
+                              </span>
+                              <span className={styles.shiftDeltaBadge}>
+                                {cosmicShift.diffs.head >= 0 ? `+${cosmicShift.diffs.head}%` : `${cosmicShift.diffs.head}%`}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.shiftMetric}>
+                            <span className={styles.shiftLabel}>Emotional Pattern</span>
+                            <div className={styles.shiftValue}>
+                              <span>{(cosmicShift.earliest.heart / 100).toFixed(2)}</span>
+                              <span className={styles.shiftArrow}>→</span>
+                              <span className={styles.shiftCurrentVal}>
+                                {(cosmicShift.latest.heart / 100).toFixed(2)}
+                              </span>
+                              <span className={styles.shiftDeltaBadge}>
+                                {cosmicShift.diffs.heart >= 0 ? `+${cosmicShift.diffs.heart}%` : `${cosmicShift.diffs.heart}%`}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={styles.shiftNarrativeBox}>
+                          <span className={styles.shiftNarrativeIcon}>✦</span>
+                          <p className={styles.shiftNarrativeText}>
+                            {cosmicShift.narrative}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* ── DAILY PULSE RETENTION MILESTONES INTEGRATION ── */}
+                <div className={styles.timelineMilestonesBar}>
+                  <div className={styles.milestonesBarHeader}>
+                    <span className={styles.milestonesBarEyebrow}>✦ COSMIC RETENTION MILESTONES</span>
+                    <span className={styles.milestonesBarStreak}>
+                      🔥 {milestoneData.streak} Day Pulse Streak
+                    </span>
+                  </div>
+                  <div className={styles.milestonesTrack}>
+                    {milestoneData.milestones.map((m) => (
+                      <div
+                        key={m.days}
+                        className={`${styles.milestoneBadgeItem} ${
+                          m.isUnlocked ? styles.milestoneUnlocked : styles.milestoneLocked
+                        }`}
+                      >
+                        <span className={styles.milestoneBadgeIcon}>{m.icon}</span>
+                        <div className={styles.milestoneBadgeInfo}>
+                          <span className={styles.milestoneBadgeTitle}>{m.title}</span>
+                          <span className={styles.milestoneBadgeDays}>{m.days} Days {m.isUnlocked ? '✓' : ''}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* ── VERTICAL COSMIC TIMELINE (REVERSE-CHRONOLOGICAL) ── */}
+                <div className={styles.timelineSpineContainer}>
+                  <div className={styles.timelineSpineLine} aria-hidden="true" />
+
+                  <div className={styles.timelineItemsList}>
+                    {timelineHistory.map((entry, index) => {
+                      const isLatest = index === 0;
+                      const isEarliest = index === timelineHistory.length - 1 && timelineHistory.length > 1;
+                      const isExpanded = expandedEntryId === (entry.id || entry.timestamp);
+                      const auraColor = entry.aura_color || '#7b2fff';
+
+                      return (
+                        <div
+                          key={entry.id || entry.timestamp}
+                          className={`${styles.timelineNodeRow} ${isExpanded ? styles.timelineNodeRowExpanded : ''}`}
+                        >
+                          {/* Left: Glowing Node Marker */}
+                          <button
+                            type="button"
+                            className={styles.timelineMarkerBtn}
+                            onClick={() => toggleExpandTimelineItem(entry.id || entry.timestamp)}
+                            style={{
+                              borderColor: auraColor,
+                              boxShadow: `0 0 16px ${auraColor}66, inset 0 0 8px ${auraColor}33`,
+                            }}
+                            aria-label={`Toggle details for reading on ${formatTimelineDate(entry.timestamp, true)}`}
+                          >
+                            <span className={styles.markerScore}>{entry.aura_score}</span>
+                          </button>
+
+                          {/* Right: Timeline Item Card */}
+                          <div
+                            className={styles.timelineNodeCard}
+                            style={{
+                              borderLeftColor: auraColor,
+                            }}
+                          >
+                            {/* Card Top / Header */}
+                            <div
+                              className={styles.timelineCardHeader}
+                              onClick={() => toggleExpandTimelineItem(entry.id || entry.timestamp)}
+                              role="button"
+                              tabIndex={0}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  toggleExpandTimelineItem(entry.id || entry.timestamp);
+                                }
+                              }}
+                            >
+                              <div className={styles.timelineCardTitleWrap}>
+                                <div className={styles.timelineCardMetaRow}>
+                                  <span className={styles.timelineNodeDate}>
+                                    {formatFullTimelineDate(entry.timestamp)}
+                                  </span>
+                                  {isLatest && (
+                                    <span className={styles.latestTag}>● Current State</span>
+                                  )}
+                                  {isEarliest && (
+                                    <span className={styles.initialTag}>✦ First Scan</span>
+                                  )}
+                                </div>
+                                <h3 className={styles.timelineArchetype} style={{ color: auraColor }}>
+                                  {entry.archetype_name || 'Cosmic Seeker'}
+                                </h3>
+                                {entry.title && (
+                                  <div className={styles.timelineReadingTitle}>
+                                    "{entry.title}"
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className={styles.timelineCardExpandToggle}>
+                                <span className={styles.expandChevron}>
+                                  {isExpanded ? '▲ Close' : '▼ Inspect'}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Compact Summary Pills Row */}
+                            <div className={styles.timelinePillRow}>
+                              <span className={styles.timelinePill} style={{ borderColor: `${auraColor}55` }}>
+                                ⚡ Aura {entry.aura_score}
+                              </span>
+                              <span className={styles.timelinePill}>
+                                ❤️ Life {Math.round((entry.life_score ?? 0.7) * 100)}%
+                              </span>
+                              <span className={styles.timelinePill}>
+                                🧠 Head {Math.round((entry.head_score ?? 0.7) * 100)}%
+                              </span>
+                              <span className={styles.timelinePill}>
+                                💜 Heart {Math.round((entry.heart_score ?? 0.7) * 100)}%
+                              </span>
+                              {entry.lucky_element && (
+                                <span className={`${styles.timelinePill} ${styles.timelinePillGold}`}>
+                                  ✦ {entry.lucky_element}
+                                </span>
+                              )}
+                            </div>
+
+                            {/* Expanded Detail Panel */}
+                            {isExpanded && (
+                              <div className={styles.timelineDetailPanel}>
+                                <p className={styles.timelineFullReadingText}>
+                                  {entry.reading || 'Your palm topology reveals distinct astral alignments captured during this consultation.'}
+                                </p>
+
+                                <div className={styles.timelineBarsDetailed}>
+                                  {[
+                                    { label: 'Life Line (Vitality)', score: entry.life_score ?? 0.7, color: '#38bdf8' },
+                                    { label: 'Head Line (Focus)', score: entry.head_score ?? 0.7, color: '#fde68a' },
+                                    { label: 'Heart Line (Emotion)', score: entry.heart_score ?? 0.7, color: '#c084fc' },
+                                  ].map((l) => (
+                                    <div key={l.label} className={styles.detailBarRow}>
+                                      <div className={styles.detailBarMeta}>
+                                        <span>{l.label}</span>
+                                        <span>{Math.round(l.score * 100)}%</span>
+                                      </div>
+                                      <div className={styles.detailBarTrack}>
+                                        <div
+                                          className={styles.detailBarFill}
+                                          style={{
+                                            width: `${Math.round(l.score * 100)}%`,
+                                            background: l.color,
+                                          }}
+                                        />
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+
+                                <div className={styles.timelineDetailActions}>
+                                  <button
+                                    className="btn-primary"
+                                    id={`view-full-reading-${entry.id || index}`}
+                                    onClick={() => handleViewFullReading(entry)}
+                                  >
+                                    <span>🔭</span> View Full Reading
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+          </section>
 
           {/* ── Secondary Summary Grid (Streak & History) ── */}
           <div className={styles.secondaryGrid}>
