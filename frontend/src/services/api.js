@@ -7,9 +7,7 @@ import { generateCosmicBlueprint } from '../utils/blueprintEngine';
 
 // In production, VITE_API_URL should point to your Railway/Render backend.
 // In development, the Vite proxy handles /api -> localhost:8000.
-const BASE_URL = import.meta.env.VITE_API_URL
-  ? import.meta.env.VITE_API_URL.replace(/\/$/, '')
-  : '';
+const BASE_URL = 'https://astrolens-api.onrender.com';
 
 /**
  * Send a base64-encoded image frame to the palm scan endpoint.
