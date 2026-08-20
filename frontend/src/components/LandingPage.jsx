@@ -1638,7 +1638,7 @@ export default function LandingPage({ onNavigate, result }) {
         {/* Floating cosmic palm illustration */}
         <div className={styles.palmIllustration} aria-hidden="true">
           <img
-            src="/cosmic_hand.png"
+            src={`${import.meta.env.BASE_URL}cosmic_hand.png`}
             alt="Cosmic hand"
             className={styles.cosmicHandImg}
           />
@@ -2150,7 +2150,7 @@ export default function LandingPage({ onNavigate, result }) {
                 {/* Layer 4: Static Palm Center Art (Fades out during Dive into dark space) */}
                 <div className={`${styles.portalLayer} ${styles.layerCenterHand}`}>
                   <img
-                    src="/Portal5.png"
+                    src={`${import.meta.env.BASE_URL}Portal5.png`}
                     alt="Cosmic Palm Portal"
                     className={styles.cosmicPortalImg}
                   />

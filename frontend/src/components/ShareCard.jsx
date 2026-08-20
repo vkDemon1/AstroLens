@@ -53,7 +53,7 @@ const ShareCard = forwardRef(function ShareCard({ result }, ref) {
     >
       {/* ── Background PNG Image (Contains native logo, ring, artwork, constellations, footer) ── */}
       <img
-        src={`/${bgImageName}`}
+        src={`${import.meta.env.BASE_URL}${bgImageName}`}
         alt=""
         onError={(e) => { e.currentTarget.style.display = 'none'; }}
         style={{
