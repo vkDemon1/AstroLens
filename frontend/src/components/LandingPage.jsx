@@ -37,7 +37,7 @@ const FEATURES = [
     title: 'PALM LINE ANALYSIS',
     desc: 'AI maps your Life, Head & Heart lines in real time using MediaPipe computer vision.',
     icon: (
-      <img src="/hand.png" alt="Palm Line Analysis" className={styles.handTileImg} />
+      <img src={`${import.meta.env.BASE_URL}hand.png`} alt="Palm Line Analysis" className={styles.handTileImg} />
     ),
   },
 
@@ -46,7 +46,7 @@ const FEATURES = [
     title: 'AURA SCORE',
     desc: 'A composite cosmic score derived from line depth, continuity, and intersection density.',
     icon: (
-      <img src="/GLOB.png" alt="Aura Score" className={styles.handTileImg} />
+      <img src={`${import.meta.env.BASE_URL}GLOB.png`} alt="Aura Score" className={styles.handTileImg} />
     ),
   },
   {
@@ -55,7 +55,7 @@ const FEATURES = [
     desc: 'Your palm data feeds a Gemini-powered reading — personalised, mystical, and deeply accurate.',
     isHighlighted: true,
     icon: (
-      <img src="/Gemini.png" alt="Gemini AI Reading" className={styles.handTileImg} />
+      <img src={`${import.meta.env.BASE_URL}Gemini.png`} alt="Gemini AI Reading" className={styles.handTileImg} />
     ),
   },
   {
@@ -63,7 +63,7 @@ const FEATURES = [
     title: 'SHAREABLE CARD',
     desc: 'Download your Aura card as an image. One tap to share to Instagram, WhatsApp, or anywhere.',
     icon: (
-      <img src="/Share.png" alt="Shareable Card" className={styles.handTileImg} />
+      <img src={`${import.meta.env.BASE_URL}Share.png`} alt="Shareable Card" className={styles.handTileImg} />
     ),
   },
 ];
