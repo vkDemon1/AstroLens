@@ -255,7 +255,7 @@ export default function ResultCard({ result, onRescan, onNavigate }) {
           {/* ── Phase 5A: Cosmic Blueprint Premium Gateway ── */}
           <div className={`glass-card ${styles.blueprintGatewayCard}`}>
             <div className={styles.blueprintGatewayBadge}>
-              <span>✦ 12-PAGE PERSONALIZED DOSSIER · $4.99 ✦</span>
+              <span>✦ 12-PAGE PERSONALIZED DOSSIER · ₹399 ✦</span>
             </div>
             <h3 className={styles.blueprintGatewayTitle}>The Cosmic Blueprint</h3>
             <p className={styles.blueprintGatewayDesc}>

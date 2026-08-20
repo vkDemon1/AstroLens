@@ -1,6 +1,6 @@
 /* ═════════════════════════════════════════════════════════════════════
-   AstroLens — Premium Cosmic Blueprint Styles (Phase 5A)
-   Theme: 12-Page Deep Astrological Dossier · Celestial Glassmorphism
+   AstroLens — Premium Cosmic Blueprint Styles (Phase 5B)
+   Theme: AI-Personalized 12-Page Dossier · Celestial Glassmorphism
    ═════════════════════════════════════════════════════════════════════ */
 
 .blueprintPage {
@@ -53,6 +53,13 @@
   transform: translateX(-2px);
 }
 
+.dossierBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
 .dossierBadge {
   font-size: 0.72rem;
   font-weight: 700;
@@ -63,6 +70,19 @@
   border: 1px solid rgba(56, 189, 248, 0.3);
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
+}
+
+.aiSourceBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #FDE68A;
+  background: rgba(253, 230, 138, 0.12);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(253, 230, 138, 0.2);
 }
 
 /* ── Hero Dossier Header ── */
@@ -291,12 +311,77 @@
   gap: 0.5rem;
 }
 
+/* ── Mystical AI Synthesis Loading State ── */
+.aiSynthesisLoader {
+  background: linear-gradient(135deg, rgba(22, 16, 52, 0.9) 0%, rgba(10, 8, 30, 0.98) 100%);
+  border: 1.5px solid rgba(253, 230, 138, 0.35);
+  border-radius: 20px;
+  padding: 3.5rem 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(253, 230, 138, 0.08);
+}
+
+.synthesisOrb {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 230, 138, 0.3) 0%, rgba(12, 10, 40, 0.95) 75%);
+  border: 2px solid #FDE68A;
+  box-shadow: 0 0 30px rgba(253, 230, 138, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  animation: pulseSpin 3s ease-in-out infinite;
+}
+
+@keyframes pulseSpin {
+  0% {
+    transform: scale(0.95) rotate(0deg);
+    box-shadow: 0 0 20px rgba(253, 230, 138, 0.3);
+  }
+  50% {
+    transform: scale(1.08) rotate(180deg);
+    box-shadow: 0 0 40px rgba(253, 230, 138, 0.7);
+  }
+  100% {
+    transform: scale(0.95) rotate(360deg);
+    box-shadow: 0 0 20px rgba(253, 230, 138, 0.3);
+  }
+}
+
+.synthesisTitle {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.synthesisSubtitle {
+  font-size: 0.88rem;
+  color: #38BDF8;
+  margin: 0;
+}
+
+.synthesisStepText {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 /* ── 12-Section List Grid ── */
 .sectionsContainer {
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .sectionCard {
@@ -436,7 +521,71 @@
   line-height: 1.45;
 }
 
-/* ── AstroLive High-Intent Funnel Banner ── */
+/* ── Phase 5B: Key Pattern Discovery Card ── */
+.keyPatternCard {
+  background: linear-gradient(135deg, rgba(28, 18, 62, 0.95) 0%, rgba(14, 10, 42, 0.98) 100%);
+  border: 1.5px solid rgba(253, 230, 138, 0.5);
+  border-radius: 18px;
+  padding: 2.2rem;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.6), inset 0 0 30px rgba(253, 230, 138, 0.08);
+}
+
+.keyPatternEyebrow {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #FDE68A;
+  margin-bottom: 0.4rem;
+}
+
+.keyPatternTitle {
+  font-family: var(--font-display, 'Cinzel', serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 0 0 0.8rem 0;
+}
+
+.keyPatternDesc {
+  font-size: 0.9rem;
+  color: #CBD5E1;
+  line-height: 1.6;
+  margin: 0 0 1.4rem 0;
+}
+
+.keyPatternGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.keyPatternBlock {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.keyPatternLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #38BDF8;
+  margin-bottom: 0.35rem;
+}
+
+.keyPatternVal {
+  font-size: 0.85rem;
+  color: #F8FAFC;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+/* ── Contextual AstroLive High-Intent Funnel Banner ── */
 .astroliveFunnelCard {
   background: linear-gradient(135deg, rgba(25, 18, 55, 0.9) 0%, rgba(12, 8, 35, 0.98) 100%);
   border: 1.5px solid rgba(56, 189, 248, 0.4);
@@ -450,7 +599,7 @@
   gap: 1.2rem;
   position: relative;
   overflow: hidden;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .astroliveTitle {
@@ -501,7 +650,7 @@
   margin: 0;
 }
 
-/* ── Demo Checkout Modal ── */
+/* ── Demo Checkout Modal (₹399 INR) ── */
 .modalBackdrop {
   position: fixed;
   inset: 0;
@@ -670,6 +819,10 @@
 
   .btnUnlockPrimary {
     width: 100%;
+  }
+
+  .keyPatternGrid {
+    grid-template-columns: 1fr;
   }
 
   .astroliveFunnelCard {

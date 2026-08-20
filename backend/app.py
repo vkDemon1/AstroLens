@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
-from routers import scan, oracle
+from routers import scan, oracle, blueprint
 
 # ---------------------------------------------------------------------------
 # Environment
@@ -51,6 +51,7 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 app.include_router(scan.router, prefix="/api")
 app.include_router(oracle.router, prefix="/api")
+app.include_router(blueprint.router, prefix="/api")
 
 
 # ---------------------------------------------------------------------------

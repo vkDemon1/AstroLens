@@ -1,48 +1,122 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './PremiumBlueprint.module.css';
 import {
   generateCosmicBlueprint,
-  isBlueprintUnlocked,
-  setBlueprintUnlocked,
+  getSavedBlueprintState,
+  saveBlueprintState,
   trackBlueprintEvent,
 } from '../utils/blueprintEngine';
+import { getBlueprintData } from '../services/api';
+
+const SYNTHESIS_STEPS = [
+  'Aligning palm crease geometry with celestial archetypes...',
+  'Cross-reading Life, Head, and Heart line resonances...',
+  'Synthesizing deep planetary transits with Gemini AI...',
+  'Extracting dominant Key Pattern & sovereign directives...',
+];
 
 /**
- * AstroLens — Premium Cosmic Blueprint Screen (Phase 5A)
+ * AstroLens — AI Deep Cosmic Blueprint Screen (Phase 5B)
  *
- * Provides a 12-section personalized deep dossier preview, demo checkout simulation ($4.99),
- * unlocked report reveal, and high-intent AstroLive consultation bridge.
+ * Provides a 12-section AI-personalized dossier preview, demo checkout simulation (₹399),
+ * mystical Gemini AI synthesis, Key Pattern discovery card, and contextual AstroLive consultation bridge.
  *
  * @param {object} props
  * @param {object} props.result - User's palm reading data from scan or profile
  * @param {function} props.onNavigate - Global screen navigation callback
  */
 export default function PremiumBlueprint({ result, onNavigate }) {
-  const [unlocked, setUnlocked] = useState(() => isBlueprintUnlocked());
+  const savedState = getSavedBlueprintState();
+  const [unlocked, setUnlocked] = useState(() => Boolean(savedState && savedState.unlocked));
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSynthesizing, setIsSynthesizing] = useState(false);
+  const [synthesisStep, setSynthesisStep] = useState(0);
 
-  const blueprint = generateCosmicBlueprint(result);
-  const { meta, sections } = blueprint;
+  // Initial deterministic baseline
+  const fallbackBlueprint = useMemo(() => generateCosmicBlueprint(result), [result]);
+  const [blueprint, setBlueprint] = useState(() => {
+    if (savedState && savedState.sections && savedState.sections.length === 12) {
+      return {
+        source: savedState.source || 'fallback',
+        meta: savedState.meta || fallbackBlueprint.meta,
+        sections: savedState.sections,
+        keyPattern: savedState.keyPattern || fallbackBlueprint.keyPattern,
+        astroliveReason: savedState.astroliveReason || fallbackBlueprint.astroliveReason,
+        astrologerSpecialty: savedState.astrologerSpecialty || fallbackBlueprint.astrologerSpecialty,
+      };
+    }
+    return fallbackBlueprint;
+  });
+
+  // If unlocked but not yet AI-synthesized, fetch Gemini blueprint
+  useEffect(() => {
+    let isMounted = true;
+
+    async function synthesizeBlueprint() {
+      if (!unlocked) return;
+      const currentSaved = getSavedBlueprintState();
+      if (currentSaved && currentSaved.sections && currentSaved.source === 'gemini') return;
+
+      setIsSynthesizing(true);
+      const interval = setInterval(() => {
+        setSynthesisStep((prev) => (prev + 1) % SYNTHESIS_STEPS.length);
+      }, 1500);
+
+      try {
+        const aiBlueprint = await getBlueprintData(result);
+        if (isMounted && aiBlueprint) {
+          setBlueprint(aiBlueprint);
+          saveBlueprintState({
+            unlocked: true,
+            source: aiBlueprint.source,
+            sections: aiBlueprint.sections,
+            keyPattern: aiBlueprint.keyPattern,
+            astroliveReason: aiBlueprint.astroliveReason,
+            astrologerSpecialty: aiBlueprint.astrologerSpecialty,
+            meta: aiBlueprint.meta,
+          });
+        }
+      } catch {
+        // Safe silent fallback
+      } finally {
+        if (isMounted) {
+          clearInterval(interval);
+          setIsSynthesizing(false);
+        }
+      }
+    }
+
+    synthesizeBlueprint();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [unlocked, result]);
 
   useEffect(() => {
-    trackBlueprintEvent('blueprint_viewed', { archetype: meta.archetype, unlocked });
-  }, [meta.archetype, unlocked]);
+    trackBlueprintEvent('blueprint_viewed', { archetype: blueprint.meta.archetype, unlocked });
+  }, [blueprint.meta.archetype, unlocked]);
 
   const handleOpenCheckout = () => {
     setIsModalOpen(true);
-    trackBlueprintEvent('blueprint_checkout_opened', { price: '$4.99' });
+    trackBlueprintEvent('blueprint_checkout_opened', { price: '₹399' });
   };
 
   const handleConfirmPurchase = () => {
-    setBlueprintUnlocked(true);
+    saveBlueprintState({ unlocked: true });
     setUnlocked(true);
     setIsModalOpen(false);
-    trackBlueprintEvent('blueprint_demo_unlocked', { price: '$4.99', timestamp: Date.now() });
+    trackBlueprintEvent('blueprint_demo_unlocked', { price: '₹399', timestamp: Date.now() });
   };
 
   const handleAstroLiveClick = () => {
-    trackBlueprintEvent('astrolive_cta_clicked', { source: 'blueprint_funnel' });
+    trackBlueprintEvent('astrolive_cta_clicked', {
+      source: 'blueprint_funnel',
+      specialty: blueprint.astrologerSpecialty,
+    });
   };
+
+  const { meta, sections, keyPattern, astroliveReason, astrologerSpecialty, source } = blueprint;
 
   return (
     <div className={styles.blueprintPage}>
@@ -55,7 +129,15 @@ export default function PremiumBlueprint({ result, onNavigate }) {
         >
           ← Return to Reading
         </button>
-        <span className={styles.dossierBadge}>✦ 12-PAGE PERSONALIZED DOSSIER ✦</span>
+
+        <div className={styles.dossierBadgeRow}>
+          <span className={styles.dossierBadge}>✦ 12-PAGE PERSONALIZED DOSSIER ✦</span>
+          {unlocked && (
+            <span className={styles.aiSourceBadge}>
+              {source === 'gemini' ? '✦ AI PERSONALIZED' : '✦ ASTROLENS SIGNATURE READING'}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* ── Hero Header ── */}
@@ -91,13 +173,13 @@ export default function PremiumBlueprint({ result, onNavigate }) {
             <div className={styles.featurePillRow}>
               <span className={styles.featurePill}>✓ 12 Detailed Sections</span>
               <span className={styles.featurePill}>✓ Career Windows</span>
-              <span className={styles.featurePill}>✓ Hidden Palm Patterns</span>
+              <span className={styles.featurePill}>✓ Key Pattern Discovery</span>
               <span className={styles.featurePill}>✓ Action Guidance</span>
             </div>
           </div>
 
           <div className={styles.unlockRight}>
-            <div className={styles.priceTag}>$4.99</div>
+            <div className={styles.priceTag}>₹399</div>
             <span className={styles.priceSub}>One-Time Demo Access</span>
             <button
               type="button"
@@ -105,7 +187,7 @@ export default function PremiumBlueprint({ result, onNavigate }) {
               className={styles.btnUnlockPrimary}
               onClick={handleOpenCheckout}
             >
-              <span>✦</span> Unlock Blueprint — $4.99
+              <span>✦</span> Unlock Blueprint — ₹399
             </button>
           </div>
         </div>
@@ -121,78 +203,119 @@ export default function PremiumBlueprint({ result, onNavigate }) {
         </div>
       )}
 
-      {/* ── 12 Dossier Sections ── */}
-      <div className={styles.sectionsContainer}>
-        {sections.map((sec) => {
-          const isSectionVisible = unlocked || sec.previewAllowed;
+      {/* ── AI Synthesis Loading State ── */}
+      {isSynthesizing ? (
+        <div className={styles.aiSynthesisLoader}>
+          <div className={styles.synthesisOrb}>✨</div>
+          <h3 className={styles.synthesisTitle}>✦ Synthesizing Your Cosmic Blueprint ✦</h3>
+          <p className={styles.synthesisSubtitle}>
+            Gemini AI is cross-referencing your palm contours with celestial ephemeris...
+          </p>
+          <span className={styles.synthesisStepText}>
+            {SYNTHESIS_STEPS[synthesisStep]}
+          </span>
+        </div>
+      ) : (
+        <>
+          {/* ── 12 Dossier Sections ── */}
+          <div className={styles.sectionsContainer}>
+            {sections.map((sec) => {
+              const isSectionVisible = unlocked || sec.previewAllowed;
 
-          return (
-            <div key={sec.id} className={styles.sectionCard} id={`bp-section-${sec.id}`}>
-              <div className={styles.sectionHeader}>
-                <div className={styles.sectionHeaderLeft}>
-                  <span className={styles.sectionNumBadge}>{sec.number}</span>
-                  <span className={styles.sectionIcon}>{sec.icon}</span>
-                  <h3 className={styles.sectionTitleText}>{sec.title}</h3>
+              return (
+                <div key={sec.id} className={styles.sectionCard} id={`bp-section-${sec.id}`}>
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionHeaderLeft}>
+                      <span className={styles.sectionNumBadge}>{sec.number}</span>
+                      <span className={styles.sectionIcon}>{sec.icon}</span>
+                      <h3 className={styles.sectionTitleText}>{sec.title}</h3>
+                    </div>
+
+                    {!isSectionVisible && (
+                      <span className={styles.lockPill}>🔒 LOCKED</span>
+                    )}
+                  </div>
+
+                  <div className={styles.sectionSummary}>{sec.summary}</div>
+
+                  {isSectionVisible ? (
+                    <>
+                      <p className={styles.sectionBody}>{sec.content}</p>
+                      <div className={styles.takeawayBox}>
+                        <strong>Key Alignment Directive:</strong> {sec.takeaway}
+                      </div>
+                    </>
+                  ) : (
+                    <div className={styles.lockedContentArea}>
+                      <p className={`${styles.sectionBody} ${styles.blurredText}`}>
+                        {sec.content}
+                      </p>
+                      <div className={styles.lockedOverlay}>
+                        <span className={styles.lockedMessage}>✦ Section Locked in Preview Mode ✦</span>
+                        <button
+                          type="button"
+                          className={styles.btnInlineUnlock}
+                          onClick={handleOpenCheckout}
+                        >
+                          Unlock for ₹399 →
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
+              );
+            })}
+          </div>
 
-                {!isSectionVisible && (
-                  <span className={styles.lockPill}>🔒 LOCKED</span>
-                )}
+          {/* ── Phase 5B: Key Pattern Discovery Card (Unlocked View) ── */}
+          {unlocked && keyPattern && (
+            <div className={styles.keyPatternCard}>
+              <span className={styles.keyPatternEyebrow}>✦ KEY PATTERN DISCOVERY ✦</span>
+              <h2 className={styles.keyPatternTitle}>{keyPattern.title}</h2>
+              <p className={styles.keyPatternDesc}>{keyPattern.description}</p>
+
+              <div className={styles.keyPatternGrid}>
+                <div className={styles.keyPatternBlock}>
+                  <div className={styles.keyPatternLabel}>Primary Domain</div>
+                  <div className={styles.keyPatternVal}>{keyPattern.primaryDomain}</div>
+                </div>
+                <div className={styles.keyPatternBlock}>
+                  <div className={styles.keyPatternLabel}>Recommended Focus</div>
+                  <div className={styles.keyPatternVal}>{keyPattern.recommendedFocus}</div>
+                </div>
               </div>
-
-              <div className={styles.sectionSummary}>{sec.summary}</div>
-
-              {isSectionVisible ? (
-                <>
-                  <p className={styles.sectionBody}>{sec.content}</p>
-                  <div className={styles.takeawayBox}>
-                    <strong>Key Alignment Directive:</strong> {sec.takeaway}
-                  </div>
-                </>
-              ) : (
-                <div className={styles.lockedContentArea}>
-                  <p className={`${styles.sectionBody} ${styles.blurredText}`}>
-                    {sec.content}
-                  </p>
-                  <div className={styles.lockedOverlay}>
-                    <span className={styles.lockedMessage}>✦ Section Locked in Preview Mode ✦</span>
-                    <button
-                      type="button"
-                      className={styles.btnInlineUnlock}
-                      onClick={handleOpenCheckout}
-                    >
-                      Unlock for $4.99 →
-                    </button>
-                  </div>
-                </div>
-              )}
             </div>
-          );
-        })}
-      </div>
+          )}
 
-      {/* ── AstroLive Consultation Revenue Funnel ── */}
-      <div className={styles.astroliveFunnelCard}>
-        <span className={styles.eyebrow}>✦ BEYOND THE BLUEPRINT · HUMAN SYNTHESIS ✦</span>
-        <h2 className={styles.astroliveTitle}>Your Blueprint Identified a Rare Planetary Transition</h2>
-        <p className={styles.astroliveSub}>
-          Some deep life questions require an intuitive human master. Connect 1-on-1 with a verified AstroLive astrologer to overlay your exact birth coordinates onto your palm line geometry.
-        </p>
+          {/* ── Contextual AstroLive Consultation Revenue Funnel ── */}
+          <div className={styles.astroliveFunnelCard}>
+            <span className={styles.eyebrow}>✦ BEYOND THE BLUEPRINT · HUMAN SYNTHESIS ✦</span>
+            <h2 className={styles.astroliveTitle}>
+              {keyPattern
+                ? `Your Blueprint Identified a ${keyPattern.primaryDomain || 'Rare Celestial'} Pattern`
+                : 'Your Blueprint Identified a Rare Planetary Transition'}
+            </h2>
+            <p className={styles.astroliveSub}>
+              {astroliveReason ||
+                'Some deep life questions require an intuitive human master. Connect 1-on-1 with a verified AstroLive astrologer to overlay your exact birth coordinates onto your palm line geometry.'}
+            </p>
 
-        <a
-          id="bp-astrolive-consult-btn"
-          href="https://astrotalk.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.btnAstroLiveConsult}
-          onClick={handleAstroLiveClick}
-        >
-          <span>📞</span> Talk to an AstroLive Astrologer
-        </a>
-        <p className={styles.astroliveNote}>Powered by AstroLive — 10M+ Consultations Worldwide</p>
-      </div>
+            <a
+              id="bp-astrolive-consult-btn"
+              href="https://astrotalk.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.btnAstroLiveConsult}
+              onClick={handleAstroLiveClick}
+            >
+              <span>📞</span> Talk to a {astrologerSpecialty || 'Verified Astrologer'}
+            </a>
+            <p className={styles.astroliveNote}>Powered by AstroLive — 10M+ Consultations Worldwide</p>
+          </div>
+        </>
+      )}
 
-      {/* ── Demo Checkout Modal ── */}
+      {/* ── Demo Checkout Modal (₹399 INR) ── */}
       {isModalOpen && (
         <div className={styles.modalBackdrop} onClick={() => setIsModalOpen(false)}>
           <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
@@ -206,14 +329,14 @@ export default function PremiumBlueprint({ result, onNavigate }) {
                 <div className={styles.modalProductName}>12-Page Personalized Dossier</div>
                 <div className={styles.modalProductSub}>AstroLens Premium Edition</div>
               </div>
-              <div className={styles.modalPriceAmount}>$4.99</div>
+              <div className={styles.modalPriceAmount}>₹399</div>
             </div>
 
             <div className={styles.modalFeatureList}>
               <div>✓ Full Career Timing & Vocational Windows</div>
               <div>✓ Deep Love Cycles & Emotional Resonance</div>
+              <div>✓ Key Pattern Discovery & Alignment Mantras</div>
               <div>✓ Hidden Palm Markings & Mount Analysis</div>
-              <div>✓ 90-Day Celestial Forecast & Action Mantras</div>
               <div>✓ Instant Unlocking & Permanent Local Access</div>
             </div>
 
@@ -228,7 +351,7 @@ export default function PremiumBlueprint({ result, onNavigate }) {
                 className={styles.btnModalConfirm}
                 onClick={handleConfirmPurchase}
               >
-                ✦ Complete Demo Purchase ($4.99)
+                ✦ Complete Demo Purchase (₹399)
               </button>
               <button
                 type="button"

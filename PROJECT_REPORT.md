@@ -325,7 +325,7 @@ AstroLens adheres to the strictest privacy protocols:
   When a planetary transit or rare palm bifurcation is detected, user receives a contextual CTA:
   "Your Life Line reveals a rare upcoming transition — Consult a Master Astrologer on AstroLive."
                 ↓
-  [ 5. REVENUE GENERATION ($35 – $120 per booking) ]
+  [ 5. REVENUE GENERATION (₹2,999 – ₹9,999 per booking) ]
   AstroLens earns high-margin referral and affiliate revenue from qualified, high-intent seekers.
 ```
 

@@ -22,7 +22,7 @@ load_dotenv()
 # Gemini client initialisation
 # ---------------------------------------------------------------------------
 _API_KEY = os.getenv("GEMINI_API_KEY", "")
-_MODEL   = os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+_MODEL   = os.getenv("GEMINI_MODEL", "gemini-flash-latest")
 
 if _API_KEY:
     genai.configure(api_key=_API_KEY)
@@ -40,7 +40,7 @@ AURA_ARCHETYPES = {
 }
 
 
-def _select_archetype(life: float, head: float, heart: float) -> dict:
+def _select_archetype(life: float, head: float, heart: float) -> Tuple[str, dict]:
     """
     Deterministically select an aura archetype based on which palm line is
     most dominant. Ties are broken by a hash of the three scores.
@@ -249,4 +249,87 @@ def generate_oracle_reading(category, life_score, head_score, heart_score, arche
         category,
         "The cosmic signal is faint right now — try again in a moment.",
     ), "fallback"
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# BLUEPRINT — AI Deep Cosmic Blueprint (POST /api/blueprint)
+# ═══════════════════════════════════════════════════════════════════════════
+
+def _build_blueprint_prompt(payload: dict) -> str:
+    name = payload.get("name", "Seeker")
+    archetype = payload.get("archetype", "Gold Luminary")
+    aura_score = payload.get("aura_score", 78)
+    aura_color = payload.get("aura_color", "#FDE68A")
+    lucky_element = payload.get("lucky_element", "Fire")
+    life_score = payload.get("life_score", 0.8)
+    head_score = payload.get("head_score", 0.72)
+    heart_score = payload.get("heart_score", 0.68)
+    reading = payload.get("reading", "")
+    career_insight = payload.get("career_insight", "")
+    energy_insight = payload.get("energy_insight", "")
+
+    return f"""You are AstroLens's Master Astrological AI Synthesizer.
+Generate a deeply personalized 12-section Cosmic Blueprint dossier for {name} based on their palm analysis.
+
+User Profile:
+- Archetype: {archetype} (Aura Score: {aura_score}/100, Aura Color: {aura_color})
+- Lucky Element: {lucky_element}
+- Biometric Prominence: Life Line ({life_score:.2f}), Head Line ({head_score:.2f}), Heart Line ({heart_score:.2f})
+- Core Reading: "{reading}"
+- Career Insight: "{career_insight}"
+- Energy Insight: "{energy_insight}"
+
+Rules:
+1. Maintain AstroLens's mystical, cosmic, and empowering tone (reflections and symbolic interpretation).
+2. Avoid generic filler. Use the exact archetype, scores, and elemental attributes provided.
+3. Return EXACTLY 12 sections with IDs: identity, life, career, love, energy, hidden, strengths, growth, window, lucky, guidance, astrolive.
+4. Each section must have:
+   - "id": string
+   - "number": string ("01" to "12")
+   - "title": string
+   - "icon": string (emoji)
+   - "summary": string (1 concise sentence)
+   - "content": string (2-3 vivid sentences)
+   - "takeaway": string (1 punchy actionable directive)
+5. Surface ONE dominant "keyPattern" object:
+   - "title": string
+   - "description": string (explain the core tension or gift between their highest and secondary palm scores)
+   - "category": "career" | "love" | "energy" | "direction"
+   - "primaryDomain": string
+   - "recommendedFocus": string
+6. Provide "astroliveReason": string (1-2 sentences explaining why a live human astrologer can synthesize this specific pattern with their exact birth chart)
+7. Provide "astrologerSpecialty": string (e.g. "Career & Direction Astrologer", "Relationship & Synastry Astrologer", or "Vedic Life Purpose Astrologer")
+8. Return ONLY valid JSON with keys: "sections", "keyPattern", "astroliveReason", "astrologerSpecialty".
+"""
+
+
+def generate_blueprint_reading(payload: dict) -> Tuple[Optional[dict], str]:
+    """
+    Generates a structured 12-section Blueprint using Gemini.
+    Returns (result_dict, "gemini") on success or (None, "fallback") on failure.
+    """
+    if _API_KEY:
+        try:
+            model = genai.GenerativeModel(
+                model_name=_MODEL,
+                generation_config=genai.GenerationConfig(
+                    temperature=0.85,
+                    response_mime_type="application/json",
+                    max_output_tokens=4096,
+                ),
+            )
+            prompt = _build_blueprint_prompt(payload)
+            response = model.generate_content(prompt)
+            raw_text = (response.text or "").strip()
+            data = json.loads(raw_text)
+
+            if isinstance(data, dict) and "sections" in data and len(data["sections"]) == 12:
+                return data, "gemini"
+            else:
+                print(f"[llm_service] Blueprint output missing valid sections. Structure: {list(data.keys()) if isinstance(data, dict) else type(data)}")
+        except Exception as exc:
+            print(f"[llm_service] Blueprint Gemini generation error: {exc}. Deferring to fallback.")
+
+    return None, "fallback"
+
 

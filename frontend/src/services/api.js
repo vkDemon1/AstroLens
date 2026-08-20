@@ -72,13 +72,60 @@ export async function getOracleReading(category, scores, archetypeName) {
 }
 
 /**
- * Generates the complete 12-section personalized Cosmic Blueprint (Phase 5A).
- * Fully deterministic & client-side, ensuring 100% offline compatibility.
+ * Fetches AI-synthesized 12-section Cosmic Blueprint with Key Pattern (Phase 5B).
+ * If Gemini backend is offline or fails, falls back seamlessly to deterministic blueprintEngine.js.
  *
  * @param {object} readingData - Palm reading data
- * @returns {object} Full structured 12-section Blueprint
+ * @returns {Promise<object>} Full structured 12-section Blueprint with Key Pattern
  */
 export async function getBlueprintData(readingData) {
-  return generateCosmicBlueprint(readingData);
+  const fallback = generateCosmicBlueprint(readingData);
+
+  try {
+    const payload = {
+      name: (readingData?.name || 'Seeker').trim(),
+      archetype: readingData?.archetype_name || readingData?.archetype || 'Gold Luminary',
+      aura_score: readingData?.aura_score ?? readingData?.auraScore ?? 78,
+      aura_color: readingData?.aura_color || readingData?.auraColor || '#FDE68A',
+      lucky_element: readingData?.lucky_element || readingData?.luckyElement || 'Fire',
+      life_score: readingData?.life?.score ?? readingData?.life_score ?? 0.8,
+      head_score: readingData?.head?.score ?? readingData?.head_score ?? 0.72,
+      heart_score: readingData?.heart?.score ?? readingData?.heart_score ?? 0.68,
+      reading: readingData?.reading || '',
+      career_insight: readingData?.career_insight || '',
+      energy_insight: readingData?.energy_insight || '',
+    };
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+    const response = await fetch(`${BASE_URL}/api/blueprint`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (response.ok) {
+      const data = await response.json();
+      if (data.source === 'gemini' && Array.isArray(data.sections) && data.sections.length === 12) {
+        return {
+          source: 'gemini',
+          meta: fallback.meta,
+          sections: data.sections,
+          keyPattern: data.keyPattern || fallback.keyPattern,
+          astroliveReason: data.astroliveReason || fallback.astroliveReason,
+          astrologerSpecialty: data.astrologerSpecialty || fallback.astrologerSpecialty,
+        };
+      }
+    }
+  } catch (err) {
+    console.info('[api] AI blueprint backend unavailable, using signature reading fallback:', err.message);
+  }
+
+  return fallback;
 }
+
 

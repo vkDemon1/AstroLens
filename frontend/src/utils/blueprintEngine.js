@@ -1,9 +1,9 @@
 /**
- * AstroLens — Deterministic Cosmic Blueprint Generator (Phase 5A)
+ * AstroLens — Deterministic Cosmic Blueprint Generator (Phase 5B)
  *
- * Generates a comprehensive 12-section personalized deep reading based on
- * the user's existing biometric palm scores, archetype, and reading data.
- * Purely client-side, 100% offline-compatible.
+ * Generates a comprehensive 12-section personalized deep reading, Key Pattern,
+ * and contextual AstroLive recommendation based on the user's existing reading data.
+ * Purely client-side, 100% offline-compatible, single source of truth for fallback.
  */
 
 const STORAGE_KEY_BLUEPRINT = 'astrolens_blueprint_state';
@@ -13,7 +13,7 @@ const STORAGE_KEY_EVENTS = 'astrolens_blueprint_events';
  * Deterministically generates a 12-section Cosmic Blueprint dossier.
  *
  * @param {object} readingData - Existing palm reading data
- * @returns {object} Structured 12-section Cosmic Blueprint
+ * @returns {object} Structured 12-section Cosmic Blueprint with Key Pattern
  */
 export function generateCosmicBlueprint(readingData) {
   const data = readingData || {};
@@ -30,7 +30,41 @@ export function generateCosmicBlueprint(readingData) {
   const careerInsight = data.career_insight || 'Strategic leadership flows naturally when clarity meets ambition.';
   const energyInsight = data.energy_insight || 'Your energy peaks during periods of intentional creative focus.';
 
+  // Determine dominant pattern category
+  let keyPattern = {
+    title: 'The Strategic Execution Polarity',
+    description: `Your strongest unresolved pattern is the creative tension between visionary planning (${headScore}% Head Line) and energetic pacing (${lifeScore}% Life Line).`,
+    category: 'career',
+    primaryDomain: 'Career & Leadership',
+    recommendedFocus: 'Protect uninterrupted morning execution windows when your strategic clarity peaks.',
+  };
+  let astroliveReason = 'Your Head line indicates a major vocational transition and strategic timing window approaching in the next 90 days.';
+  let astrologerSpecialty = 'Career & Direction Astrologer';
+
+  if (heartScore >= headScore && heartScore >= lifeScore) {
+    keyPattern = {
+      title: 'The Empathic Boundary Synthesis',
+      description: `Your primary cosmic signature revolves around balancing profound emotional depth (${heartScore}% Heart Line) with energetic self-sovereignty.`,
+      category: 'love',
+      primaryDomain: 'Love & Emotional Dynamics',
+      recommendedFocus: 'Communicate your boundaries early in partnerships to prevent energetic over-extension.',
+    };
+    astroliveReason = 'Your Heart line curvature reveals a transformative relationship cycle that benefits from personal synastry analysis.';
+    astrologerSpecialty = 'Relationship & Synastry Astrologer';
+  } else if (lifeScore >= headScore && lifeScore >= heartScore) {
+    keyPattern = {
+      title: 'The Sovereign Vitality Rhythm',
+      description: `Your core energetic pattern is high constitutional stamina (${lifeScore}% Life Line) that requires intentional recovery to avoid sudden burnout.`,
+      category: 'energy',
+      primaryDomain: 'Vitality & Life Purpose',
+      recommendedFocus: 'Anchor your week around deliberate stillness and natural outdoor cycles.',
+    };
+    astroliveReason = 'Your Life line depth indicates an upcoming life direction milestone where planetary transits strongly accelerate outcomes.';
+    astrologerSpecialty = 'Vedic Life Purpose Astrologer';
+  }
+
   return {
+    source: 'fallback',
     meta: {
       name,
       archetype,
@@ -40,6 +74,9 @@ export function generateCosmicBlueprint(readingData) {
       generatedAt: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
       version: '12-Page Personalized Dossier',
     },
+    keyPattern,
+    astroliveReason,
+    astrologerSpecialty,
     sections: [
       {
         id: 'identity',
@@ -166,39 +203,59 @@ export function generateCosmicBlueprint(readingData) {
 }
 
 /**
+ * Retrieves the saved unified blueprint state from localStorage.
+ *
+ * @returns {object|null}
+ */
+export function getSavedBlueprintState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_BLUEPRINT);
+    if (!raw) return null;
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+/**
  * Checks if the user has unlocked the Blueprint locally.
  *
  * @returns {boolean}
  */
 export function isBlueprintUnlocked() {
+  const state = getSavedBlueprintState();
+  return Boolean(state && state.unlocked);
+}
+
+/**
+ * Saves or updates the unified blueprint state to localStorage.
+ *
+ * @param {object} partialState - State updates to merge
+ */
+export function saveBlueprintState(partialState = {}) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY_BLUEPRINT);
-    if (!raw) return false;
-    const data = JSON.parse(raw);
-    return Boolean(data && data.unlocked);
-  } catch {
-    return false;
+    const existing = getSavedBlueprintState() || {};
+    const updated = {
+      ...existing,
+      ...partialState,
+      price: '₹399',
+      mode: 'demo-prototype',
+      updatedAt: Date.now(),
+    };
+    localStorage.setItem(STORAGE_KEY_BLUEPRINT, JSON.stringify(updated));
+  } catch (err) {
+    console.warn('Could not persist blueprint state:', err);
   }
 }
 
 /**
- * Saves the unlock state to localStorage.
- *
- * @param {boolean} [unlocked=true]
+ * Sets unlocked state to true and preserves existing dossier data.
  */
 export function setBlueprintUnlocked(unlocked = true) {
-  try {
-    const record = {
-      unlocked,
-      unlockedAt: Date.now(),
-      product: 'cosmic-blueprint',
-      price: '$4.99',
-      mode: 'demo-prototype',
-    };
-    localStorage.setItem(STORAGE_KEY_BLUEPRINT, JSON.stringify(record));
-  } catch (err) {
-    console.warn('Could not persist blueprint unlock state:', err);
-  }
+  saveBlueprintState({
+    unlocked,
+    unlockedAt: Date.now(),
+  });
 }
 
 /**

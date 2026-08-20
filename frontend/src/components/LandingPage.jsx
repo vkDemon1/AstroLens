@@ -1114,7 +1114,7 @@ function CosmicOracleExp({ onClose, result }) {
 
   const handleFunnelAction = (tierName) => {
     if (tierName === 'deep') {
-      setToast('✦ Unlocked Demo: 12-Page AI Palmistry Deep Blueprint ($4.99 value)!');
+      setToast('✦ Unlocked Demo: 12-Page AI Palmistry Deep Blueprint (₹399 value)!');
     } else if (tierName === 'astrologer') {
       setToast('✦ Connecting to Verified AstroLive Astrologer... (Demo Funnel)');
     }
@@ -1178,7 +1178,7 @@ function CosmicOracleExp({ onClose, result }) {
             Free Insight
           </button>
           <button className={`${styles.funnelBtn} ${styles.funnelBtnDeep}`} onClick={() => handleFunnelAction('deep')}>
-            🔮 Deep ($4.99)
+            🔮 Deep (₹399)
           </button>
           <button className={`${styles.funnelBtn} ${styles.funnelBtnLive}`} onClick={() => handleFunnelAction('astrologer')}>
             📞 Live Astrologer
