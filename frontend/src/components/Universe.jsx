@@ -218,7 +218,16 @@ export default function Universe({ onNavigate }) {
           </p>
         </div>
 
-        <div>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <button
+            className="btn-ghost"
+            id="universe-impact-btn"
+            onClick={() => onNavigate('dashboard')}
+            style={{ fontSize: '0.78rem', color: '#fde68a' }}
+            title="Open Hackathon Growth & Impact Dashboard"
+          >
+            📊 Impact Control
+          </button>
           <button
             className="btn-ghost"
             id="universe-home-btn"
@@ -1045,6 +1054,35 @@ export default function Universe({ onNavigate }) {
                 onClick={() => onNavigate('compatibility')}
               >
                 <span>✦ Explore Compatibility</span> →
+              </button>
+            </div>
+
+            {/* Growth & Product Impact Card (Phase 6B) */}
+            <div className={styles.summaryCard}>
+              <div>
+                <div className={styles.summaryCardTop}>
+                  <div className={styles.summaryIcon}>📊</div>
+                  <div>
+                    <div className={styles.summaryStat} style={{ fontSize: '1.25rem' }}>
+                      Growth &amp; Impact
+                    </div>
+                    <div className={styles.summarySub}>
+                      Product analytics &amp; validation control
+                    </div>
+                  </div>
+                </div>
+
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '0 0 1rem', lineHeight: '1.4' }}>
+                  Internal demonstration dashboard measuring acquisition, activation, retention, viral loop, and monetization funnels.
+                </p>
+              </div>
+
+              <button
+                className={styles.cardActionLink}
+                id="universe-dashboard-link"
+                onClick={() => onNavigate('dashboard')}
+              >
+                <span>✦ Open Impact Dashboard [Demo]</span> →
               </button>
             </div>
           </div>

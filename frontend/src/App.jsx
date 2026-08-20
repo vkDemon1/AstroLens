@@ -8,6 +8,7 @@ import Universe    from './components/Universe';
 import Compatibility from './components/Compatibility';
 import InviteLanding from './components/InviteLanding';
 import PremiumBlueprint from './components/PremiumBlueprint';
+import GrowthDashboard from './components/GrowthDashboard';
 import { getDemoReading } from './services/api';
 import { decodeInvitePayload } from './utils/compatibilityInvite';
 
@@ -38,17 +39,24 @@ const DEMO_FALLBACK = {
  *
  * URL ?compare=ENCODED loads the recipient invite experience (Phase 4B-2).
  * URL ?demo=true skips the camera and loads a pre-baked reading.
+ * URL ?dashboard=true loads the Growth & Product Impact Control (Phase 6B).
  */
 export default function App() {
   const [screen, setScreen]   = useState('landing');
   const [result, setResult]   = useState(null);
   const [inviterData, setInviterData] = useState(null);
 
-  // Handle URL query parameters (?compare=... and ?demo=true)
+  // Handle URL query parameters (?compare=..., ?demo=true, ?dashboard=true)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
 
-    // 1. Detect viral invite link (?compare=...)
+    // 1. Detect growth dashboard (?dashboard=true)
+    if (params.get('dashboard') === 'true') {
+      setScreen('dashboard');
+      return;
+    }
+
+    // 2. Detect viral invite link (?compare=...)
     const compareParam = params.get('compare');
     if (compareParam) {
       const decoded = decodeInvitePayload(compareParam);
@@ -59,7 +67,7 @@ export default function App() {
       }
     }
 
-    // 2. Detect demo mode (?demo=true)
+    // 3. Detect demo mode (?demo=true)
     if (params.get('demo') === 'true') {
       getDemoReading()
         .then(r => {
@@ -118,6 +126,11 @@ export default function App() {
     blueprint: (
       <PremiumBlueprint
         result={result}
+        onNavigate={navigate}
+      />
+    ),
+    dashboard: (
+      <GrowthDashboard
         onNavigate={navigate}
       />
     ),

@@ -1,0 +1,721 @@
+/* GrowthDashboard.module.css — Cosmic Product Impact & Growth Control */
+
+.dashboardPage {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 5rem;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 0.6s var(--ease-out);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(253, 230, 138, 0.15);
+  flex-wrap: wrap;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 620px;
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(201, 162, 39, 0.3);
+}
+
+.modeBadge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.modeBadgeLive {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.5);
+  color: #38bdf8;
+}
+
+.modeBadgeDemo {
+  background: rgba(253, 230, 138, 0.15);
+  border: 1px solid rgba(253, 230, 138, 0.5);
+  color: #fde68a;
+}
+
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.02em;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.headerControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.75rem;
+}
+
+.toggleGroup {
+  display: inline-flex;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  padding: 3px;
+  gap: 3px;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--dur-fast) var(--ease-out);
+}
+
+.toggleBtn:hover {
+  color: #ffffff;
+}
+
+.toggleBtnActive {
+  background: rgba(253, 230, 138, 0.18);
+  color: #fde68a;
+  box-shadow: 0 0 12px rgba(253, 230, 138, 0.25);
+}
+
+.headerNavBtns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ── Judge Note Card ── */
+.judgeNoteCard {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.18), rgba(15, 8, 30, 0.8) 85%);
+  border: 1px solid rgba(253, 230, 138, 0.3);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.1rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.82rem;
+  color: #e2e8f0;
+  line-height: 1.45;
+}
+
+.judgeNoteIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.judgeNoteContent strong {
+  color: #fde68a;
+}
+
+/* ── Empty Live Card ── */
+.emptyLiveCard {
+  background: rgba(15, 8, 30, 0.6);
+  border: 1px dashed rgba(253, 230, 138, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.emptyIcon {
+  font-size: 2.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.emptyTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: #ffffff;
+  margin: 0;
+}
+
+.emptyDesc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  max-width: 540px;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+.emptyActions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* ── North Star Metric Card ── */
+.northStarCard {
+  background: radial-gradient(circle at 10% 30%, rgba(123, 47, 255, 0.28), rgba(13, 0, 32, 0.9) 75%);
+  border: 1px solid rgba(253, 230, 138, 0.4);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2.2rem;
+  margin-bottom: 2.25rem;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.7), 0 0 32px rgba(123, 47, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.northStarGlow {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(253, 230, 138, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.northStarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.northStarBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.northStarTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.northStarValueBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.2rem;
+}
+
+.northStarValue {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #fde68a;
+  line-height: 1;
+  text-shadow: 0 0 16px rgba(253, 230, 138, 0.4);
+}
+
+.northStarSub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.northStarExplanation {
+  font-size: 0.88rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.northStarExplanation strong {
+  color: #ffffff;
+}
+
+.northStarExplanation em {
+  color: #fde68a;
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* ── Common Section Structure ── */
+.section {
+  margin-bottom: 2.5rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.sectionEyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0.2rem 0 0;
+}
+
+.sectionTag {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── 8-Stage Product Funnel ── */
+.funnelContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  background: rgba(15, 8, 30, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.funnelStep {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: var(--radius-sm);
+}
+
+.funnelStepHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.funnelStepNum {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(253, 230, 138, 0.12);
+  border: 1px solid rgba(253, 230, 138, 0.35);
+  color: #fde68a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.funnelStepInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.funnelStepName {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.funnelStepDesc {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.funnelStepMetric {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+}
+
+.funnelStepCount {
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.funnelStepPct {
+  font-size: 0.74rem;
+  color: var(--gold);
+  background: rgba(201, 162, 39, 0.15);
+  padding: 0.15rem 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+.funnelLiveDone {
+  color: #4ade80;
+  font-weight: 700;
+  font-size: 0.74rem;
+}
+
+.funnelLivePending {
+  color: var(--text-muted);
+  font-size: 0.74rem;
+}
+
+.funnelProgressBar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.funnelProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #fde68a, #818cf8, #38bdf8);
+  border-radius: var(--radius-full);
+  transition: width 0.8s var(--ease-out);
+}
+
+.funnelConnector {
+  display: none;
+}
+
+/* ── 5 Core Pillars Grid ── */
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.pillarCard {
+  background: rgba(15, 8, 30, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.35rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.pillarCard:hover {
+  border-color: rgba(253, 230, 138, 0.35);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+.pillarHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pillarIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.pillarEyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.pillarTitle {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.pillarStats {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.pillarStatRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.statKey {
+  color: var(--text-secondary);
+}
+
+.statVal {
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.pillarFooter {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ── Viral Loop Architecture ── */
+.viralLoopContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.viralStepCard {
+  background: rgba(15, 8, 30, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 1rem 0.85rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  position: relative;
+  transition: all var(--dur-normal) var(--ease-out);
+}
+
+.viralStepCard:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.viralStepBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.viralStepIcon {
+  font-size: 1.6rem;
+  margin: 0.2rem 0;
+}
+
+.viralStepRole {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.viralStepAction {
+  font-size: 0.76rem;
+  color: #e2e8f0;
+  line-height: 1.35;
+}
+
+/* ── Product Signal Cards ── */
+.signalsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.signalCard {
+  background: radial-gradient(circle at 10% 20%, rgba(123, 47, 255, 0.15), rgba(15, 8, 32, 0.8) 85%);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.signalHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.signalIcon {
+  color: var(--gold);
+  font-size: 0.9rem;
+}
+
+.signalTitle {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.signalBody {
+  font-size: 0.82rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ── Proposed Targets Table ── */
+.targetsTable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.targetRow {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 2.5fr;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(15, 8, 30, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 1.25rem;
+}
+
+.targetColMetric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.targetCategory {
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+
+.targetColGoal {
+  display: flex;
+  align-items: center;
+}
+
+.targetPill {
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ade80;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+.targetColRationale {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* ── Footer ── */
+.dashboardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ── Responsive Media Queries ── */
+@media (max-width: 860px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .headerControls {
+    align-items: flex-start;
+  }
+  .targetRow {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .viralLoopContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboardPage {
+    padding: 1rem 1rem 4rem;
+  }
+  .northStarCard {
+    padding: 1.5rem;
+  }
+  .viralLoopContainer {
+    grid-template-columns: 1fr;
+  }
+}
